@@ -7,9 +7,9 @@
 --VSAV training script options
 
 -- Shows lifebar value and character positions
-display_hud = true
+display_hud = false
 -- Shows characters movelist
-display_movelist = true
+display_movelist = false
 -- Display scrolling input
 scrolling_input = true
 

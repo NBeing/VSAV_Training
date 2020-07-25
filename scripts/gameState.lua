@@ -17,7 +17,8 @@ end
 local function get_game_state()
     return {
         match_begun = match_begun(),
-        cur_frame   = emu.framecount()
+        cur_frame   = emu.framecount(),
+        prev_frame = emu.framecount() - 1
     }
 end
 gameStateModule = {

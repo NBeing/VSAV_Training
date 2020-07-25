@@ -73,7 +73,7 @@ local function is_jumping()
 	return p2_jump_value	
 end
 
-prevFrameCount = 0
+local _prevFrameCount = 0
 dummyNeutralModule = {
 	["registerBefore"] = function()
 
@@ -88,14 +88,14 @@ dummyNeutralModule = {
             set_dummy_action()
             jumping_state = is_jumping()
 
-            if jumping_state == true and jump_started_on_frame ~= nil and curFrameCount - jump_started_on_frame > 0 then
-                keys = joypad.get()
-                away = globals.dummy.away_btn
-                keys[away] = true
-                joypad.set(keys)
-			end
+            -- if jumping_state == true and jump_started_on_frame ~= nil and curFrameCount - jump_started_on_frame > 0 then
+            --     keys = joypad.get()
+            --     away = globals.dummy.away_btn
+            --     keys[away] = true
+            --     joypad.set(keys)
+			-- end
 		-- end
-		prevFrameCount = curFrameCount
+		_prevFrameCount = curFrameCount
     end
 }
 

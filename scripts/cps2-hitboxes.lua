@@ -8,7 +8,7 @@ for _,var in ipairs({
 					 }) do
 	var = nil
 end
-dofile("macro-options.lua", "r") --load the globals
+-- dofile("macro-options.lua", "r") --load the globals
 local serialize  	    = require './scripts/ser'
 local boxes = {
 	      ["vulnerability"] = {color = 0x7777FF, fill = 0x40, outline = 0xFF},

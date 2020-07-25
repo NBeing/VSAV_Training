@@ -18,19 +18,18 @@ local f = io.popen("dir \"C:\\users\\\"")
 -- else
 --     print("failed to read")
 -- end
-local inp_display_script = "input-display.lua"
+local inp_display_script = "./scripts/input-display.lua"
 print("MacroLua v" .. macrolua)
 if fba and not emu.registerstart then
 	error("This script requires a newer version of FBA-rr.", 0)
 end
-local serialize = require './scripts/ser'
 
 --initialize the globals
 for _,var in ipairs({playbackfile,path,playkey,recordkey,togglepausekey,toggleloopkey,longwait,longpress,longline,framemame}) do
 	var = nil
 end
-dofile("macro-options.lua", "r") --load the globals
-dofile("macro-modules.lua", "r")
+-- dofile("./macro-options.lua", "r") --load the globals
+-- dofile("macro-modules.lua", "r")
 
 emu = emu or gens --gens doesn't have the "emu" table of functions
 
@@ -1012,8 +1011,9 @@ macroLuaModule = {
 	end,
 	
 	["registerStart"] = function()
-		if io.open(inp_display_script, "r") then
-			dofile(inp_display_script, "r")
+
+		if io.open('input-display.lua', "r") then
+			dofile("input-display.lua", "r")
 		end
 		print()
 		findarcademodule()

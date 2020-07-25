@@ -18,8 +18,8 @@ fontcolor1 = (0xffffffff)
 fontcolor2 = (0x000000ff)
 
 
-resourcepath = "./scripts/scrolling-input" .. "/"
-recordpath = "./scripts/scrolling-input" .. "/"
+resourcepath = scripts_path.."scrolling-input" .. "/"
+recordpath = scripts_path.."scrolling-input" .. "/"
 emu = emu or gens
 
 -------------------------------------------
@@ -3138,7 +3138,7 @@ end
 display = image
 
 if not io.open(resourcepath .. iconfile, "rb") then
-	print("Icon file " .. iconfile .. " not found.")
+	print("there Icon file " .. iconfile .. " not found.")
 	print("Falling back on text mode.")
 	display = text
 end

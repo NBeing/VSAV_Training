@@ -239,7 +239,6 @@ function string.starts(String,Start)
  end
 
 local function guardCancelCheck(run_dummy_input)
-	
 	block_stun_timer_addr = 0xFF8558 + 0x400 
 	block_stun_timer = memory.readbyte(block_stun_timer_addr)
 	block_stop_addr = 0xFF8820 
@@ -250,29 +249,35 @@ local function guardCancelCheck(run_dummy_input)
 	reversal_timer = memory.readbyte(reversal_timer_addr)
 	player_state_addr = 0xFF8800 + 0x04
 	player_state = memory.readword(player_state_addr)
-	print("Player state", player_state)
-	-- print("reversal timer", reversal_timer)
-	if wasJustGuarding == false and reversal_timer ~= 0 then
-		wasJustGuarding = true
-		frameStartedGuarding = globals.game.cur_frame
-		print("Blocking started on", globals.game.cur_frame)
-	end
-	if block_stun_timer ~= 0 then
-		-- print("in guard stun")
-	end
-	if wasJustGuarding == true and block_stun_timer == 0 and block_stop ~= true then
-		frameEndedGuarding = globals.game.cur_frame
-		print("Done guarding", frameEndedGuarding)
 
-		wasJustGuarding = false
-	end
-	if globals.game.cur_frame < (numBlockStunExitInput + frameEndedGuarding) then 
-		print("Should run frameEndedGuarding frames", globals.game.cur_frame)
-		blockStunRunCommand = true
-	else 
-		blockStunRunCommand = false
-	end
-	return runInput(run_dummy_input, blockStunRunCommand)
+
+
+
+	-- CODE FOR REVERSAL BEGIN --
+	-- if wasJustGuarding == false and reversal_timer ~= 0 then
+	-- 	wasJustGuarding = true
+	-- 	frameStartedGuarding = globals.game.cur_frame
+	-- end
+	-- if block_stun_timer ~= 0 then
+	-- 	-- print("in guard stun")
+	-- end
+	-- if wasJustGuarding == true and block_stun_timer == 0 and block_stop ~= true then
+	-- 	frameEndedGuarding = globals.game.cur_frame
+	-- 	-- print("Done guarding", frameEndedGuarding)
+
+	-- 	wasJustGuarding = false
+	-- end
+	-- if globals.game.cur_frame < (numBlockStunExitInput + frameEndedGuarding) then 
+	-- 	-- print("Should run frameEndedGuarding frames", globals.game.cur_frame)
+	-- 	blockStunRunCommand = true
+	-- else 
+	-- 	blockStunRunCommand = false
+	-- end
+	-- return runInput(run_dummy_input, blockStunRunCommand)
+	-- CODE FOR REVERSAL END --
+
+
+
 
 	-- if wasJustGuarding == false and block_stun_timer ~= 0 then
 	-- 	wasJustGuarding = true
@@ -312,25 +317,27 @@ local function guardCancelCheck(run_dummy_input)
 	-- 		numBlockStunExitInput = 3
 	-- 	end 
 	-- end
-	-- prevFrameCount = globals.game.cur_frame
-	-- if globals.dummy.guard_action == 'none' then
-	-- 	return
-	-- elseif 	globals.options.gc_freq == 0 then
-	-- 	print("Not running Guard Action. There is no frequency set")
-	-- 	return
-	-- elseif globals.dummy.guard_action == 'gc' then
-	-- 	if globals.dummy.gc_button == nil  or globals.dummy.gc_button == "none" then
-	-- 		print("Not running GC, please set Guard Cancel type")
-	-- 		return
-	-- 	end
-	-- 	return runGC(run_dummy_input)
-	-- elseif globals.dummy.guard_action == 'pb' then
-	-- 	if globals.dummy.pb_type == nil  or globals.dummy.pb_type == "none" then
-	-- 		print("Not running PB, please set Guard Cancel type")
-	-- 		return
-	-- 	end
-	-- 	return runPB(run_dummy_input)
-	-- end
+
+	prevFrameCount = globals.game.cur_frame
+	if globals.dummy.guard_action == 'none' then
+		return
+	elseif 	globals.options.gc_freq == 0 then
+		print("Not running Guard Action. There is no frequency set")
+		return
+	elseif globals.dummy.guard_action == 'gc' then
+		if globals.dummy.gc_button == nil  or globals.dummy.gc_button == "none" then
+			print("Not running GC, please set Guard Cancel type")
+			return
+		end
+		return runGC(run_dummy_input)
+	elseif globals.dummy.guard_action == 'pb' then
+		if globals.dummy.pb_type == nil  or globals.dummy.pb_type == "none" then
+			print("Not running PB, please set Guard Cancel type")
+			return
+		end
+
+		return runPB(run_dummy_input)
+	end
 
 	-- block_now_value = memory.readbyte(0xFF8522)
 	-- -- print("Block now", block_now_value)

@@ -2,14 +2,21 @@ for _,var in ipairs({playbackfile, use_last_recording,
 					path,playkey,recordkey,togglepausekey,toggleloopkey,longwait,longpress,longline,framemame, 
 					 display_hud, display_movelist, 
 					 use_hb_config, hb_config_blank_screen, hb_config_draw_axis, hb_config_draw_pushboxes, hb_config_draw_throwable_boxes, hb_config_no_alpha,
-					 mo_enable_frame_data}) do
+					 mo_enable_frame_data, debug}) do
 	var = nil
 end
 
-dofile("macro-options.lua", "r") --load the globals
-dofile("macro-modules.lua", "r")
+function script_path()
+	local str = debug.getinfo(2, "S").source:sub(2)
+	return str:match("(.*[/\\])")
+end
+scripts_path = script_path()
 
-local inpDispModule     = require "input-display"
+dofile(script_path().."macro-options.lua", "r") --load the globals
+dofile(script_path().."macro-modules.lua", "r")
+-- local socket = require "socket"
+-- print(socket._VERSION)
+local inpDispModule     = require "./input-display"
 local frameDataModule   = require "./scripts/framedata"
 local rollingModule     = require "./scripts/rolling" 
 local vsavScriptModule  = require "./scripts/vsavscriptv2"
@@ -24,6 +31,7 @@ local runInputModule    = require './scripts/runDummyInput'
 local neutralModule     = require './scripts/dummyNeutral' 
 local serialize  	    = require './scripts/ser'
 local util              = require './scripts/utilities'
+local menuModule        = require './scripts/menu'
 
 print("* Press Lua hotkey 1 for playback.")
 print("* Press Lua hotkey 2 for recording.")
@@ -31,26 +39,33 @@ print("* Press Lua hotkey 3 to toggle pause after playback.")
 print("* Press Lua hotkey 4 to toggle loop mode or adjust wait incrementation.")
 print("* Press Lua hotkey 5 to show or hide hitboxes.")
 
-function togglehitbox()
-	display_hitbox_default =  not display_hitbox_default
-end
 local p1_addr = 0xFF8400
 local p2_addr = 0xFF8800
 
 globals = {
 	game_state   = nil,
 	dummy_state  = nil,
-	config_state = nil
+	config_state = nil,
+	show_menu    = false
 }
+
+function togglehitbox()
+	display_hitbox_default =  not display_hitbox_default
+end
+
+function togglemenu()
+	globals.show_menu =  not globals.show_menu
+end
 
 input.registerhotkey(5, function()
 	togglehitbox()
 end)
 
 input.registerhotkey(3, function()
-
+	-- menu
+	togglemenu()
 end)
-
+print(gui)
 emu.registerstart(function()
 
 	frameDataModule.registerStart(mo_enable_frame_data)
@@ -59,9 +74,6 @@ emu.registerstart(function()
 
 end)
 
-
-
-prevFrameCount = 0
 emu.registerbefore(function()
 
 	globals["options"] = cheatConfigModule.registerBefore()
@@ -71,14 +83,15 @@ emu.registerbefore(function()
 	options = globals["options"]
 	dummy   = globals["dummy"]
 	game    = globals["game"]
-	-- print("Opt", serialize(dummy_state))
+	neutralModule.registerBefore()
 	runDummyInput = runInputModule.registerBefore()
 	cps2HitboxModule.registerBefore()
 	autoguardModule.registerBefore()
 	gc_keys = guardCancelModule.registerBefore(runDummyInput)
 	macroLuaModule.registerBefore(swapControls)
 	rollingModule.roll()
-	-- neutralModule.registerBefore()
+
+
 
 end)
 
@@ -99,6 +112,11 @@ if savestate.registersave and savestate.registerload then --registersave/registe
 	
 	savestate.registerload(function(slot)
 
+		globals["options"] = cheatConfigModule.registerBefore()
+		globals["game"]    = gameStateModule.registerBefore() 
+		globals["dummy"]   = dummyStateModule.registerBefore()
+
+		cheatConfigModule.registerBefore()
 		frameDataModule.registerLoad()
 		vsavScriptModule.registerLoad(slot)
 		cps2HitboxModule.registerLoad()
@@ -120,6 +138,9 @@ while true do
 		cps2HitboxModule.guiRegister(display_hitbox_default, use_hb_config)
 		vsavScriptModule.runCheats()
 		-- inpDispModule.guiRegister(true)
+		menuModule.guiRegister()
+		-- print("show menu", show_menu)
+		
 	end)
 	macroLuaModule.gameLoop()
 
@@ -128,14 +149,3 @@ while true do
 		collectgarbage("collect")
 	end
 end
-
--- local function p2_jump(keys)
--- 	keys["P2 Up"] = true	
--- end
--- local function p2_crouch(keys)
--- 	keys["P2 Down"] = true	
--- end
-
--- local function p2_jump_block(keys)
--- 	keys["P2 Up"] = true	
--- end

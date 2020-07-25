@@ -8,6 +8,7 @@ local GC_delay_addr          = 0xFF818A
 local roll_addr              = 0xFF80D9
 local pb_addr                = 0xFF818F
 local pb_type_cheat_addr     = 0xFF8190
+
 local function get_config_matrix()
     return {
 
@@ -50,7 +51,17 @@ cheatConfigModule = {
             end
             previous_config_matrix = config_matrix
         end
-
+        if debug == true then
+            gui.text(2,0,"Dummy : "..config_matrix["dummy_neutral"])
+            gui.text(2,8,"GC Button : "..config_matrix["gc_button"])
+            gui.text(2,16,"GC Freq : "..config_matrix["gc_freq"])
+            gui.text(2,24,"GC Delay : "..config_matrix["gc_delay"]) 
+            gui.text(2,32,"Roll Dir : "..config_matrix["get_roll"])
+            gui.text(2,40,"Autoguard : "..config_matrix["auto_guard"])
+            gui.text(2,48,"Guard Action : "..config_matrix["guard_action"]) 
+            gui.text(2,56,"PB Button : "..config_matrix["push_block_type"])
+            gui.text(2,56,"AutoGuard : "..config_matrix["auto_guard"])
+        end
         return config_matrix
     end
 }

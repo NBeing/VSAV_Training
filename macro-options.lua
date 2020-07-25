@@ -5,7 +5,7 @@
 
 -------------------------------------------------
 --VSAV training script options
-
+print("Opts loaded success")
 -- Shows lifebar value and character positions
 display_hud = false
 -- Shows characters movelist
@@ -17,20 +17,20 @@ scrolling_input = true
 --VSAV hitbox script options
 
 -- Default for showing hitboxes can be toggled
-display_hitbox_default = true
+display_hitbox_default = false
 
 -- Configure what is displayed by the hitbox
 -- Whether to use the below config or not, if false it will use the default which is pretty much everything enabled except blank screen and throw boxes
-use_hb_config                  = true
+use_hb_config                  = false
 -- Fine grained hitbox data  
 hb_config_blank_screen         = false  -- setting this to true will show ONLY the hitboxes
-hb_config_draw_axis            = true  -- This shows a pointer below your character
-hb_config_draw_pushboxes       = true   -- Enables pushbox (your characters 'collision' box rather than hurtbox)
-hb_config_draw_throwable_boxes = true   -- shows where you can be thrown
-hb_config_no_alpha             = true  -- removes overlay inside boxes if true
+hb_config_draw_axis            = false -- This shows a pointer below your character
+hb_config_draw_pushboxes       = false -- Enables pushbox (your characters 'collision' box rather than hurtbox)
+hb_config_draw_throwable_boxes = true -- shows where you can be thrown
+hb_config_no_alpha             = false -- removes overlay inside boxes if true
 ------------------------------------------------------------
 -- Enable frame data
-mo_enable_frame_data = false
+mo_enable_frame_data = true
 --------------------------------------------------------------------------------
 -- File handling settings
 
@@ -75,3 +75,6 @@ longline = 60
 -- look out for and ignore frameMAME audio commands when parsing
 -- (This only applies to FBA-rr and MAME-rr.)
 framemame = true
+
+-- for development purposes. It will make your logs noisy.
+debug = false

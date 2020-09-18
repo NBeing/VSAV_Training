@@ -19,7 +19,7 @@ local f = io.popen("dir \"C:\\users\\\"")
 --     print("failed to read")
 -- end
 local inp_display_script = "./scripts/input-display.lua"
-print("MacroLua v" .. macrolua)
+-- print("MacroLua v" .. macrolua)
 if fba and not emu.registerstart then
 	error("This script requires a newer version of FBA-rr.", 0)
 end
@@ -826,26 +826,22 @@ local function toggleloop()
 		wait.increment, wait.change = 1, " (increasing)"
 	else
 		loopmode = not loopmode
-		print("Loop mode: " .. (loopmode and "on" or "off"))
+		emu.message("Loop mode: " .. (loopmode and "on" or "off"))
 	end
 end
 
 local oldplaykey,oldrecordkey,oldpausekey,oldloopkey
 
 if input.registerhotkey then --use registerhotkey if available
-	input.registerhotkey(1, function()
+	input.registerhotkey(3, function()
 		playcontrol()
 	end)
-
-	input.registerhotkey(2, function()
+	
+	input.registerhotkey(4, function()
 		reccontrol()
 	end)
-
-	-- input.registerhotkey(3, function()
-	-- 	togglepause()
-	-- end)
-
-	input.registerhotkey(4, function()
+	
+	input.registerhotkey(5, function()
 		toggleloop()
 	end)
 end

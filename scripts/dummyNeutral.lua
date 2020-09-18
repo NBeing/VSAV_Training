@@ -1,8 +1,8 @@
 local function get_dummy_neutral()
 
 	dummy_neutral_config = globals.options.dummy_neutral
-	p2_towards           = globals.dummy.toward_btn
-	p2_away              = globals.dummy.away_btn
+	p2_towards           = globals.dummy.p2_toward_btn
+	p2_away              = globals.dummy.p2_away_btn
 
 	if dummy_neutral_config == 0  then
 		state = {name = "stand", input = {} }
@@ -47,10 +47,10 @@ end
 
 jump_started_on_frame = nil
 local function is_jumping()
-	p2_jump_addr = 0xFF8806
+	p2_jump_addr   = 0xFF8806
 	p2_landed_addr = 0xFF8807
-	p2_hurt_addr = 0xFF8805
-	p2_hurt_value = memory.readbyte(p2_hurt_addr) == 0x02
+	p2_hurt_addr   = 0xFF8805
+	p2_hurt_value  = memory.readbyte(p2_hurt_addr) == 0x02
 
 	if p2_hurt_value == true then
 		jump_started_on_frame = nil

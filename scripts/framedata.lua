@@ -1,8 +1,8 @@
 
-print("WARNING! Set game to 'NORMAL' speed or you will get back incorrect frame data!")
-print("This is due to inherent frameskip")
-print("> 'startup' is the period before the 1st active frame")
-print("> hitfreeze '*' means the attacker did not get frozen")
+-- print("WARNING! Set game to 'NORMAL' speed or you will get back incorrect frame data!")
+-- print("This is due to inherent frameskip")
+-- print("> 'startup' is the period before the 1st active frame")
+-- print("> hitfreeze '*' means the attacker did not get frozen")
 
 local print_header = function()
 	print("startup\tatkrecov.\thitstun\tfr.adv.\thitfreeze")

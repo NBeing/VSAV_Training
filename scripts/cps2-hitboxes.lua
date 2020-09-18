@@ -65,6 +65,17 @@ local profile = {
 		hitbox_ptr   = nil,
 	},
 	box_list = {
+		-- Box List is a list of hitboxes
+		-- 0x80 	LONGWORD Head Box Table Pointer
+		-- 0x84 	LONGWORD Body Box Table Pointer
+		-- 0x88 	LONGWORD Foot Box Table Pointer
+		-- 0x8C 	LONGWORD Attack Box Table Pointer
+		-- 0x90 	LONGWORD Push Box Table Pointer
+		-- 0x94 	Head Box ID
+		-- 0x95 	Body Box ID
+		-- 0x96 	Foot Box ID
+		-- 0x97 	Push Box ID 
+		-- 0x1C 	LONGWORD Animation Pointer 
 		{anim_ptr =  nil, addr_table_ptr = 0x90, id_ptr = 0x97, id_shift = 0x3, type = "push"},
 		{anim_ptr =  nil, addr_table_ptr = 0x80, id_ptr = 0x94, id_shift = 0x3, type = "vulnerability"},
 		{anim_ptr =  nil, addr_table_ptr = 0x84, id_ptr = 0x95, id_shift = 0x3, type = "vulnerability"},
@@ -256,10 +267,6 @@ local process_box_type = {
 	end,
 
 	["attack"] = function(obj, box)
-		-- print("====================")
-		-- print("atk", obj, box)
-		-- print("====================")
-
 		if game.no_hit(obj, box) then
 			return false
 		end
@@ -571,7 +578,6 @@ end
 
 --------------------------------------------------------------------------------
 -- draw the hitboxes
--- block_now = false
 local draw_hitbox = function(hb)
 	if not hb or any_true({
 		not globals.draw_pushboxes and hb.type == "push",
@@ -615,7 +621,7 @@ local render_hitboxes = function()
 	end
 
 	if globals.blank_screen then
-		gui.box(0, 0, emu.screenwidth(), emu.screenheight(), globals.blank_color)
+		gui.box(0, 0, emu.bufferwidth(), emu.bufferheight(), globals.blank_color)
 	end
 	-- las_obj
 	for entry = 1, f.max_boxes or 0 do
@@ -763,7 +769,7 @@ cps2HitboxModule = {
 		update_hitboxes()
 	end,
 	["guiRegister"] = function(display_hitbox_default, use_hb_config)
-		if display_hitbox_default == true then
+		if display_hitbox_default== true then
 			render_hitboxes()
 		end
 	end,

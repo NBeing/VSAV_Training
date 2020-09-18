@@ -16,8 +16,7 @@ end
 
 local function getDirection()
     -- This is direction set by the user in cheats
-    local direction = globals.options.get_roll
-
+    local direction = globals.options.roll_direction
     -- Handle random rolls
     if direction == roll_random_option then
         flag = getRandomIntBetween(0,2)

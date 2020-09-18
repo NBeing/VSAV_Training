@@ -3,6 +3,7 @@ local p1_base_addr            = 0xFF8800
 
 local dummy_knocked_down_addr = 0xFF8805
 local p2_facing_addr          = 0xFF880B
+local p1_facing_addr          = 0xFF840B
 
 local proximity_guard_addr = 0xFF8806
 local proximity_guard_value = memory.readbyte(proximity_guard_addr)
@@ -56,6 +57,40 @@ local function get_p2_facing()
 	if p2_facing_val == 0 then
 		return "left"
 	end
+end
+
+local function get_p1_facing()
+	p1_facing_val  = memory.readbyte(p1_facing_addr)
+
+	if p1_facing_val == 1 then
+		return "right"
+	end
+	if p1_facing_val == 0 then
+		return "left"
+	end
+end
+
+local function get_p1_towards()
+	facing = get_p1_facing()
+	p1_towards = nil
+
+	if facing == "right" then
+		p1_towards = "P1 Right"
+	else
+		p1_towards = "P1 Left"
+	end
+	return p1_towards
+end
+
+local function get_p1_away()
+	facing = get_p1_facing()
+	p1_away = nil
+	if facing == "right" then
+		p1_away = "P1 Left"
+	else
+		p1_away = "P1 Right"
+	end
+	return p1_away
 end
 
 local function get_p2_towards()
@@ -164,12 +199,16 @@ local function get_guard_action()
         return 'gc' 
     elseif globals.options.guard_action == 0x2 then
         return 'pb'
+    elseif globals.options.guard_action == 0x3 then
+        return 'counter'
+    elseif globals.options.guard_action == 0x4 then
+        return 'reversal'
     else
         return 'none'
     end
 end
 local function get_pb_type()
-    pb_type = globals.options.push_block_type
+    pb_type = globals.options.pb_type
     parsed = 'none'
     if pb_type == 0x0 then
         parsed = 'none'
@@ -191,12 +230,17 @@ local function get_pb_type()
 end
 local function get_dummy_state()
     config = {
-        knocked_down   = memory.readbyte(dummy_knocked_down_addr), -- our knocked down is actually guard stun
-        facing         = get_p2_facing(),
-        away_btn       = get_p2_away(),
-        toward_btn     = get_p2_towards(),
-        enable_roll    = setShouldRoll(),
-        guarding       = memory.readbyte(0xFF8940) ~= 0,
+        p2_knocked_down = memory.readbyte(dummy_knocked_down_addr), -- our knocked down is actually guard stun
+        p2_facing       = get_p2_facing(),
+        p2_away_btn     = get_p2_away(),
+        p2_toward_btn   = get_p2_towards(),
+
+        p1_facing       = get_p1_facing(),
+        p1_away_btn     = get_p1_away(),
+        p1_toward_btn   = get_p1_towards(),
+        enable_roll     = setShouldRoll(),
+
+        p2_guarding    = memory.readbyte(0xFF8940) ~= 0,
 
         guard_action   = get_guard_action(),
         gc_button      = get_gc_button(),
@@ -210,7 +254,16 @@ local function get_dummy_state()
 
         pb_type        = get_pb_type(),
 
-        refresh_dummy  = get_dummy_state
+        refresh_dummy  = get_dummy_state,
+        p1_block_stun_timer = memory.readbyte(0xFF8558),
+        p1_proxy_block      = memory.readbyte(0xFF8406) == 0x0C,
+        p1_block_state      = memory.readbyte(0xFF8406) == 0x00,
+        p1_attack_flag      = memory.readbyte(0xFF8505) ~= 0x00,
+
+        p2_block_stun_timer = memory.readbyte(0xFF9558),
+        p2_proxy_block      = memory.readbyte(0xFF8806) == 0x0C,
+        p2_block_state      = memory.readbyte(0xFF8806) == 0x00,
+        p2_attack_flag      = memory.readbyte(0xFF8905) ~= 0x00,
     }
     return config
 end

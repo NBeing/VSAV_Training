@@ -21,7 +21,7 @@ local function runDummyInput(inputs, numFrames, context, cleanup, should_do_acti
 		end
 
         keys = joypad.get()
-
+        -- print("current frame:", current_frame, "num frames", numFrames)
         if current_frame <= numFrames then
             if should_do_action == true then
                 for _, input in ipairs(inputs[current_frame]) do

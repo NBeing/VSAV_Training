@@ -1,3 +1,5 @@
+local json              = require './scripts/dkjson'
+
 function swap_inputs(keys)
 	newKeys = {}
 
@@ -63,8 +65,77 @@ function to_hex(num)
     return table.concat(tmp)
 end
 
+function read_object_from_json_file(_file_path)
+	local _f = io.open(_file_path, "r")
+	if _f == nil then
+	  return nil
+	end
+  
+	local _object
+	local _pos, _err
+	_object, _pos, _err = json.decode(_f:read("*all"))
+	_f:close()
+  
+	if (err) then
+	  print(string.format("Failed to find json file \"%s\" : %s", _file_path, _err))
+	end
+  
+	return _object
+  end
+  
+  function write_object_to_json_file(_object, _file_path)
+	local _f = io.open(_file_path, "w")
+	if _f == nil then
+	  return false
+	end
+  
+	local _str = json.encode(_object, { indent = true })
+	_f:write(_str)
+	_f:close()
+  
+	return true
+end
+function save_training_data()
+	-- backup_recordings()
+	if not write_object_to_json_file(training_settings, training_settings_file) then
+		print(string.format("Error: Failed to save training settings to \"%s\"", training_settings_file))
+	end
+
+	globals.dummy.setNextGCValue(training_settings["gc_freq"])
+	globals.dummy.setNextGCDelay(training_settings["gc_delay"])
+	globals.dummy.setNextGCSeed(nil)
+	globals.dummy = globals.dummy.refresh_dummy()
+end
+function load_training_data()
+	local _training_settings = read_object_from_json_file(training_settings_file)
+	if _training_settings == nil then
+		_training_settings = {}
+	end
+	-- update old versions data
+	-- if _training_settings.recordings then
+	--   for _key, _value in pairs(_training_settings.recordings) do
+	-- 	for _i, _slot in ipairs(_value) do
+	-- 	  if _value[_i].inputs == nil then
+	-- 		_value[_i] = make_recording_slot()
+	-- 	  else
+	-- 		_slot.delay = _slot.delay or 0
+	-- 		_slot.random_deviation = _slot.random_deviation or 0
+	-- 	  end
+	-- 	end
+	--   end
+	-- end
+	for _key, _value in pairs(_training_settings) do
+		training_settings[_key] = _value
+	end
+	-- restore_recordings()
+end
+  
 utilitiesModule = {
-    ["do_tables_match"] = do_tables_match,
-    ["to_hex"] = to_hex
+    ["save_training_data"]         = save_training_data,
+    ["load_training_data"]         = load_training_data,
+    ["do_tables_match"]            = do_tables_match,
+    ["to_hex"]                     = to_hex,
+    ["read_object_from_json_file"] = read_object_from_json_file,
+    ["write_object_to_json_file"]  = write_object_to_json_file
 }
 return utilitiesModule

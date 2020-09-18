@@ -1,0 +1,2352 @@
+<mamecheat version="1">
+
+  <cheat desc=" "/>
+
+  <cheat desc="0xFF8600 - 0xFF8630 AI Test">
+    <script state="run">
+      <action>maincpu.pb@FF8600=00</action>
+      <action>maincpu.pb@FF8601=00</action>
+      <action>maincpu.pb@FF8602=00</action>
+      <action>maincpu.pb@FF8603=00</action>
+      <action>maincpu.pb@FF8604=00</action>
+      <action>maincpu.pb@FF8605=00</action>
+      <action>maincpu.pb@FF8606=00</action>
+      <action>maincpu.pb@FF8607=00</action>
+      <action>maincpu.pb@FF8608=00</action>
+      <action>maincpu.pb@FF8609=00</action>
+      <action>maincpu.pb@FF860A=00</action>
+      <action>maincpu.pb@FF860B=00</action>
+      <action>maincpu.pb@FF860C=00</action>
+      <action>maincpu.pb@FF860D=00</action>
+      <action>maincpu.pb@FF860E=00</action>
+      <action>maincpu.pb@FF860F=00</action>
+      <action>maincpu.pb@FF8610=00</action>
+      <action>maincpu.pb@FF8611=00</action>
+      <action>maincpu.pb@FF8612=00</action>
+      <action>maincpu.pb@FF8613=00</action>
+      <action>maincpu.pb@FF8614=00</action>
+      <action>maincpu.pb@FF8615=00</action>
+      <action>maincpu.pb@FF8616=00</action>
+      <action>maincpu.pb@FF8617=00</action>
+      <action>maincpu.pb@FF8618=00</action>
+      <action>maincpu.pb@FF8619=00</action>
+      <action>maincpu.pb@FF861A=00</action>
+      <action>maincpu.pb@FF861B=00</action>
+      <action>maincpu.pb@FF8620=00</action>
+      <action>maincpu.pb@FF8621=00</action>
+      <action>maincpu.pb@FF8622=00</action>
+      <action>maincpu.pb@FF8623=00</action>
+      <action>maincpu.pb@FF8624=00</action>
+      <action>maincpu.pb@FF8625=00</action>
+      <action>maincpu.pb@FF8626=00</action>
+      <action>maincpu.pb@FF8627=00</action>
+      <action>maincpu.pb@FF862A=00</action>
+      <action>maincpu.pb@FF862B=00</action>
+      <action>maincpu.pb@FF862C=00</action>
+      <action>maincpu.pb@FF862D=00</action>
+      <action>maincpu.pb@FF8632=00</action>
+      <action>maincpu.pb@FF8633=00</action>
+      <action>maincpu.pb@FF8634=00</action>
+      <action>maincpu.pb@FF8635=00</action>
+      <action>maincpu.pb@FF8636=00</action>
+      <action>maincpu.pb@FF8637=00</action>
+      <action>maincpu.pb@FF8638=00</action>
+      <action>maincpu.pb@FF8639=00</action>
+      <action>maincpu.pb@FF863C=00</action>
+      <action>maincpu.pb@FF863D=00</action>
+      <action>maincpu.pb@FF8640=00</action>
+      <action>maincpu.pb@FF8641=00</action>
+      <action>maincpu.pb@FF8642=00</action>
+      <action>maincpu.pb@FF8643=00</action>
+      <action>maincpu.pb@FF8644=00</action>
+      <action>maincpu.pb@FF8645=00</action>
+      <action>maincpu.pb@FF8646=00</action>
+      <action>maincpu.pb@FF8647=00</action>
+      <action>maincpu.pb@FF8648=00</action>
+     </script>
+  </cheat>
+
+  <cheat desc="0xFF8426 Character Select Timer">
+    <script state="run">
+      <action>maincpu.pb@FF8426=02</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFFF9C0 Test">
+    <parameter>
+      <item value="0x00">Test 00</item>
+      <item value="0x03">Test 03</item>
+      <item value="0xFF">Test FF</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.ppb@0xFFF9C0=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8781 Test">
+    <parameter>
+      <item value="0x00">Phobos A0</item>
+      <item value="0x02">Bishamon A2</item>
+      <item value="0xFF">Demitri A4</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.ppb@0xFF8781=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF5D99 PL1 Battle Portrait Pointer">
+    <parameter>
+      <item value="0xA0">Phobos A0</item>
+      <item value="0xA2">Bishamon A2</item>
+      <item value="0xA4">Demitri A4</item>
+      <item value="0xA6">Victor A6</item>
+      <item value="0xA8">lei-Lei A8</item>
+      <item value="0xAA">Zabel AA</item>
+      <item value="0xAC">Morrigan AC</item>
+      <item value="0xAE">Anakaris AE</item>
+      <item value="0xC0">Aulbath C0</item>
+      <item value="0xC2">Sasquatch C2</item>
+      <item value="0xC4">Felicia C4</item>
+      <item value="0xC6">Gallon C6</item>
+      <item value="0xC8">Jedah C8</item>
+      <item value="0xCA">Q-Bee CA</item>
+      <item value="0xCC">Lilith CC</item>
+      <item value="0xCE">Bulleta CE</item>
+      <item value="0xE0">Anita E0</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.ppb@0xFF5D99=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8403 PL1 Character Select Cursor Location">
+    <parameter>
+      <item value="0x00">Bulleta 00</item>
+      <item value="0x01">Demitri 01</item>
+      <item value="0x02">Gallon 02</item>
+      <item value="0x03">Victor 03</item>
+      <item value="0x04">Zabel 04</item>
+      <item value="0x05">Morrigan 05</item>
+      <item value="0x06">Anakaris 06</item>
+      <item value="0x07">Felicia 07</item>
+      <item value="0x08">Bishamon 08</item>
+      <item value="0x09">Aulbath 09</item>
+      <item value="0x0A">Sasquatch 0A</item>
+      <item value="0x0B">Random Select 0B</item>
+      <item value="0x0C">Q-Bee 0C</item>
+      <item value="0x0D">Lei-Lei 0D</item>
+      <item value="0x0E">Lilith 0E</item>
+      <item value="0x0F">Jedah 0F</item>
+      <item value="0x10">Bulleta 10</item>
+      <item value="0x11">Demitri 11</item>
+      <item value="0x12">S.Gallon 12</item>
+      <item value="0x13">Victor 13</item>
+      <item value="0x14">Zabel 14</item>
+      <item value="0x15">Morrigan 15</item>
+      <item value="0x16">Anikaris 16</item>
+      <item value="0x17">Felicia 17</item>
+      <item value="0x18">Oboro 18</item>
+      <item value="0x19">Aulbath 19</item>
+      <item value="0x1A">Sasquatch 1A</item>
+      <item value="0x1B">Random Select</item>
+      <item value="0x1C">Q-Bee 1C</item>
+      <item value="0x1D">Lei-Lei 1D</item>
+      <item value="0x1E">Lilith 1E</item>
+      <item value="0x1F">Jedah 1F</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.ppb@FF8403=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="TEST PL1 Oboro Qualifications"> <comment>Defeat One Opponent </comment>
+    <script state="run">
+      <action>maincpu.pb@FF8115=06</action> <!--Story Progress-->
+      <action>maincpu.pb@FF8121=20</action> <!--Story Progress 2-->
+      <action>maincpu.pb@FF87BE=03</action> <!--EX Finishes-->
+      <action>maincpu.pb@FF87BF=02</action> <!--Unique Finishes-->
+      <action>maincpu.pb@FF87B0=01</action> <!--Did not lose a bat-->
+      <action>maincpu.pb@FF87B2=00</action> <!--Disable Auto-Guard-->
+      <action>maincpu.pb@FF87E2=00</action> <!--Disable Auto-Guard-->
+    </script>
+  </cheat>
+
+  <cheat desc="PL1 Quick Oboro"> <comment>Enable prior to Coin/Start</comment>
+    <script state="run">
+      <action>maincpu.pb@FF8161=01</action> <!--Oboro Fight - Flag-->
+      <action>maincpu.pb@FF8B82=18</action> <!--Opponent is Oboro-->
+    </script>
+  </cheat>
+
+  <cheat desc=" "/>
+
+  <cheat desc="Sound-Test">
+    <parameter min="1" max="2047" step="1"/>
+    <script state="change">
+      <action>audiocpu.pw@F015=0000</action>
+      <action>audiocpu.pq@F100=00001000000000FF</action>
+      <action>audiocpu.pq@F108=00FFFF0000000000</action>
+      <action>audiocpu.pq@F110=1000100000000000</action>
+      <action>audiocpu.pq@F118=00FFFF0000000000</action>
+      <action condition="(param LT 100)">audiocpu.pb@F111=param</action>
+      <action>temp0=param/100</action>
+      <action condition="(param GE 100)">audiocpu.pb@F110=temp0</action>
+      <action condition="(param GE 100)">audiocpu.pb@F111=param-(temp0*100)</action>
+      <action>audiocpu.pb@F015=20</action>
+    </script>
+  </cheat>
+
+  <cheat desc="Hide Background"> <comment>Select Feast of the Damned</comment>
+    <script state="on">
+      <action>
+        temp0=maincpu.pb@FF8033, temp1=maincpu.ow@009452, temp2=maincpu.od@009454
+      </action>
+    </script>
+    <script state="run">
+      <action>
+        maincpu.pb@FF8033=temp0, maincpu.ow@009452=temp1, maincpu.od@009454=temp2
+      </action>
+      <action condition="(maincpu.pw@FF8109 != 0 and maincpu.pd@FF810C == 0)"> <!--activate only during match-->
+        maincpu.pb@FF8033=0, <!--BG layers-->
+        maincpu.pw@FFF000=0, <!--super bars-->
+        maincpu.pw@FFF200=0, <!--life bars-->
+        maincpu.pw@FF34F6=0, <!--flashing text-->
+        maincpu.ow@009452=4E71, maincpu.od@009454=4E714E71 <!--BG sprites-->
+      </action>
+    </script>
+    <script state="off">
+      <action>
+        maincpu.pb@FF8033=temp0, maincpu.ow@009452=temp1, maincpu.od@009454=temp2
+      </action>
+    </script>
+  </cheat>
+
+  <cheat desc=" "/>
+
+  <cheat desc="0x00F026 Disable Background Music">
+    <script state="run">
+      <action>audiocpu.pw@F026=0000</action>
+    </script>
+  </cheat>
+
+   <cheat desc="0xFF06D8 Activate both intro animations"> <comment>Only use in matches</comment>
+   <parameter>
+     <item value="0x22">Intros 22</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.ppb@FF06D8=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8005 Fight Transition Sequences">
+   <parameter>
+      <item value="0x00">Story x H2h Sequence 00 or disable background in Character Select</item>
+      <item value="0x02">H2H Sequence 02</item>
+      <item value="0x04">Default - No Action 04</item>
+      <item value="0x06">Game Over 06</item>
+      <item value="0x08">Pauses animations 08</item>
+      <item value="0x0A">Staff Roll or Credits 0A</item>
+      <item value="0x0C">Character Select 0C</item>
+      <item value="0x0E">Character Select 0E</item>
+      <item value="0x10">Test 10</item>
+    </parameter>
+    <script state="on">
+      <action>maincpu.ppb@FF8005=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8009 Arcade Mode Transition Sequences"> <comment>Activate outside of fights</comment>
+   <parameter>
+      <item value="0x00">Match Start 00</item>
+      <item value="0x02">Que Intros 02</item>
+      <item value="0x04">Match is Active 04</item>
+      <item value="0x06">Fanfare 06</item>
+      <item value="0x08">Story Progress Visuals 08</item>
+      <item value="0x0A">Head to head versus portraits 0A</item>
+      <item value="0x0C">Test Value 0C</item>
+      <item value="0x0E">Test Value 0E</item>
+      <item value="0x10">Test Value 10</item>
+    </parameter>
+    <script state="on">
+      <action>maincpu.ppb@FF8009=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF800B Sound-Test Timer Stop">
+    <script state="run">
+      <action>maincpu.pb@FF800B=FF</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF800D Config Menu Options"> <comment>Also activates match HUD announcements</comment>
+   <parameter>
+     <item value="0x00">System 00</item>
+     <item value="0x02">Game 02</item>
+     <item value="0x04">Default 04</item>
+     <item value="0x06">Save then Exit 06</item>
+     <item value="0x08">Hidden Regions 08</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF800D=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8035 All Backgrounds Color Pointer">
+    <parameter>
+      <item value="0x00">Test Value 00</item>
+      <item value="0x01">Test Value 01</item>
+      <item value="0x02">Test Value 02</item>
+      <item value="0x03">Test Value 03</item>
+      <item value="0x04">Test Value 04</item>
+      <item value="0x05">Test Value 05</item>
+      <item value="0x06">Test Value 06</item>
+      <item value="0x07">Test Value 07</item>
+      <item value="0x08">Test Value 08</item>
+      <item value="0x09">Test Value 09</item>
+      <item value="0x0A">Test Value 0A</item>
+      <item value="0x0B">Test Value 0B</item>
+      <item value="0x0C">Test Value 0C</item>
+      <item value="0x0D">Test Value 0D</item>
+      <item value="0x0E">Test Value 0E</item>
+      <item value="0x0F">Test Value 0F</item>
+      <item value="0x10">Test Value 10</item>
+      <item value="0x11">Test Value 11</item>
+      <item value="0x12">Test Value 12</item>
+      <item value="0x13">Test Value 13</item>
+      <item value="0x14">Test Value 14</item>
+      <item value="0x15">Test Value 15</item>
+      <item value="0x16">Test Value 16</item>
+      <item value="0x17">Test Value 17</item>
+      <item value="0x18">Test Value 18</item>
+      <item value="0x19">Test Value 19</item>
+      <item value="0x1A">Test Value 1A</item>
+      <item value="0x1B">Test Value 1B</item>
+      <item value="0x1C">Test Value 1C</item>
+      <item value="0x1D">Test Value 1D</item>
+      <item value="0x1E">Test Value 1E</item>
+      <item value="0x1F">Test Value 1F</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF8035=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8089 Select Title Screen"> <comment>Enable coins then add coins</comment>
+    <parameter>
+      <item value="0x00">JP-VSAV</item>
+      <item value="0x01">EN-Jedah's Damnation</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF8089=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF808C Censorship - Blood"> <comment>Flag</comment>
+    <parameter>
+      <item value="0x00">Off 00</item>
+      <item value="0x01">On 01</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF808C=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8091 Select Region"> <comment>Change prior to the RAM check</comment>
+    <parameter>
+      <item value="0x00">Japan 00</item>
+      <item value="0x02">USA 02</item>
+      <item value="0x04">Hispanic 04</item>
+      <item value="0x06">Oceania 06</item>
+      <item value="0x08">Asia 08</item>
+      <item value="0x0A">Euro 0A</item>
+      <item value="0x0C">Brazil 0C</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF8091=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8096 Monitor Y-Axis flip">
+    <parameter>
+      <item value="0x00">Off 00</item>
+      <item value="0x80">On 80</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF8096=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8097 Coin Mode">
+    <parameter>
+      <item value="0x00">Test 00</item>
+      <item value="0x01">Test 01</item>
+      <item value="0x02">Test 02</item>
+      <item value="0x03">Test 03</item>
+      <item value="0x04">Test 04</item>
+      <item value="0x05">Test 05</item>
+      <item value="0x06">Test 06</item>
+      <item value="0x07">Test 07</item>
+      <item value="0x08">Test 08</item>
+      <item value="0x09">Test 09</item>
+      <item value="0x10">Test 10</item>
+      <item value="0x11">Free Select 11</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF8097=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8098 Continues Enabled"> <comment>Flag</comment>
+    <parameter>
+      <item value="0x00">Off 00</item>
+      <item value="0x01">On 01</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF8098=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8099 Demo Sound"> <comment>Flag</comment>
+    <parameter>
+      <item value="0x00">Off 00</item>
+      <item value="0x01">On 01</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF8099=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF809A Sound in Stereo or Mono"> <comment>Flag</comment>
+    <parameter>
+      <item value="0x00">Mono 00</item>
+      <item value="0x01">Stereo 01</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF809A=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF80A0 Difficulty">
+   <parameter>
+     <item value="0x00">Easy 00</item>
+     <item value="0x01">Normal 01</item>
+     <item value="0x02">Hard-1 02</item>
+     <item value="0x03">Hard-2 03</item>
+     <item value="0x04">Hard-3 04</item>
+     <item value="0x05">Hard-4 05</item>
+     <item value="0x06">Hard-5 06</item>
+     <item value="0x07">Expert 07</item>
+     <item value="0x08">Test 08</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF80A0=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF80A1 Damage Level">
+   <parameter>
+     <item value="0x00">Low 00</item>
+     <item value="0x01">Normal 01</item>
+     <item value="0x02">High 02</item>
+     <item value="0x03">Maximum 03</item>
+     <item value="0x04">Crash 04</item>
+     <item value="0x0FF">Ultra-Maximum FF</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF80A1=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF80A2 Game Clock Speed">
+   <parameter>
+     <item value="0x00">Slow 00</item>
+     <item value="0x01">Normal 01</item>
+     <item value="0x02">Fast 02</item>
+     <item value="0x03">Fastest 03</item>
+     <item value="0xFF">Slow FF</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF80A2=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF80A3 Game Speed">
+   <parameter>
+     <item value="0x00">Normal 00</item>
+     <item value="0x01">Turbo-1 01</item>
+     <item value="0x02">Turbo-2 02</item>
+     <item value="0x03">Turbo-3 03</item>
+     <item value="0x04">Free-Select-1 01</item>
+     <item value="0x05">Free-Select-2 02</item>
+     <item value="0x06">Free-Select-3 03</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF80A3=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF80A4 Bat Count">
+   <parameter>
+     <item value="0x00">1-Bat 00</item>
+     <item value="0x01">2-Bat 01</item>
+     <item value="0x02">3-Bat 02</item>
+     <item value="0x03">4-Bat 03</item>
+     <item value="0x04">Overflow 04</item>
+     <item value="0x05">Overflow 05</item>
+     <item value="0x06">Overflow 06</item>
+     <item value="0x07">Overflow 07</item>
+     <item value="0x08">Overflow 08</item>
+     <item value="0x09">Overflow 09</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF80A4=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF80A5 Event Mode"> <comment>Flag</comment>
+   <parameter>
+     <item value="0x00">Off 00</item>
+     <item value="0x01">On 01</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF80A5=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF80AC Game play Scenario - Single or versus"> <comment>Flag</comment>
+   <parameter>
+     <item value="0x00">Value 00</item>
+     <item value="0x01">Value 01</item>
+     <item value="0x02">Value 02</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF80AC=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF80BB Auto-Guard Free Select"> <comment>Flag</comment>
+   <parameter>
+     <item value="0x00">Off 00</item>
+     <item value="0x01">On 01</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF80BB=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8101 Stage Select">
+    <parameter>
+      <item value="0x00">Feast of the Damned 00</item>
+      <item value="0x02">Concrete Cave 02</item>
+      <item value="0x04">Tower of Arrogance 04	</item>
+      <item value="0x06">Red Thirst 06</item>
+      <item value="0x08">Deserted Cheateu 08</item>
+      <item value="0x0A">Abaraya 0A</item>
+      <item value="0x0C">Paradise 0C</item>
+      <item value="0x0E">War Agony 0E</item>
+      <item value="0x10">Forever Torment 10</item>
+      <item value="0x12">Green Scream 12</item>
+      <item value="0x14">Iron Horse Iron terror 14</item>
+      <item value="0x16">Fetus of God 16</item>
+      <item value="0x18">Game Over 18</item>
+      <item value="0x1E">Black + Fanfare - DF loads Game Over then Crash 1E</item>
+      <item value="0x20">Crash Zabel Win Fanfare 20</item>
+      <item value="0x22">Character Select 22</item>
+      <item value="0x26">Black FanFare - DF loads Game Over then Crash 26</item>
+      <item value="0x28">Game Over is Red FanFare Fire No meter or sprites 28</item>
+      <item value="0x2A">Black Green Scream Theme DF loads char, select Crash 2A</item>
+      <item value="0x2C">Black Fanfare is FE DF no Crash 2C</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF8101=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8109 Game Clock Value">
+   <parameter>
+     <item value="0x00">Time Over 00</item>
+     <item value="0x63">Max Time 99 63</item>
+     <item value="0x64">Overflow Feli 64</item>
+     <item value="0x65">Overflow Feli 65</item>
+     <item value="0x66">Overflow Feli 66</item>
+     <item value="0x67">Overflow Feli 67</item>
+     <item value="0x68">Overflow Feli 68</item>
+     <item value="0x69">Overflow Feli 69</item>
+     <item value="0x6A">Overflow Feli 6A</item>
+     <item value="0x6B">Overflow Feli 6B</item>
+     <item value="0x6C">Overflow Feli 6C</item>
+     <item value="0x6D">Overflow Feli 6D</item>
+     <item value="0x6E">Overflow icia 6E</item>
+     <item value="0x6F">Overflow icia 6F</item>
+     <item value="0x70">Overflow icia 70</item>
+     <item value="0x71">Overflow icia 71</item>
+     <item value="0x72">Overflow icia 72</item>
+     <item value="0x73">Overflowe icia 73</item>
+     <item value="0x74">Overflow icia 74</item>
+     <item value="0x75">Overflow icia 75</item>
+     <item value="0x76">Overflow icia 76</item>
+     <item value="0x77">Overflow icia 77</item>
+     <item value="0x78">Overflow Lili 78</item>
+     <item value="0x79">Overflow Lili 79</item>
+     <item value="0x7A">Overflow Lili 7A</item>
+     <item value="0xFF">Time Over Unique Character FF</item>
+     <item value="0xFE">Time Over Unique Character FE</item>
+     <item value="0xFD">Time Over Unique Character FD</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF8109=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8115 Story Mode Stage Progress"> <comment>Values exceeding 05 will cause an Ending</comment>
+   <parameter>
+     <item value="0x00">Fight-1 00</item>
+     <item value="0x01">Fight-2 01</item>
+     <item value="0x02">Fight-3 02</item>
+     <item value="0x03">Fight-4 03</item>
+     <item value="0x04">Fight-5 04</item>
+     <item value="0x05">Fight-6 05</item>
+     <item value="0x06">Final Boss 06</item>
+     <item value="0x07">Oboro 07</item>
+     <item value="0x08">Overflow Fight-1 08</item>
+     <item value="0x09">Overflow Fight-2 09</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF8115=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8121 Story Mode Opponent Pattern RNG"> <comment>Value is randomely assigned at character select</comment>
+    <parameter>
+      <item value="0x00">Test Value 00</item>
+      <item value="0x02">Test Value 02</item>
+      <item value="0x04">Test Value 04</item>
+      <item value="0x06">Test Value 06</item>
+      <item value="0x08">Test Value 08</item>
+      <item value="0x0A">Test Value 0A</item>
+      <item value="0x0C">Test Value 0C</item>
+      <item value="0x0E">Test Value 0E</item>
+      <item value="0x10">Test Value 10</item>
+      <item value="0x12">Test Value 12</item>
+      <item value="0x14">Test Value 14</item>
+      <item value="0x16">Test Value 16</item>
+      <item value="0x18">Test Value 18</item>
+      <item value="0x1A">Test Value 1A</item>
+      <item value="0x1C">Test Value 1C</item>
+      <item value="0x1E">Test Value 1E</item>
+      <item value="0x20">Test Value 20</item>
+      <item value="0x22">Test Value 22</item>
+      <item value="0x24">Test Value 24</item>
+      <item value="0x26">Test Value 26</item>
+      <item value="0x28">Test Value 28</item>
+      <item value="0x2A">Test Value 2A</item>
+      <item value="0x2C">Test Value 2C</item>
+      <item value="0x2E">Test Value 2E</item>
+      <item value="0x30">Test Value 30</item>
+      <item value="0x32">Test Value 32</item>
+      <item value="0x34">Test Value 34</item>
+      <item value="0x36">Test Value 36</item>
+      <item value="0x38">Test Value 38</item>
+      <item value="0x3A">Test Value 3A</item>
+      <item value="0x3C">Test Value 3C</item>
+      <item value="0x3E">Test Value 3E</item>
+      <item value="0x40">Test Value 40</item>
+      <item value="0x42">Test Value 42</item>
+      <item value="0x44">Test Value 44</item>
+      <item value="0x46">Test Value 46</item>
+      <item value="0x48">Test Value 48</item>
+      <item value="0x4A">Test Value 4A</item>
+      <item value="0x4C">Test Value 4C</item>
+      <item value="0x4E">Test Value 4E</item>
+      <item value="0x50">Test Value 50</item>
+      <item value="0x52">Test Value 52</item>
+      <item value="0x54">Test Value 54</item>
+      <item value="0x56">Test Value 56</item>
+      <item value="0x58">Test Value 58</item>
+      <item value="0x5A">Test Value 5A</item>
+      <item value="0x5C">Test Value 5C</item>
+      <item value="0x5E">Test Value 5E</item>
+      <item value="0x60">Test Value 60</item>
+      <item value="0x62">Test Value 62</item>
+      <item value="0x64">Test Value 64</item>
+      <item value="0x66">Test Value 66</item>
+      <item value="0x68">Test Value 68</item>
+      <item value="0x6A">Test Value 6A</item>
+      <item value="0x6C">Test Value 6C</item>
+      <item value="0x6E">Test Value 6E</item>
+      <item value="0x70">Test Value 70</item>
+      <item value="0x72">Test Value 72</item>
+      <item value="0x74">Test Value 74</item>
+      <item value="0x76">Test Value 76</item>
+      <item value="0x78">Test Value 78</item>
+      <item value="0x7A">Test Value 7A</item>
+      <item value="0x7C">Test Value 7C</item>
+      <item value="0x7E">Test Value 7E</item>
+      <item value="0x80">Test Value 80</item>
+      <item value="0x82">Test Value 82</item>
+      <item value="0x84">Test Value 84</item>
+      <item value="0x86">Test Value 86</item>
+      <item value="0x88">Test Value 88</item>
+      <item value="0x8A">Test Value 8A</item>
+      <item value="0x8C">Test Value 8C</item>
+      <item value="0x8E">Test Value 8E</item>
+      <item value="0x90">Test Value 90</item>
+      <item value="0x92">Test Value 92</item>
+      <item value="0x94">Test Value 94</item>
+      <item value="0x96">Test Value 96</item>
+      <item value="0x98">Test Value 98</item>
+      <item value="0x9A">Test Value 9A</item>
+      <item value="0x9C">Test Value 9C</item>
+      <item value="0x9E">Test Value 9E</item>
+      <item value="0xA0">Test Value A0</item>
+      <item value="0xA2">Test Value A2</item>
+      <item value="0xA4">Test Value A4</item>
+      <item value="0xA6">Test Value A6</item>
+      <item value="0xA8">Test Value A8</item>
+      <item value="0xAA">Test Value AA</item>
+      <item value="0xAC">Test Value AC</item>
+      <item value="0xAE">Test Value AE</item>
+      <item Value="0xB0">Test Value B0</item>
+      <item Value="0xB2">Test Value B2</item>
+      <item Value="0xB4">Test Value B4</item>
+      <item Value="0xB6">Test Value B6</item>
+      <item Value="0xB8">Test Value B8</item>
+      <item Value="0xBA">Test Value BA</item>
+      <item Value="0xBC">Test Value BC</item>
+      <item Value="0xBE">Test Value BE</item>
+      <item Value="0xC0">Test Value C0</item>
+      <item Value="0xC2">Test Value C2</item>
+      <item Value="0xC4">Test Value C4</item>
+      <item Value="0xC6">Test Value C6</item>
+      <item Value="0xC8">Test Value C8</item>
+      <item Value="0xCA">Test Value CA</item>
+      <item Value="0xCC">Test Value CC</item>
+      <item Value="0xCE">Test Value CE</item>
+      <item value="0xD0">Test Value D0</item>
+      <item value="0xD2">Test Value D2</item>
+      <item value="0xD4">Test Value D4</item>
+      <item value="0xD6">Test Value D6</item>
+      <item value="0xD8">Test Value D8</item>
+      <item value="0xDA">Test Value DA</item>
+      <item value="0xDC">Test Value DC</item>
+      <item value="0xDE">Test Value DE</item>
+      <item value="0xE0">Test Value E0</item>
+      <item value="0xE2">Test Value E2</item>
+      <item value="0xE4">Test Value E4</item>
+      <item value="0xE6">Test Value E6</item>
+      <item value="0xE8">Test Value E8</item>
+      <item value="0xEA">Test Value EA</item>
+      <item value="0xEC">Test Value EC</item>
+      <item value="0xEE">Test Value EE</item>
+      <item value="0xF0">Test Value F0</item>
+      <item value="0xF2">Test Value F2</item>
+      <item value="0xF4">Test Value F4</item>
+      <item value="0xF6">Test Value F6</item>
+      <item value="0xF8">Test Value F8</item>
+      <item value="0xFA">Test Value FA</item>
+      <item value="0xFC">Test Value FC</item>
+      <item value="0xFE">Test Value FE</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.ppb@FF8121=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8138 Story-Mode Length">
+    <parameter>
+      <item value="0x00">Match 00</item>
+      <item value="0x01">Match 01</item>
+      <item value="0x02">Match 02</item>
+      <item value="0x03">Match 03</item>
+      <item value="0x04">Match 04</item>
+      <item value="0x05">Match 05</item>
+      <item value="0x06">Match 06</item>
+      <item value="0x07">Match 07</item>
+      <item value="0x08">Match 08</item>
+      <item value="0x09">Match 09</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF8138=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8141 Stage Variant">
+    <parameter>
+      <item value="0x00">Off 00</item>
+      <item value="0x04">On 04</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF8141=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8145 Not Story Mode Flag"> <comment>Flag</comment>
+   <parameter>
+     <item value="0x00">Value 00</item>
+     <item value="0x01">Value 01</item>
+     <item value="0x02">Value 02</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF8145=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8147 Test">
+    <parameter>
+      <item value="0x00">Test Value 00</item>
+      <item value="0x01">Test Value 01</item>
+      <item value="0x02">Test Value 02</item>
+      <item value="0x03">Test Value 03</item>
+      <item value="0x04">Test Value 04</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF8147=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8160 Test">
+    <parameter>
+      <item value="0x00">Test Value 00</item>
+      <item value="0x01">Test Value 01</item>
+      <item value="0x02">Test Value 02</item>
+      <item value="0x03">Test Value 03</item>
+      <item value="0x04">Test Value 04</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF8160=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8180 Curtain Transition"> <comment>Flag - Used when exiting from a match</comment>
+   <parameter>
+     <item value="0x00">Off 00</item>
+     <item value="0x01">On 01</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF8180=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc=" "/>
+
+  <cheat desc="0xFF8405 PL1 Status-1">
+   <parameter>
+      <item value="0x00">Normal 00</item>
+      <item value="0x02">Hurt 02</item>
+      <item value="0x04">Throw 04</item>
+      <item value="0x06">Be Thrown 06</item>
+      <item value="0x08">Win-Anim. 08</item>
+      <item value="0x0A">Time-Out-Lose Animation 0A</item>
+      <item value="0x0C">Enable Opponent Win-Pose-1 0C</item>
+      <item value="0x0E">Intro-Anim-1 0E</item>
+      <item value="0x10">Cursed 10</item>
+      <item value="0x12">Time-Over-Win-Anim. 12</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.ppb@FF8405=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8406 PL1 Status-2 Pointer">
+    <parameter>
+      <item value="0x00">Normal 00</item>
+      <item value="0x02">Crouch 02</item>
+      <item value="0x04">Walk 04</item>
+      <item value="0x06">Jump 06</item>
+      <item value="0x08">Intro 08</item>
+      <item value="0x0A">Normal Attack Pointer 0A</item>
+      <item value="0x0C">Proximity Block 0C</item>
+      <item value="0x0E">Special Move Pointer 0E</item>
+      <item value="0x10">ES-Move Pointer 10</item>
+      <item value="0x12">EX-Move Pointer 12</item>
+      <item value="0x14">Dashing 14</item>
+      <item value="0x16">DF Activation - VI 16</item>
+      <item value="0x18">DF Flight 18</item>
+      <item value="0x1A">DF Deactivate 1A</item>
+      <item value="0x1C">DF Sting Ray 1C</item>
+      <item value="0x1E">Vic Dark Force Grab - Whiff 1E</item>
+      <item value="0x20">Vic Dark Force Grab - Animation-1 20</item>
+      <item value="0x22">Vic Dark Force Grab - Animation-2 22</item>
+      <item value="0x24">Vic Dark Force Grab - Animation-3 24</item>
+      <item value="0x26">Vic Dark Force Grab - Animation-4 26</item>
+      <item value="0x28">Grapple Mash Startup - No Throw-Tech 28</item>
+      <item value="0x2A">Grapple Mashing - FE 6 plus Start 2A</item>
+      <item value="0x2C">Grapple Mash Recovery 2C</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF8406=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8407 PL1 Status-2 Action Counter Pointer">
+    <parameter>
+      <item value="0x00">Test 00</item>
+      <item value="0x02">Test 02</item>
+      <item value="0x04">Test 04</item>
+      <item value="0x06">Test 06</item>
+      <item value="0x08">Test 08</item>
+      <item value="0x0A">Test 0A</item>
+      <item value="0x0C">Test 0C</item>
+      <item value="0x0E">Test 0E</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF8407=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8411 PL1 X-Position Coordinate">
+   <parameter>
+     <item value="0x00">Test 00</item>
+     <item value="0x10">Test 10</item>
+     <item value="0x20">Test 20</item>
+     <item value="0x30">Test 30</item>
+     <item value="0x40">Test 40</item>
+     <item value="0x50">Test 50</item>
+     <item value="0x60">Test 60</item>
+     <item value="0x70">Test 70</item>
+     <item value="0x80">Test 80</item>
+     <item value="0x90">Test 90</item>
+     <item value="0xAF">Test AF</item>
+     <item value="0xFF">Test FF</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.ppb@FF8411=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8415 PL1 Y-Position Coordinate">
+   <parameter>
+     <item value="0x00">Test 00</item>
+     <item value="0x10">Test 10</item>
+     <item value="0x20">Test 20</item>
+     <item value="0x30">Test 30</item>
+     <item value="0x40">Test 40</item>
+     <item value="0x50">Test 50</item>
+     <item value="0x60">Test 60</item>
+     <item value="0x70">Test 70</item>
+     <item value="0x80">Test 80</item>
+     <item value="0x90">Test 90</item>
+     <item value="0xAF">Test AF</item>
+     <item value="0xFF">Test FF</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.ppb@FF8415=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8438 PL1 Mid-Air Flag Always On">
+    <script state="run">
+      <action>maincpu.pb@FF8438=01</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8450 PL1 Health">
+    <parameter>
+      <item value="0x00">Empty 00</item>
+      <item value="0x01200120">Max 01200120</item>
+      <item value="0x01200121">Flashing White 01200121</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pd@FF8450=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8454 PL1 Get-Hit Type">
+    <parameter>
+      <item value="0x00">Stand-Hit 00</item>
+      <item value="0x01">Stand-HIt 01</item>
+      <item value="0x02">Stand-HIt 02</item>
+      <item value="0x03">Swept-KnockDOwn 03</item>
+      <item value="0x04">Stand-Reset 04</item>
+      <item value="0x05">Launched-Knockdown 05</item>
+      <item value="0x06">Shock-Stand 06</item>
+      <item value="0x07">Shock-Reset 07</item>
+      <item value="0x08">Shock-Reset 08</item>
+      <item value="0x09">Fire-Stand 09</item>
+      <item value="0x0A">Fire-Reset 0A</item>
+      <item value="0x0B">Poison-Stand 0B</item>
+      <item value="0x0C">Poison-Reset 0C</item>
+      <item value="0x0D">Sonic-Stand 0D</item>
+      <item value="0x0E">Sonic-Reset 0E</item>
+      <item value="0x0F">Splat-Stand 0F</item>
+      <item value="0x10">Stand-Reset 10</item>
+      <item value="0x11">Stand-Reset 11</item>
+      <item value="0x12">Test Value 12</item>
+      <item value="0x13">Test Value 13</item>
+      <item value="0x14">Test Value 14</item>
+      <item value="0x15">Test Value 15</item>
+      <item value="0x16">Test Value 16</item>
+      <item value="0x17">Test Value 17</item>
+      <item value="0x18">Test Value 18</item>
+      <item value="0x19">Test Value 19</item>
+      <item value="0x1A">Test Value 1A</item>
+      <item value="0x1B">Test Value 1B</item>
+      <item value="0x1C">Test Value 1C</item>
+      <item value="0x1D">Posession 1D</item>
+      <item value="0x1E">Test Value 1E</item>
+      <item value="0x1F">Test Value 1F</item>
+      <item value="0x20">Test Value 20</item>
+      <item value="0x21">Test Value 21</item>
+      <item value="0x22">Test Value 22</item>
+      <item value="0x23">Test Value 23</item>
+      <item value="0x24">Test Value 24</item>
+      <item value="0x25">Test Value 25</item>
+      <item value="0x26">Test Value 26</item>
+      <item value="0x27">Test Value 27</item>
+      <item value="0x28">Test Value 28</item>
+      <item value="0x29">Test Value 29</item>
+      <item value="0x2A">Test Value 2A</item>
+      <item value="0x2B">Test Value 2B</item>
+      <item value="0x2C">Test Value 2C</item>
+      <item value="0x2D">Test Value 2D</item>
+      <item value="0x2E">Test Value 2E</item>
+      <item value="0x2F">Test Value 2F</item>
+      <item value="0x30">Test Value 30</item>
+      <item value="0x31">Test Value 31</item>
+      <item value="0x32">Test Value 32</item>
+      <item value="0x33">Test Value 33</item>
+      <item value="0x34">Test Value 34</item>
+      <item value="0x35">Test Value 35</item>
+      <item value="0x36">Test Value 36</item>
+      <item value="0x37">Test Value 37</item>
+      <item value="0x38">Test Value 38</item>
+      <item value="0x39">Test Value 39</item>
+      <item value="0x3A">Test Value 3A</item>
+      <item value="0x3B">Test Value 3B</item>
+      <item value="0x3C">Honey 3C</item>
+      <item value="0x3D">Test Value 3D</item>
+      <item value="0x3E">Test Value 3E</item>
+      <item value="0x3F">Test Value 3F</item>
+      <item value="0x40">Test Value 40</item>
+      <item value="0x41">Test Value 41</item>
+      <item value="0x42">Lei-Lei Dizzy-Item 42</item>
+      <item value="0x43">Test Value 43</item>
+      <item value="0x44">Test Value 44</item>
+      <item value="0x45">Test Value 45</item>
+      <item value="0x46">Test Value 46</item>
+      <item value="0x47">Show-Time 47</item>
+      <item value="0x48">Test Value 48</item>
+      <item value="0x49">Test Value 49</item>
+      <item value="0x4A">Test Value 4A</item>
+      <item value="0x4B">Test Value 4B</item>
+      <item value="0x4C">Test Value 4C</item>
+      <item value="0x4D">Test Value 4D</item>
+      <item value="0x4E">Test Value 4E</item>
+      <item value="0x4F">Test Value 4F</item>
+      <item value="0x50">Test Value 50</item>
+      <item value="0x51">Test Value 51</item>
+      <item value="0x52">Test Value 52</item>
+      <item value="0x53">Test Value 53</item>
+      <item value="0x54">Test Value 54</item>
+      <item value="0x55">Test Value 55</item>
+      <item value="0x56">Test Value 56</item>
+      <item value="0x57">Test Value 57</item>
+      <item value="0x58">Test Value 58</item>
+      <item value="0x59">Test Value 59</item>
+      <item value="0x5A">Test Value 5A</item>
+      <item value="0x5B">Test Value 5B</item>
+      <item value="0x5C">Test Value 5C</item>
+      <item value="0x5D">Test Value 5D</item>
+      <item value="0x5E">Test Value 5E</item>
+      <item value="0x5F">Test Value 5F</item>
+      <item value="0x60">Test Value 60</item>
+      <item value="0x61">Test Value 61</item>
+      <item value="0x62">Test Value 62</item>
+      <item value="0x63">Test Value 63</item>
+      <item value="0x64">Test Value 64</item>
+      <item value="0x65">Test Value 65</item>
+      <item value="0x66">Test Value 66</item>
+      <item value="0x67">Test Value 67</item>
+      <item value="0x68">Test Value 68</item>
+      <item value="0x69">Test Value 69</item>
+      <item value="0x6A">Test Value 6A</item>
+      <item value="0x6B">Test Value 6B</item>
+      <item value="0x6C">Test Value 6C</item>
+      <item value="0x6D">Test Value 6D</item>
+      <item value="0x6E">Test Value 6E</item>
+      <item value="0x6F">Test Value 6F</item>
+      <item value="0x70">Test Value 70</item>
+      <item value="0x71">Test Value 71</item>
+      <item value="0x72">Test Value 72</item>
+      <item value="0x73">Test Value 73</item>
+      <item value="0x74">Test Value 74</item>
+      <item value="0x75">Test Value 75</item>
+      <item value="0x76">Test Value 76</item>
+      <item value="0x77">Test Value 77</item>
+      <item value="0x78">Test Value 78</item>
+      <item value="0x79">Test Value 79</item>
+      <item value="0x7A">Test Value 7A</item>
+      <item value="0x7B">Test Value 7B</item>
+      <item value="0x7C">Test Value 7C</item>
+      <item value="0x7D">Test Value 7D</item>
+      <item value="0x7E">Test Value 7E</item>
+      <item value="0x7F">Test Value 7F</item>
+      <item value="0x80">Test Value 80</item>
+      <item value="0x81">Test Value 81</item>
+      <item value="0x82">Test Value 82</item>
+      <item value="0x83">Test Value 83</item>
+      <item value="0x84">Test Value 84</item>
+      <item value="0x85">Test Value 85</item>
+      <item value="0x86">Test Value 86</item>
+      <item value="0x87">Test Value 87</item>
+      <item value="0x88">Test Value 88</item>
+      <item value="0x89">Test Value 89</item>
+      <item value="0x8A">Test Value 8A</item>
+      <item value="0x8B">Test Value 8B</item>
+      <item value="0x8C">Test Value 8C</item>
+      <item value="0x8D">Test Value 8D</item>
+      <item value="0x8E">Test Value 8E</item>
+      <item value="0x8F">Test Value 8F</item>
+      <item value="0x90">Test Value 90</item>
+      <item value="0x91">Test Value 91</item>
+      <item value="0x92">Test Value 92</item>
+      <item value="0x93">Test Value 93</item>
+      <item value="0x94">Test Value 94</item>
+      <item value="0x95">Test Value 95</item>
+      <item value="0x96">Test Value 96</item>
+      <item value="0x97">Test Value 97</item>
+      <item value="0x98">Test Value 98</item>
+      <item value="0x99">Test Value 99</item>
+      <item value="0x9A">Test Value 9A</item>
+      <item value="0x9B">Test Value 9B</item>
+      <item value="0x9C">Test Value 9C</item>
+      <item value="0x9D">Test Value 9D</item>
+      <item value="0x9E">Test Value 9E</item>
+      <item value="0x9F">Test Value 9F</item>
+      <item value="0xA0">Test Value A0</item>
+      <item value="0xA1">Test Value A1</item>
+      <item value="0xA2">Test Value A2</item>
+      <item value="0xA3">Test Value A3</item>
+      <item value="0xA4">Test Value A4</item>
+      <item value="0xA5">Test Value A5</item>
+      <item value="0xA6">Test Value A6</item>
+      <item value="0xA7">Test Value A7</item>
+      <item value="0xA8">Test Value A8</item>
+      <item value="0xA9">Test Value A9</item>
+      <item value="0xAA">Test Value AA</item>
+      <item value="0xAB">Test Value AB</item>
+      <item value="0xAC">Test Value AC</item>
+      <item value="0xAD">Test Value AD</item>
+      <item value="0xAE">Test Value AE</item>
+      <item value="0xAF">Test Value AF</item>
+      <item Value="0xB0">Test Value B0</item>
+      <item Value="0xB1">Test Value B1</item>
+      <item Value="0xB2">Test Value B2</item>
+      <item Value="0xB3">Test Value B3</item>
+      <item Value="0xB4">Test Value B4</item>
+      <item Value="0xB5">Test Value B5</item>
+      <item Value="0xB6">Test Value B6</item>
+      <item Value="0xB7">Test Value B7</item>
+      <item Value="0xB8">Test Value B8</item>
+      <item Value="0xB9">Test Value B9</item>
+      <item Value="0xBA">Test Value BA</item>
+      <item Value="0xBB">Test Value BB</item>
+      <item Value="0xBC">Test Value BC</item>
+      <item Value="0xBD">Test Value BD</item>
+      <item Value="0xBE">Test Value BE</item>
+      <item Value="0xBF">Test Value BF</item>
+      <item Value="0xC0">Test Value C0</item>
+      <item Value="0xC1">Test Value C1</item>
+      <item Value="0xC2">Test Value C2</item>
+      <item Value="0xC3">Test Value C3</item>
+      <item Value="0xC4">Test Value C4</item>
+      <item Value="0xC5">Test Value C5</item>
+      <item Value="0xC6">Test Value C6</item>
+      <item Value="0xC7">Test Value C7</item>
+      <item Value="0xC8">Test Value C8</item>
+      <item Value="0xC9">Test Value C9</item>
+      <item Value="0xCA">Test Value CA</item>
+      <item Value="0xCB">Test Value CB</item>
+      <item Value="0xCC">Test Value CC</item>
+      <item Value="0xCD">Test Value CD</item>
+      <item Value="0xCE">Test Value CE</item>
+      <item Value="0xCF">Test Value CF</item>
+      <item value="0xD0">Test Value D0</item>
+      <item value="0xD1">Test Value D1</item>
+      <item value="0xD2">Test Value D2</item>
+      <item value="0xD3">Test Value D3</item>
+      <item value="0xD4">Test Value D4</item>
+      <item value="0xD5">Test Value D5</item>
+      <item value="0xD6">Test Value D6</item>
+      <item value="0xD7">Test Value D7</item>
+      <item value="0xD8">Test Value D8</item>
+      <item value="0xD9">Test Value D9</item>
+      <item value="0xDA">Test Value DA</item>
+      <item value="0xDB">Test Value DB</item>
+      <item value="0xDC">Test Value DC</item>
+      <item value="0xDD">Test Value DD</item>
+      <item value="0xDE">Test Value DE</item>
+      <item value="0xDF">Test Value DF</item>
+      <item value="0xE0">Test Value E0</item>
+      <item value="0xE1">Test Value E1</item>
+      <item value="0xE2">Test Value E2</item>
+      <item value="0xE3">Test Value E3</item>
+      <item value="0xE4">Test Value E4</item>
+      <item value="0xE5">Test Value E5</item>
+      <item value="0xE6">Test Value E6</item>
+      <item value="0xE7">Test Value E7</item>
+      <item value="0xE8">Test Value E8</item>
+      <item value="0xE9">Test Value E9</item>
+      <item value="0xEA">Test Value EA</item>
+      <item value="0xEB">Test Value EB</item>
+      <item value="0xEC">Test Value EC</item>
+      <item value="0xED">Test Value ED</item>
+      <item value="0xEE">Test Value EE</item>
+      <item value="0xEF">Test Value EF</item>
+      <item value="0xF0">Test Value F0</item>
+      <item value="0xF1">Test Value F1</item>
+      <item value="0xF2">Test Value F2</item>
+      <item value="0xF3">Test Value F3</item>
+      <item value="0xF4">Test Value F4</item>
+      <item value="0xF5">Test Value F5</item>
+      <item value="0xF6">Test Value F6</item>
+      <item value="0xF7">Test Value F7</item>
+      <item value="0xF8">Test Value F8</item>
+      <item value="0xF9">Test Value F9</item>
+      <item value="0xFA">Test Value FA</item>
+      <item value="0xFB">Test Value FB</item>
+      <item value="0xFC">Test Value FC</item>
+      <item value="0xFD">Test Value FD</item>
+      <item value="0xFE">Test Value FE</item>
+      <item value="0xFF">Test Value FF</item>
+    </parameter>
+    <script state="run">
+     <action>maincpu.pb@FF8454=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8502 PL1 Special Move Strength">
+    <parameter>
+      <item value="0x00">Light 00</item>
+      <item value="0x02">Medium 02</item>
+      <item value="0x04">Heavy 04</item>
+      <item value="0x06">ES 06</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF8502=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8503 PL1 Normal Move Pointer">
+    <parameter>
+      <item value="0x00">Light 00</item>
+      <item value="0x02">Medium 02</item>
+      <item value="0x04">Heavy 04</item>
+      <item value="0x06">Test 06</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF8503=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8506 PL1 Special Move Allocation"> <comment>Set then change FF8406</comment>
+    <parameter>
+      <item value="0x00">First Move 00</item>
+      <item value="0x02">Second Move 02</item>
+      <item value="0x04">Third Move 04</item>
+      <item value="0x06">Fourth Move 06</item>
+      <item value="0x08">Fifth Move 08</item>
+      <item value="0x0A">Sixth Move 0A</item>
+      <item value="0x0C">Seventh Move 0C</item>
+      <item value="0x0E">Eighth Move 0E</item>
+      <item value="0x10">Nineth Move 10</item>
+      <item value="0x12">Tenth Move 12</item>
+      <item value="0x14">Eleventh Move 14</item>
+      <item value="0x16">Twelveth Move 16</item>
+      <item value="0x18">Thirteenth Move 18</item>
+      <item value="0x1A">Fourteenth Move 1A</item>
+      <item value="0x1C">Crash 1C</item>
+      <item value="0x1E">Crash 1E</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF8506=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8509 PL1 Meter Stock">
+    <parameter>
+      <item value="0x00">Empty 00</item>
+      <item value="0x63">Max-99 63</item>
+      <item value="0x64">Ana-Q-Demi 64</item>
+      <item value="0x65">Ana-Q-Demi Integer 65</item>
+      <item value="0x66">Ana-Q-Demi 66</item>
+      <item value="0x67">Ana-Q-Demi 67</item>
+      <item value="0x68">Ana-Q-Demi 68</item>
+      <item value="0x69">Ana-Q-Demi 69</item>
+      <item value="0x6A">Ana-Q-Demi 6A</item>
+      <item value="0x6B">Ana-Q-Demi 6B</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF8509=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF851B PL1 Disable-Roll Flag Always Max">
+    <script state="run">
+      <action>maincpu.pb@FF851B=256</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF854A PL1 Mo-LI Multiple Projectiles">  <comment>Flag</comment>
+   <parameter>
+     <item value="0x00">On 00</item>
+     <item value="0x01">Off 01</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF854A=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF855D Dizzy/Mash Timer">
+   <parameter>
+     <item value="0x00">Value 00</item>
+     <item value="0xFF">Value FF</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF855D=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8577 PL1 Dark-Force Timer">
+    <parameter>
+      <item value="0x00">Empty 00</item>
+      <item value="0x70">Max 70</item>
+      <item value="0x71">Max - No Change 71</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF8577=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF85A2 PL1 GA D.F. Flag - Pushback">
+    <parameter>
+      <item value="0x00">Push-Back is off 00</item>
+      <item value="0x02">Push-Back is on 02</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.ppb@FF85A2=param</action>
+    </script>
+  </cheat>
+
+ <cheat desc="0xFF8782 PL1 Character">
+    <parameter>
+      <item value="0x00">Bulleta 00</item>
+      <item value="0x01">Demitri 01</item>
+      <item value="0x02">Gallon 02</item>
+      <item value="0x03">Victor 03</item>
+      <item value="0x04">Zabel 04</item>
+      <item value="0x05">Morrigan 05</item>
+      <item value="0x06">Anakaris 06</item>
+      <item value="0x07">Felicia 07</item>
+      <item value="0x08">Bishamon 08</item>
+      <item value="0x09">Aulbath 09</item>
+      <item value="0x0A">Sasquatch 0A</item>
+      <item value="0x0B">D.F. Zabel 0B</item>
+      <item value="0x0C">Q-Bee 0C</item>
+      <item value="0x0D">Lei-Lei 0D</item>
+      <item value="0x0E">Lilith 0E</item>
+      <item value="0x0F">Jedah 0F</item>
+      <item value="0x10">Bulleta 10</item>
+      <item value="0x11">Demitri 11</item>
+      <item value="0x12">S.Gallon 12</item>
+      <item value="0x13">Victor 13</item>
+      <item value="0x14">Zabel 14</item>
+      <item value="0x15">Morrigan 15</item>
+      <item value="0x16">Anikaris 16</item>
+      <item value="0x17">Felicia 17</item>
+      <item value="0x18">Oboro 18</item>
+      <item value="0x19">Aulbath 19</item>
+      <item value="0x1A">Sasquatch 1A</item>
+      <item value="0x1B">D.F. Zabel 1B</item>
+      <item value="0x1C">Q-Bee 1C</item>
+      <item value="0x1D">Lei-Lei 1D</item>
+      <item value="0x1E">Lilith 1E</item>
+      <item value="0x1F">Jedah 1F</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF8782=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF87AE PL1 Costume Color">
+    <parameter>
+      <item value="0x00">LP Default 00</item>
+      <item value="0x01">MP 01</item>
+      <item value="0x02">HP 02</item>
+      <item value="0x03">LK 03</item>
+      <item value="0x04">MK 04</item>
+      <item value="0x05">HK 05</item>
+      <item value="0x06">PP 06</item>
+      <item value="0x07">KK 07</item>
+      <item value="0x08">AG Only 08</item>
+      <item value="0x09">AG Only 09</item>
+      <item value="0x0A">Shadow Portrait Ending 0A</item>
+      <item value="0x0B">Test Value 0B</item>
+      <item value="0x0C">Test Value 0C</item>
+      <item value="0x0D">Test Value 0D</item>
+      <item value="0x0E">Test Value 0E</item>
+      <item value="0x0F">Test Value 0F</item>
+      <item value="0x10">Test Value 10</item>
+      <item value="0x11">Test Value 11</item>
+      <item value="0x12">Test Value 12</item>
+      <item value="0x13">Test Value 13</item>
+      <item value="0x14">Test Value 14</item>
+      <item value="0x15">Test Value 15</item>
+      <item value="0x16">Test Value 16</item>
+      <item value="0x17">Test Value 17</item>
+      <item value="0x18">Test Value 18</item>
+      <item value="0x19">Test Value 19</item>
+      <item value="0x1A">Test Value 1A</item>
+      <item value="0x1B">Test Value 1B</item>
+      <item value="0x1C">Test Value 1C</item>
+      <item value="0x1D">Test Value 1D</item>
+      <item value="0x1E">Test Value 1E</item>
+      <item value="0x1F">Test Value 1F</item>
+      <item value="0x20">Test Value 20</item>
+      <item value="0x21">Test Value 21</item>
+      <item value="0x22">Test Value 22</item>
+      <item value="0x23">Test Value 23</item>
+      <item value="0x24">Test Value 24</item>
+      <item value="0x25">Test Value 25</item>
+      <item value="0x26">Test Value 26</item>
+      <item value="0x27">Test Value 27</item>
+      <item value="0x28">Test Value 28</item>
+      <item value="0x29">Test Value 29</item>
+      <item value="0x2A">Test Value 2A</item>
+      <item value="0x2B">Test Value 2B</item>
+      <item value="0x2C">Test Value 2C</item>
+      <item value="0x2D">Test Value 2D</item>
+      <item value="0x2E">Test Value 2E</item>
+      <item value="0x2F">Test Value 2F</item>
+      <item value="0x30">Test Value 30</item>
+      <item value="0x31">Test Value 31</item>
+      <item value="0x32">Test Value 32</item>
+      <item value="0x33">Test Value 33</item>
+      <item value="0x34">Test Value 34</item>
+      <item value="0x35">Test Value 35</item>
+      <item value="0x36">Test Value 36</item>
+      <item value="0x37">Test Value 37</item>
+      <item value="0x38">Test Value 38</item>
+      <item value="0x39">Test Value 39</item>
+      <item value="0x3A">Test Value 3A</item>
+      <item value="0x3B">Test Value 3B</item>
+      <item value="0x3C">Test Value 3C</item>
+      <item value="0x3D">Test Value 3D</item>
+      <item value="0x3E">Test Value 3E</item>
+      <item value="0x3F">Test Value 3F</item>
+      <item value="0x40">Test Value 40</item>
+      <item value="0x41">Test Value 41</item>
+      <item value="0x42">Test Value 42</item>
+      <item value="0x43">Test Value 43</item>
+      <item value="0x44">Test Value 44</item>
+      <item value="0x45">Test Value 45</item>
+      <item value="0x46">Test Value 46</item>
+      <item value="0x47">Test Value 47</item>
+      <item value="0x48">Test Value 48</item>
+      <item value="0x49">Test Value 49</item>
+      <item value="0x4A">Test Value 4A</item>
+      <item value="0x4B">Test Value 4B</item>
+      <item value="0x4C">Test Value 4C</item>
+      <item value="0x4D">Test Value 4D</item>
+      <item value="0x4E">Test Value 4E</item>
+      <item value="0x4F">Test Value 4F</item>
+      <item value="0x50">Test Value 50</item>
+      <item value="0x51">Test Value 51</item>
+      <item value="0x52">Test Value 52</item>
+      <item value="0x53">Test Value 53</item>
+      <item value="0x54">Test Value 54</item>
+      <item value="0x55">Test Value 55</item>
+      <item value="0x56">Test Value 56</item>
+      <item value="0x57">Test Value 57</item>
+      <item value="0x58">Test Value 58</item>
+      <item value="0x59">Test Value 59</item>
+      <item value="0x5A">Test Value 5A</item>
+      <item value="0x5B">Test Value 5B</item>
+      <item value="0x5C">Test Value 5C</item>
+      <item value="0x5D">Test Value 5D</item>
+      <item value="0x5E">Test Value 5E</item>
+      <item value="0x5F">Test Value 5F</item>
+      <item value="0x60">Test Value 60</item>
+      <item value="0x61">Test Value 61</item>
+      <item value="0x62">Test Value 62</item>
+      <item value="0x63">Test Value 63</item>
+      <item value="0x64">Test Value 64</item>
+      <item value="0x65">Test Value 65</item>
+      <item value="0x66">Test Value 66</item>
+      <item value="0x67">Test Value 67</item>
+      <item value="0x68">Test Value 68</item>
+      <item value="0x69">Test Value 69</item>
+      <item value="0x6A">Test Value 6A</item>
+      <item value="0x6B">Test Value 6B</item>
+      <item value="0x6C">Test Value 6C</item>
+      <item value="0x6D">Test Value 6D</item>
+      <item value="0x6E">Test Value 6E</item>
+      <item value="0x6F">Test Value 6F</item>
+      <item value="0x70">Test Value 70</item>
+      <item value="0x71">Test Value 71</item>
+      <item value="0x72">Test Value 72</item>
+      <item value="0x73">Test Value 73</item>
+      <item value="0x74">Test Value 74</item>
+      <item value="0x75">Test Value 75</item>
+      <item value="0x76">Test Value 76</item>
+      <item value="0x77">Test Value 77</item>
+      <item value="0x78">Test Value 78</item>
+      <item value="0x79">Test Value 79</item>
+      <item value="0x7A">Test Value 7A</item>
+      <item value="0x7B">Test Value 7B</item>
+      <item value="0x7C">Test Value 7C</item>
+      <item value="0x7D">Test Value 7D</item>
+      <item value="0x7E">Test Value 7E</item>
+      <item value="0x7F">Test Value 7F</item>
+      <item value="0x80">Test Value 80</item>
+      <item value="0x81">Test Value 81</item>
+      <item value="0x82">Test Value 82</item>
+      <item value="0x83">Test Value 83</item>
+      <item value="0x84">Test Value 84</item>
+      <item value="0x85">Test Value 85</item>
+      <item value="0x86">Test Value 86</item>
+      <item value="0x87">Test Value 87</item>
+      <item value="0x88">Test Value 88</item>
+      <item value="0x89">Test Value 89</item>
+      <item value="0x8A">Test Value 8A</item>
+      <item value="0x8B">Test Value 8B</item>
+      <item value="0x8C">Test Value 8C</item>
+      <item value="0x8D">Test Value 8D</item>
+      <item value="0x8E">Test Value 8E</item>
+      <item value="0x8F">Test Value 8F</item>
+      <item value="0x90">Test Value 90</item>
+      <item value="0x91">Test Value 91</item>
+      <item value="0x92">Test Value 92</item>
+      <item value="0x93">Test Value 93</item>
+      <item value="0x94">Test Value 94</item>
+      <item value="0x95">Test Value 95</item>
+      <item value="0x96">Test Value 96</item>
+      <item value="0x97">Test Value 97</item>
+      <item value="0x98">Test Value 98</item>
+      <item value="0x99">Test Value 99</item>
+      <item value="0x9A">Test Value 9A</item>
+      <item value="0x9B">Test Value 9B</item>
+      <item value="0x9C">Test Value 9C</item>
+      <item value="0x9D">Test Value 9D</item>
+      <item value="0x9E">Test Value 9E</item>
+      <item value="0x9F">Test Value 9F</item>
+      <item value="0xA0">Test Value A0</item>
+      <item value="0xA1">Test Value A1</item>
+      <item value="0xA2">Test Value A2</item>
+      <item value="0xA3">Test Value A3</item>
+      <item value="0xA4">Test Value A4</item>
+      <item value="0xA5">Test Value A5</item>
+      <item value="0xA6">Test Value A6</item>
+      <item value="0xA7">Test Value A7</item>
+      <item value="0xA8">Test Value A8</item>
+      <item value="0xA9">Test Value A9</item>
+      <item value="0xAA">Test Value AA</item>
+      <item value="0xAB">Test Value AB</item>
+      <item value="0xAC">Test Value AC</item>
+      <item value="0xAD">Test Value AD</item>
+      <item value="0xAE">Test Value AE</item>
+      <item value="0xAF">Test Value AF</item>
+      <item Value="0xB0">Test Value B0</item>
+      <item Value="0xB1">Test Value B1</item>
+      <item Value="0xB2">Test Value B2</item>
+      <item Value="0xB3">Test Value B3</item>
+      <item Value="0xB4">Test Value B4</item>
+      <item Value="0xB5">Test Value B5</item>
+      <item Value="0xB6">Test Value B6</item>
+      <item Value="0xB7">Test Value B7</item>
+      <item Value="0xB8">Test Value B8</item>
+      <item Value="0xB9">Test Value B9</item>
+      <item Value="0xBA">Test Value BA</item>
+      <item Value="0xBB">Test Value BB</item>
+      <item Value="0xBC">Test Value BC</item>
+      <item Value="0xBD">Test Value BD</item>
+      <item Value="0xBE">Test Value BE</item>
+      <item Value="0xBF">Test Value BF</item>
+      <item Value="0xC0">Test Value C0</item>
+      <item Value="0xC1">Test Value C1</item>
+      <item Value="0xC2">Test Value C2</item>
+      <item Value="0xC3">Test Value C3</item>
+      <item Value="0xC4">Test Value C4</item>
+      <item Value="0xC5">Test Value C5</item>
+      <item Value="0xC6">Test Value C6</item>
+      <item Value="0xC7">Test Value C7</item>
+      <item Value="0xC8">Test Value C8</item>
+      <item Value="0xC9">Test Value C9</item>
+      <item Value="0xCA">Test Value CA</item>
+      <item Value="0xCB">Test Value CB</item>
+      <item Value="0xCC">Test Value CC</item>
+      <item Value="0xCD">Test Value CD</item>
+      <item Value="0xCE">Test Value CE</item>
+      <item Value="0xCF">Test Value CF</item>
+      <item value="0xD0">Test Value D0</item>
+      <item value="0xD1">Test Value D1</item>
+      <item value="0xD2">Test Value D2</item>
+      <item value="0xD3">Test Value D3</item>
+      <item value="0xD4">Test Value D4</item>
+      <item value="0xD5">Test Value D5</item>
+      <item value="0xD6">Test Value D6</item>
+      <item value="0xD7">Test Value D7</item>
+      <item value="0xD8">Test Value D8</item>
+      <item value="0xD9">Test Value D9</item>
+      <item value="0xDA">Test Value DA</item>
+      <item value="0xDB">Test Value DB</item>
+      <item value="0xDC">Test Value DC</item>
+      <item value="0xDD">Test Value DD</item>
+      <item value="0xDE">Test Value DE</item>
+      <item value="0xDF">Test Value DF</item>
+      <item value="0xE0">Test Value E0</item>
+      <item value="0xE1">Test Value E1</item>
+      <item value="0xE2">Test Value E2</item>
+      <item value="0xE3">Test Value E3</item>
+      <item value="0xE4">Test Value E4</item>
+      <item value="0xE5">Test Value E5</item>
+      <item value="0xE6">Test Value E6</item>
+      <item value="0xE7">Test Value E7</item>
+      <item value="0xE8">Test Value E8</item>
+      <item value="0xE9">Test Value E9</item>
+      <item value="0xEA">Test Value EA</item>
+      <item value="0xEB">Test Value EB</item>
+      <item value="0xEC">Test Value EC</item>
+      <item value="0xED">Test Value ED</item>
+      <item value="0xEE">Test Value EE</item>
+      <item value="0xEF">Test Value EF</item>
+      <item value="0xF0">Test Value F0</item>
+      <item value="0xF1">Test Value F1</item>
+      <item value="0xF2">Test Value F2</item>
+      <item value="0xF3">Test Value F3</item>
+      <item value="0xF4">Test Value F4</item>
+      <item value="0xF5">Test Value F5</item>
+      <item value="0xF6">Test Value F6</item>
+      <item value="0xF7">Test Value F7</item>
+      <item value="0xF8">Test Value F8</item>
+      <item value="0xF9">Test Value F9</item>
+      <item value="0xFA">Test Value FA</item>
+      <item value="0xFB">Test Value FB</item>
+      <item value="0xFC">Test Value FC</item>
+      <item value="0xFD">Test Value FD</item>
+      <item value="0xFE">Test Value FE</item>
+      <item value="0xFF">Test Value FF</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF87AE=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF87B2 PL1 Auto-Guard Enabled">
+    <script state="run">
+      <action>maincpu.pb@FF87B2=01</action>
+      <action>maincpu.pb@FF87E2=01</action>
+    </script>
+  </cheat>
+
+   <cheat desc="0xFF87B4 PL1 Controls">  <comment>Flag</comment>
+   <parameter>
+     <item value="0x00">Human 00</item>
+     <item value="0x01">CPU 01</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF87B4=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF87BC PL1 Shadow">  <comment>Flag</comment>
+    <parameter>
+      <item value="0x00">Off 00</item>
+      <item value="0x01">On 01</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF87BC=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF87BE 0xFF87B0 PL1 Mid-Boss Qualifications"> <comment>Defeat One opponent</comment>
+    <script state="run">
+      <action>maincpu.pb@FF87BE=03</action> <!--EX-Finishes-->
+      <action>maincpu.pb@FF87B0=01</action> <!--Did not lose a bat-->
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF9115 PL1 Height of a Projectile">
+   <parameter>
+     <item value="0x00">Test 00</item>
+     <item value="0x10">Test 10</item>
+     <item value="0x20">Test 20</item>
+     <item value="0x30">Test 30</item>
+     <item value="0x40">Test 40</item>
+     <item value="0x50">Test 50</item>
+     <item value="0x60">Test 60</item>
+     <item value="0x70">Test 70</item>
+     <item value="0x80">Test 80</item>
+     <item value="0x90">Test 90</item>
+     <item value="0xAF">Test AF</item>
+     <item value="0xFF">Test FF</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.ppb@FF9115=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc=" "/>
+
+  <cheat desc="0xFF8805 PL2 Status-1">
+   <parameter>
+      <item value="0x00">Idle 00</item>
+      <item value="0x01">Freeze 01</item>
+      <item value="0x02">Get-Hit State with pushback 02</item>
+      <item value="0x04">Ground HP-Throw 04</item>
+      <item value="0x05">Get-Hit State 05</item>
+      <item value="0x06">Granted First-Attack 06</item>
+      <item value="0x08">Win-Anim. 08</item>
+      <item value="0x0A">Time-Out-Lose Animation 0A</item>
+      <item value="0x0C">Enable Opponent Win-Pose-1 0C</item>
+      <item value="0x0E">Intro-Anim-1 0E</item>
+      <item value="0x10">Cursed 10</item>
+      <item value="0x12">Time-Over-Win-Anim. 12</item>
+      <item value="0x13">Get-Hit State 13</item>
+      <item value="0x14">Get-Hit State 14</item>
+      <item value="0x15">Get-Hit State 15</item>
+      <item value="0x1A">Enter a Guard State 1A</item>
+      <item value="0x1E">Get-Hit State 1E</item>
+      <item value="0x1F">Get-Hit State 1F</item>
+      <item value="0x20">Get-Hit State 20</item>
+      <item value="0x24">Enter a Guard State 24</item>
+      <item value="0x26">Get-Hit State 26</item>
+      <item value="0x28">Get-Hit State 28</item>
+      <item value="0x2E">Enter a Guard State with intro audio 2E</item>
+      <item value="0x32">Get-Hit State 32</item>
+      <item value="0x34">CPU-Attack Pattern-1 34</item>
+      <item value="0x38">Enter a Guard State with intro audio 38</item>
+      <item value="0x3A">CPU-Attack Pattern-2 3A</item>
+      <item value="0x3C">Get-Hit State 3C</item>
+      <item value="0x46">Get-Hit State Y-Axis raised 46</item>
+      <item value="0x47">Horizontal Scrolling 47</item>
+      <item value="0x48">CPU-Attack Pattern-3 48</item>
+      <item value="0x4C">Get-Hit State 4C</item>
+      <item value="0x4E">CPU-Attack Pattern-4 4E</item>
+      <item value="0x50">Get-Hit State 50</item>
+      <item value="0x52">CPU-Attack Pattern-5 52</item>
+      <item value="0x58">CPU-Attack Pattern-6 58</item>
+      <item value="0x5A">Get-Hit State 5A</item>
+      <item value="0x5C">CPU-Attack Pattern-7 5C</item>
+      <item value="0x62">CPU-Attack Pattern-8 62</item>
+      <item value="0x6A">Get-Hit State 6A</item>
+      <item value="0x6B">Get-Hit State 6B</item>
+      <item value="0x6C">Opponent Loses a bat 6C</item>
+      <item value="0x6D">Begin Dizzy State 6D</item>
+      <item value="0x70">Get-Hit State 70</item>
+      <item value="0x7A">Get-Hit State 7A</item>
+      <item value="0x84">Get-Hit State 84</item>
+      <item value="0x86">Hyper Armor 86</item>
+      <item value="0x8C">Hyper Armor 8C</item>
+      <item value="0x8E">Freeze Y-Axis Raised 8E</item>
+      <item value="0x90">Get-Hit State 90</item>
+      <item value="0x94">Get-Hit State 94</item>
+      <item value="0x96">Get-Hit State 96</item>
+      <item value="0x99">Get-Hit State 99</item>
+      <item value="0x9D">Get-Hit State Opponent Dark Force 9D</item>
+      <item value="0x9E">Hyper Armor 9E</item>
+      <item value="0xA6">Get-Hit State Opponent Dark Force A6</item>
+      <item value="0xA7">Get-Hit State Opponent Dark Force A7</item>
+      <item Value="0xB0">Get-Hit State B0</item>
+      <item Value="0xB1">Freeze plus First-Attack B1</item>
+      <item Value="0xBA">Get-Hit State BA</item>
+      <item Value="0xBC">Get-Hit State BC</item>
+      <item Value="0xC2">Get-Hit State with pushback C2</item>
+      <item Value="0xC5">Get-Hit State C5</item>
+      <item Value="0xC6">Get-Hit State C6</item>
+      <item Value="0xC8">Get-Hit State C8</item>
+      <item Value="0xCD">Get-Hit State CD</item>
+      <item Value="0xCE">Get-Hit State CE</item>
+      <item value="0xD1">Get-Hit State D1</item>
+      <item value="0xD5">Get-Hit State D5</item>
+      <item value="0xDA">Get-Hit State DA</item>
+      <item value="0xDC">Get-Hit State DC</item>
+      <item value="0xDE">Get-Hit State with pushback DE</item>
+      <item value="0xE4">Get-Hit State with pushback E4</item>
+      <item value="0xE6">Get-Hit State E6</item>
+      <item value="0xE8">Get-Hit State with pushback E8</item>
+      <item value="0xEE">Get-Hit State with pushback EE</item>
+      <item value="0xF2">Get-Hit State in air F2</item>
+      <item value="0xF7">Get-Hit State in air F7</item>
+      <item value="0xF8">Get-Hit State F8</item>
+      <item value="0xF9">Get-Hit State F9</item>
+      <item value="0xFA">Get-Hit State FA</item>
+      <item value="0xFB">Get-Hit State Air Flip FB</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.ppb@FF8805=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8806 PL2 Status-2 Pointer">
+    <parameter>
+      <item value="0x00">Get-Hit State 00</item>
+      <item value="0x01">Get-Hit State 01</item>
+      <item value="0x02">Crouch Startup02</item>
+      <item value="0x04">Walk 04</item>
+      <item value="0x05">Get-Hit State - Extreme Animation 05</item>
+      <item value="0x06">Unknown state - causes crashes 06</item>
+      <item value="0x07">Get-Hit State - absorb hits - weird 07</item>
+      <item value="0x08">Crouching 08</item>
+      <item value="0x0A">Normal Attack Pointer 0A</item>
+      <item value="0x0C">Standing Startup 0C</item>
+      <item value="0x0E">Special Move Pointer 0E</item>
+      <item value="0x10">ES-Move Pointer 10</item>
+      <item value="0x11">Freeze 11</item>
+      <item value="0x12">EX-Move Pointer 12</item>
+      <item value="0x13">Get-Hit State and Screen-Wrap 13</item>
+      <item value="0x14">Mobility Move Pointer 14</item>
+      <item value="0x15">Freeze 15</item>
+      <item value="0x16">DF-Deactivation - VI 16</item>
+      <item value="0x17">Freeze 17</item>
+      <item value="0x18">Descend and accelerate 18</item>
+      <item value="0x19">Get-Hit State 19</item>
+      <item value="0x1A">Special-2 1A</item>
+      <item value="0x1C">Ascend at constant rate 1C</item>
+      <item value="0x1F">Get-Hit State is Crash 1F</item>
+      <item value="0x21">Get-Hit State 21</item>
+      <item value="0x25">Get-Hit State is Crash 25</item>
+      <item value="0x26">Backdash 26</item>
+      <item value="0x27">Forward Dash 27</item>
+      <item value="0x28">Get-Hit State 28</item>
+      <item value="0x29">Special-Move - FE 6 plus Start 29</item>
+      <item value="0x2B">Weird crouch state 2B</item>
+      <item value="0x2E">Time-Out Pose Maybe 2E</item>
+      <item value="0x2F">Get-Hit State 2F</item>
+      <item value="0x33">Weird crouch state - hit is Crash 33</item>
+      <item value="0x37">Ascend Constant 37</item>
+      <item value="0x41">Get-Hit State is Crash 41</item>
+      <item value="0x43">Get-Hit State is Crash 43</item>
+      <item value="0x45">Get-Hit State is Crash 45</item>
+      <item value="0x48">Freeze - Hit is Crash 48</item>
+      <item value="0x49">Get-Hit State - Air is Curse 49</item>
+      <item value="0x4A">Super-1 and EX-Animation 4A</item>
+      <item value="0x4B">Turn-Around Animation 4B</item>
+      <item value="0x4D">c 4D</item>
+      <item value="0x54">Get-Hit State is Crash 54</item>
+      <item value="0x5A">DF-Activation 5A</item>
+      <item value="0x5B">Jump Startup - Possibly 5B</item>
+      <item value="0x5D">Get-Hit State - Backgroud Garbage</item>
+      <item value="0x5E">Manual DF-Deactivation 5E</item>
+      <item value="0x66">Freeze - Hit is Crash 66</item>
+      <item value="0x6B">Undefined state - Head-Ride Cancels 6B</item>
+      <item value="0x6C">Pushback State - Hit is Crash 6C</item>
+      <item value="0x6F">Undefined state - Head-Ride Cancels 6F</item>
+      <item value="0x73">Undefined state - Head-Ride Cancels 73</item>
+      <item value="0x74">J.Move 74</item>
+      <item value="0x76">Get-Hit State - Doubles 76</item>
+      <item value="0x7A">Freeze State 7A</item>
+      <item value="0x7D">Get-Hit State is Crash 7D</item>
+      <item value="0x7E">Undefined state - Head-Ride Cancels 7E</item>
+      <item value="0x82">CR.LP 82</item>
+      <item value="0x83">Get-Hit State is Crash 83</item>
+      <item value="0x86">Jump Startup or HP-Throw Startup 86</item>
+      <item value="0x8A">Walk State - Buggy 8A</item>
+      <item value="0x8D">Win-Anim 8D</item>
+      <item value="0x93">Get-Hit State is Crash 93</item>
+      <item value="0x94">Get-Hit State - Meter Gain 94</item>
+      <item value="0x98">Get-Hit State is Crash 98</item>
+      <item value="0x9B">Get-Hit State is Crash 9B</item>
+      <item value="0x9C">Get-Hit State is Crash 9C</item>
+      <item value="0xA0">DF-Activation and Get-Hit is Fire A0</item>
+      <item value="0xA1">Undefined state - Head-Ride Cancels A1</item>
+      <item value="0xA3">Get-Hit State then Deathblow A3</item>
+      <item value="0xA4">Get-Hit State is Crash A4</item>
+      <item value="0xA5">Get-Hit State is Crash A5</item>
+      <item value="0xA8">Get-Hit State is Curse A8</item>
+      <item value="0xA9">Get-Hit State and Identifier A9</item>
+      <item value="0xAC">Get-Hit State AC</item>
+      <item value="0xAD">Undefined state - Head-Ride Cancels AD</item>
+      <item value="0xAE">Freeze State - Hit is Crash AE</item>
+      <item Value="0xB4">Get-thrown is Frozen State - Big Brunch B4</item>
+      <item Value="0xB5">Get-Hit State is Crash B5</item>
+      <item Value="0xB8">Get-Hit State is Crash B8</item>
+      <item Value="0xB9">Get-Hit State B9</item>
+      <item Value="0xBB">Get-Hit State BB</item>
+      <item Value="0xBC">Curse Transform State BC</item>
+      <item Value="0xBD">Get-Hit State - Some throws freeze BD</item>
+      <item Value="0xBE">Ascend while throwing BE</item>
+      <item Value="0xC0">Get-Shocked State C0</item>
+      <item Value="0xC1">Get-Hit State is Crash C1</item>
+      <item Value="0xC3">Get-Hit State is Crash C3</item>
+      <item Value="0xC4">Get-Hit State is Crash C4</item>
+      <item Value="0xC5">Get-Hit State is Crash C5</item>
+      <item Value="0xC7">Ascend Constant C7</item>
+      <item Value="0xC8">Being-Hit Animation C8</item>
+      <item Value="0xC9">Get-Hit State is Crash C9</item>
+      <item value="0xD0">Get-Hit State is Chopped in Half D0</item>
+      <item value="0xD3">Turn-Around Animation D3</item>
+      <item value="0xD9">Get-Hit State is Crash D9</item>
+      <item value="0xE1">Undefined state - Head-Ride Cancels E1</item>
+      <item value="0xE4">Undefined state - Green color WTF E4</item>
+      <item value="0xE6">Wake-Up E6</item>
+      <item value="0xE7">Opponent Throw-Recovers E7</item>
+      <item value="0xEA">Ground Roll Away EA</item>
+      <item value="0xEB">Ground Roll Towards EB</item>
+      <item value="0xEC">Hit-O.T.G. EC</item>
+      <item value="0xED">Neutral Get-Up ED</item>
+      <item value="0xEE">Get-Hit is Dizzy-State EE</item>
+      <item value="0xEF">Super-1 and ES-Animation EF</item>
+      <item value="0xF4">Wake-Up F4</item>
+      <item value="0xF6">Get-Hit State is Crash F6</item>
+      <item value="0xF9">Descend and Accelerate F9</item>
+      <item value="0xFA">Crouch state FA</item>
+      <item value="0xFB">Knockdown is horizontal scroll FB</item>
+      <item value="0xFE">Get-Hit State is Crash FE</item>
+      <item value="0xFF">Get-Hit State is Crash FF</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF8806=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8807 PL2 Status-2 key frames Pointer">
+    <parameter>
+      <item value="0x00">Test 00</item>
+      <item value="0x02">Test 02</item>
+      <item value="0x04">Test 04</item>
+      <item value="0x06">Test 06</item>
+      <item value="0x08">Test 08</item>
+      <item value="0x0A">Test 0A</item>
+      <item value="0x0C">Test 0C</item>
+      <item value="0x0E">Test 0E</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF8807=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8811 PL2 X-Position Coordinate">
+   <parameter>
+     <item value="0x00">Test 00</item>
+     <item value="0x10">Test 10</item>
+     <item value="0x20">Test 20</item>
+     <item value="0x30">Test 30</item>
+     <item value="0x40">Test 40</item>
+     <item value="0x50">Test 50</item>
+     <item value="0x60">Test 60</item>
+     <item value="0x70">Test 70</item>
+     <item value="0x80">Test 80</item>
+     <item value="0x90">Test 90</item>
+     <item value="0xAF">Test AF</item>
+     <item value="0xFF">Test FF</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.ppb@FF8811=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8815 PL2 Y-Position Coordinate">
+   <parameter>
+     <item value="0x00">Test 00</item>
+     <item value="0x10">Test 10</item>
+     <item value="0x20">Test 20</item>
+     <item value="0x30">Test 30</item>
+     <item value="0x40">Test 40</item>
+     <item value="0x50">Test 50</item>
+     <item value="0x60">Test 60</item>
+     <item value="0x70">Test 70</item>
+     <item value="0x80">Test 80</item>
+     <item value="0x90">Test 90</item>
+     <item value="0xAF">Test AF</item>
+     <item value="0xFF">Test FF</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.ppb@FF8815=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8850 PL2 Health">
+    <parameter>
+      <item value="0x00">Empty 00</item>
+      <item value="0x01200120">Max 01200120</item>
+      <item value="0x01200121">Flashing White 01200121</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pd@FF8850=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8909 PL2 Meter Stock">
+    <script state="run">
+      <action>maincpu.pb@FF8909=63</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF891B PL2 Disable-Roll Flag Max">
+    <script state="run">
+      <action>maincpu.pb@FF891B=256</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8977 PL2 Dark-Force Timer">
+    <parameter>
+      <item value="0x00">Empty 00</item>
+      <item value="0x70">Max 70</item>
+      <item value="0x71">Max - No Change 71</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF8977=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8B82 PL2 Character">
+    <parameter>
+      <item value="0x00">Bulleta 00</item>
+      <item value="0x01">Demitri 01</item>
+      <item value="0x02">Gallon 02</item>
+      <item value="0x03">Victor 03</item>
+      <item value="0x04">Zabel 04</item>
+      <item value="0x05">Morrigan 05</item>
+      <item value="0x06">Anakaris 06</item>
+      <item value="0x07">Felicia 07</item>
+      <item value="0x08">Bishamon 08</item>
+      <item value="0x09">Aulbath 09</item>
+      <item value="0x0A">Sasquatch 0A</item>
+      <item value="0x0B">D.F. Zabel 0B</item>
+      <item value="0x0C">Q-Bee 0C</item>
+      <item value="0x0D">Lei-Lei 0D</item>
+      <item value="0x0E">Lilith 0E</item>
+      <item value="0x0F">Jedah 0F</item>
+      <item value="0x10">Bulleta 10</item>
+      <item value="0x11">Demitri 11</item>
+      <item value="0x12">S.Gallon 12</item>
+      <item value="0x13">Victor 13</item>
+      <item value="0x14">Zabel 14</item>
+      <item value="0x15">Morrigan 15</item>
+      <item value="0x16">Anikaris 16</item>
+      <item value="0x17">Felicia 17</item>
+      <item value="0x18">Oboro 18</item>
+      <item value="0x19">Aulbath 19</item>
+      <item value="0x1A">Sasquatch 1A</item>
+      <item value="0x1B">D.F. Zabel 1B</item>
+      <item value="0x1C">Q-Bee 1C</item>
+      <item value="0x1D">Lei-Lei 1D</item>
+      <item value="0x1E">Lilith 1E</item>
+      <item value="0x1F">Jedah 1F</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF8B82=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8BAE PL2 Costume Color">
+    <parameter>
+      <item value="0x00">LP Default 00</item>
+      <item value="0x01">MP 01</item>
+      <item value="0x02">HP 02</item>
+      <item value="0x03">LK 03</item>
+      <item value="0x04">MK 04</item>
+      <item value="0x05">HK 05</item>
+      <item value="0x06">PP 06</item>
+      <item value="0x07">KK 07</item>
+      <item value="0x08">AG Only 08</item>
+      <item value="0x09">AG Only 09</item>
+      <item value="0x0A">Shadow Portrait Ending 0A</item>
+      <item value="0x0B">Test Value 0B</item>
+      <item value="0x0C">Test Value 0C</item>
+      <item value="0x0D">Test Value 0D</item>
+      <item value="0x0E">Test Value 0E</item>
+      <item value="0x0F">Test Value 0F</item>
+      <item value="0x10">Test Value 10</item>
+      <item value="0x11">Test Value 11</item>
+      <item value="0x12">Test Value 12</item>
+      <item value="0x13">Test Value 13</item>
+      <item value="0x14">Test Value 14</item>
+      <item value="0x15">Test Value 15</item>
+      <item value="0x16">Test Value 16</item>
+      <item value="0x17">Test Value 17</item>
+      <item value="0x18">Test Value 18</item>
+      <item value="0x19">Test Value 19</item>
+      <item value="0x1A">Test Value 1A</item>
+      <item value="0x1B">Test Value 1B</item>
+      <item value="0x1C">Test Value 1C</item>
+      <item value="0x1D">Test Value 1D</item>
+      <item value="0x1E">Test Value 1E</item>
+      <item value="0x1F">Test Value 1F</item>
+      <item value="0x20">Test Value 20</item>
+      <item value="0x21">Test Value 21</item>
+      <item value="0x22">Test Value 22</item>
+      <item value="0x23">Test Value 23</item>
+      <item value="0x24">Test Value 24</item>
+      <item value="0x25">Test Value 25</item>
+      <item value="0x26">Test Value 26</item>
+      <item value="0x27">Test Value 27</item>
+      <item value="0x28">Test Value 28</item>
+      <item value="0x29">Test Value 29</item>
+      <item value="0x2A">Test Value 2A</item>
+      <item value="0x2B">Test Value 2B</item>
+      <item value="0x2C">Test Value 2C</item>
+      <item value="0x2D">Test Value 2D</item>
+      <item value="0x2E">Test Value 2E</item>
+      <item value="0x2F">Test Value 2F</item>
+      <item value="0x30">Test Value 30</item>
+      <item value="0x31">Test Value 31</item>
+      <item value="0x32">Test Value 32</item>
+      <item value="0x33">Test Value 33</item>
+      <item value="0x34">Test Value 34</item>
+      <item value="0x35">Test Value 35</item>
+      <item value="0x36">Test Value 36</item>
+      <item value="0x37">Test Value 37</item>
+      <item value="0x38">Test Value 38</item>
+      <item value="0x39">Test Value 39</item>
+      <item value="0x3A">Test Value 3A</item>
+      <item value="0x3B">Test Value 3B</item>
+      <item value="0x3C">Test Value 3C</item>
+      <item value="0x3D">Test Value 3D</item>
+      <item value="0x3E">Test Value 3E</item>
+      <item value="0x3F">Test Value 3F</item>
+      <item value="0x40">Test Value 40</item>
+      <item value="0x41">Test Value 41</item>
+      <item value="0x42">Test Value 42</item>
+      <item value="0x43">Test Value 43</item>
+      <item value="0x44">Test Value 44</item>
+      <item value="0x45">Test Value 45</item>
+      <item value="0x46">Test Value 46</item>
+      <item value="0x47">Test Value 47</item>
+      <item value="0x48">Test Value 48</item>
+      <item value="0x49">Test Value 49</item>
+      <item value="0x4A">Test Value 4A</item>
+      <item value="0x4B">Test Value 4B</item>
+      <item value="0x4C">Test Value 4C</item>
+      <item value="0x4D">Test Value 4D</item>
+      <item value="0x4E">Test Value 4E</item>
+      <item value="0x4F">Test Value 4F</item>
+      <item value="0x50">Test Value 50</item>
+      <item value="0x51">Test Value 51</item>
+      <item value="0x52">Test Value 52</item>
+      <item value="0x53">Test Value 53</item>
+      <item value="0x54">Test Value 54</item>
+      <item value="0x55">Test Value 55</item>
+      <item value="0x56">Test Value 56</item>
+      <item value="0x57">Test Value 57</item>
+      <item value="0x58">Test Value 58</item>
+      <item value="0x59">Test Value 59</item>
+      <item value="0x5A">Test Value 5A</item>
+      <item value="0x5B">Test Value 5B</item>
+      <item value="0x5C">Test Value 5C</item>
+      <item value="0x5D">Test Value 5D</item>
+      <item value="0x5E">Test Value 5E</item>
+      <item value="0x5F">Test Value 5F</item>
+      <item value="0x60">Test Value 60</item>
+      <item value="0x61">Test Value 61</item>
+      <item value="0x62">Test Value 62</item>
+      <item value="0x63">Test Value 63</item>
+      <item value="0x64">Test Value 64</item>
+      <item value="0x65">Test Value 65</item>
+      <item value="0x66">Test Value 66</item>
+      <item value="0x67">Test Value 67</item>
+      <item value="0x68">Test Value 68</item>
+      <item value="0x69">Test Value 69</item>
+      <item value="0x6A">Test Value 6A</item>
+      <item value="0x6B">Test Value 6B</item>
+      <item value="0x6C">Test Value 6C</item>
+      <item value="0x6D">Test Value 6D</item>
+      <item value="0x6E">Test Value 6E</item>
+      <item value="0x6F">Test Value 6F</item>
+      <item value="0x70">Test Value 70</item>
+      <item value="0x71">Test Value 71</item>
+      <item value="0x72">Test Value 72</item>
+      <item value="0x73">Test Value 73</item>
+      <item value="0x74">Test Value 74</item>
+      <item value="0x75">Test Value 75</item>
+      <item value="0x76">Test Value 76</item>
+      <item value="0x77">Test Value 77</item>
+      <item value="0x78">Test Value 78</item>
+      <item value="0x79">Test Value 79</item>
+      <item value="0x7A">Test Value 7A</item>
+      <item value="0x7B">Test Value 7B</item>
+      <item value="0x7C">Test Value 7C</item>
+      <item value="0x7D">Test Value 7D</item>
+      <item value="0x7E">Test Value 7E</item>
+      <item value="0x7F">Test Value 7F</item>
+      <item value="0x80">Test Value 80</item>
+      <item value="0x81">Test Value 81</item>
+      <item value="0x82">Test Value 82</item>
+      <item value="0x83">Test Value 83</item>
+      <item value="0x84">Test Value 84</item>
+      <item value="0x85">Test Value 85</item>
+      <item value="0x86">Test Value 86</item>
+      <item value="0x87">Test Value 87</item>
+      <item value="0x88">Test Value 88</item>
+      <item value="0x89">Test Value 89</item>
+      <item value="0x8A">Test Value 8A</item>
+      <item value="0x8B">Test Value 8B</item>
+      <item value="0x8C">Test Value 8C</item>
+      <item value="0x8D">Test Value 8D</item>
+      <item value="0x8E">Test Value 8E</item>
+      <item value="0x8F">Test Value 8F</item>
+      <item value="0x90">Test Value 90</item>
+      <item value="0x91">Test Value 91</item>
+      <item value="0x92">Test Value 92</item>
+      <item value="0x93">Test Value 93</item>
+      <item value="0x94">Test Value 94</item>
+      <item value="0x95">Test Value 95</item>
+      <item value="0x96">Test Value 96</item>
+      <item value="0x97">Test Value 97</item>
+      <item value="0x98">Test Value 98</item>
+      <item value="0x99">Test Value 99</item>
+      <item value="0x9A">Test Value 9A</item>
+      <item value="0x9B">Test Value 9B</item>
+      <item value="0x9C">Test Value 9C</item>
+      <item value="0x9D">Test Value 9D</item>
+      <item value="0x9E">Test Value 9E</item>
+      <item value="0x9F">Test Value 9F</item>
+      <item value="0xA0">Test Value A0</item>
+      <item value="0xA1">Test Value A1</item>
+      <item value="0xA2">Test Value A2</item>
+      <item value="0xA3">Test Value A3</item>
+      <item value="0xA4">Test Value A4</item>
+      <item value="0xA5">Test Value A5</item>
+      <item value="0xA6">Test Value A6</item>
+      <item value="0xA7">Test Value A7</item>
+      <item value="0xA8">Test Value A8</item>
+      <item value="0xA9">Test Value A9</item>
+      <item value="0xAA">Test Value AA</item>
+      <item value="0xAB">Test Value AB</item>
+      <item value="0xAC">Test Value AC</item>
+      <item value="0xAD">Test Value AD</item>
+      <item value="0xAE">Test Value AE</item>
+      <item value="0xAF">Test Value AF</item>
+      <item Value="0xB0">Test Value B0</item>
+      <item Value="0xB1">Test Value B1</item>
+      <item Value="0xB2">Test Value B2</item>
+      <item Value="0xB3">Test Value B3</item>
+      <item Value="0xB4">Test Value B4</item>
+      <item Value="0xB5">Test Value B5</item>
+      <item Value="0xB6">Test Value B6</item>
+      <item Value="0xB7">Test Value B7</item>
+      <item Value="0xB8">Test Value B8</item>
+      <item Value="0xB9">Test Value B9</item>
+      <item Value="0xBA">Test Value BA</item>
+      <item Value="0xBB">Test Value BB</item>
+      <item Value="0xBC">Test Value BC</item>
+      <item Value="0xBD">Test Value BD</item>
+      <item Value="0xBE">Test Value BE</item>
+      <item Value="0xBF">Test Value BF</item>
+      <item Value="0xC0">Test Value C0</item>
+      <item Value="0xC1">Test Value C1</item>
+      <item Value="0xC2">Test Value C2</item>
+      <item Value="0xC3">Test Value C3</item>
+      <item Value="0xC4">Test Value C4</item>
+      <item Value="0xC5">Test Value C5</item>
+      <item Value="0xC6">Test Value C6</item>
+      <item Value="0xC7">Test Value C7</item>
+      <item Value="0xC8">Test Value C8</item>
+      <item Value="0xC9">Test Value C9</item>
+      <item Value="0xCA">Test Value CA</item>
+      <item Value="0xCB">Test Value CB</item>
+      <item Value="0xCC">Test Value CC</item>
+      <item Value="0xCD">Test Value CD</item>
+      <item Value="0xCE">Test Value CE</item>
+      <item Value="0xCF">Test Value CF</item>
+      <item value="0xD0">Test Value D0</item>
+      <item value="0xD1">Test Value D1</item>
+      <item value="0xD2">Test Value D2</item>
+      <item value="0xD3">Test Value D3</item>
+      <item value="0xD4">Test Value D4</item>
+      <item value="0xD5">Test Value D5</item>
+      <item value="0xD6">Test Value D6</item>
+      <item value="0xD7">Test Value D7</item>
+      <item value="0xD8">Test Value D8</item>
+      <item value="0xD9">Test Value D9</item>
+      <item value="0xDA">Test Value DA</item>
+      <item value="0xDB">Test Value DB</item>
+      <item value="0xDC">Test Value DC</item>
+      <item value="0xDD">Test Value DD</item>
+      <item value="0xDE">Test Value DE</item>
+      <item value="0xDF">Test Value DF</item>
+      <item value="0xE0">Test Value E0</item>
+      <item value="0xE1">Test Value E1</item>
+      <item value="0xE2">Test Value E2</item>
+      <item value="0xE3">Test Value E3</item>
+      <item value="0xE4">Test Value E4</item>
+      <item value="0xE5">Test Value E5</item>
+      <item value="0xE6">Test Value E6</item>
+      <item value="0xE7">Test Value E7</item>
+      <item value="0xE8">Test Value E8</item>
+      <item value="0xE9">Test Value E9</item>
+      <item value="0xEA">Test Value EA</item>
+      <item value="0xEB">Test Value EB</item>
+      <item value="0xEC">Test Value EC</item>
+      <item value="0xED">Test Value ED</item>
+      <item value="0xEE">Test Value EE</item>
+      <item value="0xEF">Test Value EF</item>
+      <item value="0xF0">Test Value F0</item>
+      <item value="0xF1">Test Value F1</item>
+      <item value="0xF2">Test Value F2</item>
+      <item value="0xF3">Test Value F3</item>
+      <item value="0xF4">Test Value F4</item>
+      <item value="0xF5">Test Value F5</item>
+      <item value="0xF6">Test Value F6</item>
+      <item value="0xF7">Test Value F7</item>
+      <item value="0xF8">Test Value F8</item>
+      <item value="0xF9">Test Value F9</item>
+      <item value="0xFA">Test Value FA</item>
+      <item value="0xFB">Test Value FB</item>
+      <item value="0xFC">Test Value FC</item>
+      <item value="0xFD">Test Value FD</item>
+      <item value="0xFE">Test Value FE</item>
+      <item value="0xFF">Test Value FF</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF8BAE=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8BB2 PL2 Auto-Guard Enabled">
+    <script state="run">
+      <action>maincpu.pb@FF8BB2=01</action>
+      <action>maincpu.pb@FF8BE2=01</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8BB4 PL2 Controls"> <comment>Flag</comment>
+   <parameter>
+     <item value="0x00">Human 00</item>
+     <item value="0x01">CPU 01</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF8BB4=param</action>
+    </script>
+  </cheat>
+
+   <cheat desc="0xFF8BBC PL2 Shadow"> <comment>Flag</comment>
+    <parameter>
+      <item value="0x00">Off 00</item>
+      <item value="0xFF">On FF</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.pb@FF8BBC=param</action>
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF8BBE 0xFF87B0 PL2 Mid-Boss Qualifications"> <comment>Defeat One opponent</comment>
+    <script state="run">
+      <action>maincpu.pb@FF8BBE=03</action> <!--EX-Finishes-->
+      <action>maincpu.pb@FF8BB0=01</action> <!--Did not lose a bat-->
+    </script>
+  </cheat>
+
+  <cheat desc="0xFF9515 PL2 Height of a Projectile">
+   <parameter>
+     <item value="0x00">Test 00</item>
+     <item value="0x10">Test 10</item>
+     <item value="0x20">Test 20</item>
+     <item value="0x30">Test 30</item>
+     <item value="0x40">Test 40</item>
+     <item value="0x50">Test 50</item>
+     <item value="0x60">Test 60</item>
+     <item value="0x70">Test 70</item>
+     <item value="0x80">Test 80</item>s
+     <item value="0x90">Test 90</item>
+     <item value="0xAF">Test AF</item>
+     <item value="0xFF">Test FF</item>
+    </parameter>
+    <script state="run">
+      <action>maincpu.ppb@FF9515=param</action>
+    </script>
+  </cheat>
+
+</mamecheat>
+<!-- Cheats collated & tested by VMP_KyleW - Darkstalkers Are Not Dead -->

@@ -18,8 +18,8 @@ fontcolor1 = (0xffffffff)
 fontcolor2 = (0x000000ff)
 
 
-resourcepath = scripts_path.."scrolling-input" .. "/"
-recordpath = scripts_path.."scrolling-input" .. "/"
+resourcepath = script_path().."scrolling-input" .. "/"
+recordpath = script_path().."scrolling-input" .. "/"
 emu = emu or gens
 
 -------------------------------------------

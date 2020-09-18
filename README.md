@@ -173,7 +173,11 @@ If you are going to be changing these often I recommend just leaving the macro-o
 ## Hitbox configuration:
 
   hb_config_blank_screen         = false -- setting this to true will show ONLY the hitboxes
+
   hb_config_draw_axis            = false -- This shows a pointer below your character
+
   hb_config_draw_pushboxes       = true  -- Enables pushbox (your characters 'collision' box rather than hurtbox)
+
   hb_config_draw_throwable_boxes = true  -- shows where you can be thrown
+
   hb_config_no_alpha             = false -- removes overlay inside boxes if true

@@ -1,6 +1,6 @@
 # VSAV Training Mode
 
-A training mode for VSAV.
+A training mode for VSAV. ** You must supply your own ROM! ** 
 
 Shoutouts to: Dammit and Jed for their wizardry, Grouflon (Stole their 3s training mode menu, and settings workflow!) and the VSAV Community. 
 
@@ -13,6 +13,7 @@ This is a beta release. Many things do not work fully. I think many of the featu
 I have been using this training mode personally to great effect.
 
 IF SOMETHING GOES WRONG JUST RESTART THE SCRIPT!
+N.B. This version no longer relies on setting cheats. Many of them do not work, it is there to turn off the BG music. Apologies for any confusion.
 
 - N-Bee
 
@@ -151,7 +152,6 @@ Text editors will ruin the file.
 For instance: As mentioned above you might want to load a particular playback file.
 To do so locate the lines:
 
-`
 use_last_recording = true
 
 Set this to false.
@@ -171,10 +171,9 @@ This is for convenience.
 If you are going to be changing these often I recommend just leaving the macro-options.lua file open in another window.
 
 ## Hitbox configuration:
-`
-hb_config_blank_screen         = false -- setting this to true will show ONLY the hitboxes
-hb_config_draw_axis            = false -- This shows a pointer below your character
-hb_config_draw_pushboxes       = true  -- Enables pushbox (your characters 'collision' box rather than hurtbox)
-hb_config_draw_throwable_boxes = true  -- shows where you can be thrown
-hb_config_no_alpha             = false -- removes overlay inside boxes if true
-`
+
+  hb_config_blank_screen         = false -- setting this to true will show ONLY the hitboxes
+  hb_config_draw_axis            = false -- This shows a pointer below your character
+  hb_config_draw_pushboxes       = true  -- Enables pushbox (your characters 'collision' box rather than hurtbox)
+  hb_config_draw_throwable_boxes = true  -- shows where you can be thrown
+  hb_config_no_alpha             = false -- removes overlay inside boxes if true

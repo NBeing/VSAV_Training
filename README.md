@@ -1,5 +1,7 @@
 # VSAV Training Mode
 
+[Short (very low effort) Demonstration Video](https://streamable.com/c4j6f5)
+
 A training mode for VSAV. ** You must supply your own ROM! ** 
 
 Shoutouts to: Dammit and Jed for their wizardry, Grouflon (Stole their 3s training mode menu, and settings workflow!) and the VSAV Community. 

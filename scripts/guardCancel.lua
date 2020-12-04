@@ -318,6 +318,14 @@ function get_counter_table( delay, type )
 		frame_input_table[delay]   = {"P2 Button 3"}
 	elseif type == 6 then
 		frame_input_table[delay]   = {"P2 Button 6"}
+	elseif type == 7 then
+		if direction == 'left' then
+			frame_input_table[delay]   = {"P2 Right", "P2 Up"}
+		else
+			frame_input_table[delay]   = {"P2 Left", "P2 Up"}
+		end
+	elseif type == 8 then
+		frame_input_table[delay]   = {"P2 Down", "P2 Button 1"}
 	end
 
 	if delay ~= 0 then
@@ -387,7 +395,6 @@ local function guardCancelCheck(run_dummy_input)
 	player_state = memory.readword(player_state_addr)
 
 	prevFrameCount = globals.game.cur_frame
-	-- print("Guard action",globals.dummy.guard_action )
 	if globals.dummy.guard_action == 'none' then
 		return
 	elseif 	globals.options.gc_freq == 0 then
@@ -411,17 +418,10 @@ local function guardCancelCheck(run_dummy_input)
 		if wasJustGuarding == false and block_stun_timer ~= 0 then
 			wasJustGuarding = true
 			frameStartedGuarding = globals.game.cur_frame
-			-- print("Blocking started on", globals.game.cur_frame)
 		end
-
-		-- if block_stun_timer ~= 0 then
-			-- print("in guard stun", block_stun_timer)
-		-- end
 
 		if wasJustGuarding == true and block_stun_timer == 0 and block_stop ~= true then
 			frameEndedGuarding = globals.game.cur_frame
-			-- print("Done guarding", frameEndedGuarding)
-
 			wasJustGuarding = false
 		end
 		if globals.game.cur_frame < (numBlockStunExitInput + frameEndedGuarding) then 
@@ -435,7 +435,6 @@ local function guardCancelCheck(run_dummy_input)
 		p2_reversal = memory.readbyte(0xFF8800 + 0x174)
 		p1_reversal = memory.readbyte(0xFF8400 + 0x174)	
 
-		-- print("Rev Timer is: ", p2_reversal)
 		return runInput(run_dummy_input, p2_reversal > 0)
 
 	end

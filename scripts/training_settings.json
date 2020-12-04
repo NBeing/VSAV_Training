@@ -3,12 +3,12 @@
   "pb_type":1,
   "gc_freq":4,
   "push_block_type":0,
-  "guard_action":1,
+  "guard_action":3,
   "roll_direction":4,
-  "counter_attack":2,
+  "counter_attack":7,
   "infinite_time":true,
-  "dummy_neutral":8,
-  "gc_delay":1,
+  "dummy_neutral":0,
+  "gc_delay":0,
   "guard":1,
   "show_hitboxes":true
 }

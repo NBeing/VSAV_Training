@@ -202,7 +202,9 @@ local counter_attack_type = {
     "MP",
     "MK",
     "HP",
-    "HK"
+    "HK",
+    "Up Back",
+    "2 LP"  
 }
 
 gc_freq = {

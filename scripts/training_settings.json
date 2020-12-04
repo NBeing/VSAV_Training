@@ -1,0 +1,16 @@
+{
+  "counter_attack_random_upback":2,
+  "gc_button":2,
+  "pb_type":1,
+  "gc_freq":4,
+  "dummy_neutral":0,
+  "push_block_type":0,
+  "guard_action":1,
+  "roll_direction":0,
+  "counter_attack":6,
+  "infinite_time":true,
+  "random_upback":true,
+  "gc_delay":0,
+  "guard":1,
+  "show_hitboxes":true
+}

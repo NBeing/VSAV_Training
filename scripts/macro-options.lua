@@ -15,7 +15,8 @@ display_hud = true
 display_movelist = false
 -- Display scrolling input
 scrolling_input = true
-
+-- Silence on screen frame data display 
+quiet_framedata = false
 -------------------------------------------------
 --VSAV hitbox script options
 

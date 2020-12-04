@@ -14,8 +14,6 @@ local function get_dummy_neutral()
 		state = {name = "down-forward", input = {"P2 Down", p2_towards} }
 	elseif dummy_neutral_config == 4 then
 		state = {name = "back", input = { p2_away} }
-	-- elseif dummy_neutral_config == 5 then
-	-- 	state = {name = "stand-block", input = {} }
 	elseif dummy_neutral_config == 5 then
 		state = {name = "forward", input = { p2_towards} }
 	elseif dummy_neutral_config == 6 then

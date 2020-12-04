@@ -217,7 +217,21 @@ function get_counter_table( delay, type )
 		end	
 	end
 	num_frames = 0
-	if type == 1 then
+	do_not_do_if = 0
+
+	if type == 7 then 
+		p1_in_air = memory.readbyte(0xFF8400 + 0x38)
+		p2_in_air = memory.readbyte(0xFF8800 + 0x38)
+		do_not_do_if = p2_in_air
+
+		if p2_in_air ~= 1 then 
+			if direction == 'left' then
+				frame_input_table[delay]   = {"P2 Right", "P2 Up"}
+			else
+				frame_input_table[delay]   = {"P2 Left", "P2 Up"}
+			end	
+		end
+	elseif type == 1 then
 		frame_input_table[delay]   = {"P2 Weak Punch"}
 	elseif type == 2 then
 		frame_input_table[delay]   = {"P2 Weak Kick"}
@@ -256,7 +270,8 @@ function get_counter_table( delay, type )
 
 	return {
 		["frame_input_table"] = frame_input_table,
-		["num_frames"] = num_frames
+		["num_frames"] = num_frames,
+		["do_not_do_if"] = do_not_do_if 
 	}
 
 end
@@ -265,13 +280,15 @@ local function runInput(run_dummy_input, context)
 	tableMetadata = get_counter_table(0)
 	inputs     = tableMetadata["frame_input_table"]
 	num_frames = tableMetadata["num_frames"]
+	do_not_do_if = tableMetadata["do_not_do_if"]
 
 	return run_dummy_input(
 		inputs, 
 		num_frames, 
 		context,
 		gc_cleanup,
-		globals.dummy.next_should_gc
+		globals.dummy.next_should_gc,
+		do_not_do_if
 	)
 end
 local function runUpback(run_dummy_input, context)
@@ -316,7 +333,6 @@ function string.starts(String,Start)
  end
  
 local function guardCancelCheck(run_dummy_input)
-	-- run_escr(run_dummy_input)
 	block_stun_timer_addr = 0xFF8558 + 0x400 
 	block_stun_timer = memory.readbyte(block_stun_timer_addr)
 	block_stop_addr = 0xFF8820 
@@ -374,7 +390,6 @@ local function guardCancelCheck(run_dummy_input)
 		end
 		p2_reversal = memory.readbyte(0xFF8800 + 0x174)
 		p1_reversal = memory.readbyte(0xFF8400 + 0x174)	
-
 		return runInput(run_dummy_input, p2_reversal > 0)
 
 	end

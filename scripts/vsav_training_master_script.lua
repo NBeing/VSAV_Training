@@ -2,7 +2,7 @@ for _,var in ipairs({playbackfile, use_last_recording,
 					path,playkey,recordkey,togglepausekey,toggleloopkey,longwait,longpress,longline,framemame, 
 					 display_hud, display_movelist, 
 					 use_hb_config, hb_config_blank_screen, hb_config_draw_axis, hb_config_draw_pushboxes, hb_config_draw_throwable_boxes, hb_config_no_alpha,
-					 mo_enable_frame_data, debug, mo_show_facing}) do
+					 mo_enable_frame_data, debug, mo_show_facing, quiet_framedata}) do
 	var = nil
 end
 
@@ -50,8 +50,15 @@ globals = {
 	dummy_state     = nil,
 	config_state    = nil,
 	show_menu       = false,
-	controlling_p1  = true
+	controlling_p1  = true,
+	quiet_framedata = quiet_framedata
 }
+
+emu.message = function(text)
+	mid_width = emu.screenwidth() / 2 - 25
+	mid_height = emu.screenheight() - 8
+	gui.text( mid_width, mid_height, text)
+end
 
 function togglecontrolling()
 
@@ -60,8 +67,6 @@ function togglecontrolling()
 	local controlling = "P1"
 
 	if globals.controlling_p1 ~= true then controlling = "P2" end
-
-	emu.message("Now Controlling: "..controlling )
 
 end
 
@@ -114,7 +119,6 @@ input.registerhotkey(2, function()
 end)
 
 last_inputs = nil
-last_frame = 0 
 toggleloop = nil
 
 emu.registerstart(function()
@@ -125,13 +129,14 @@ emu.registerstart(function()
 		playerObject.make_player_object(1, 0x02068C6C, "P1"),
 		playerObject.make_player_object(2, 0x02069104, "P2")
 	  }
-	frameDataModule.registerStart(mo_enable_frame_data)
+	frameDataModule.registerStart(mo_enable_frame_data, quiet_framedata)
 	cps2HitboxModule.registerStart()
 	macroLuaModule.registerStart()
 
 end)
 
 emu.registerbefore(function()
+
 	-- Set remaining taunts to 0 for better start button behavior
 	memory.writebyte(0xFF8400 + 0x179, 0)
 	memory.writebyte(0xFF8800 + 0x179, 0)
@@ -141,7 +146,9 @@ emu.registerbefore(function()
 	if globals.controlling_p1 == true then 
 		p1 = playerObject.read_player_vars(player_objects[1])
 		p2 = playerObject.read_player_vars(player_objects[2])
-		last_frame = emu.framecount()
+		emu.message("Controlling: P1")
+	else 
+		emu.message("Controlling: P2")
 	end
 	globals["options"] = configModule.registerBefore()
 	globals["game"]    = gameStateModule.registerBefore() 

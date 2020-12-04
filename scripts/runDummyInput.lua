@@ -7,7 +7,11 @@ local function reset_frames()
     current_frame = nil
 end
 
-local function runDummyInput(inputs, numFrames, context, cleanup, should_do_action)
+local function runDummyInput(inputs, numFrames, context, cleanup, should_do_action, do_not_do_if)
+    if do_not_do_if == 1 then
+        return joypad.get()
+    end
+
 	if context == true then
         if start_frame == nil then
             start_frame = globals.game.cur_frame

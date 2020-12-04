@@ -27,11 +27,17 @@ emu = emu or gens
 
 local function hud()
 --Player 1
-	gui.text(18,16,"Red Life: " .. memory.readword(0xFF8452),0xFF0000FF)
-	gui.text(99,16,"White Life: " .. memory.readword(0xFF8450))
-	gui.text(34,207,"Meter: ".. memory.readword(0xFF850A))
-	gui.text(34,198,"Place: " .. memory.readdword(0xFF8410) .. "," .. memory.readdword(0xFF8414))
-	gui.text(0,0,"Taunts: " .. memory.readbyte(0xFF8579))
+	if globals.show_life == true then
+		gui.text(18,16,"Red Life: " .. memory.readword(0xFF8452),0xFF0000FF)
+		gui.text(99,16,"White Life: " .. memory.readword(0xFF8450))
+	end
+	if globals.show_meter == true then
+		gui.text(34,207,"Meter: ".. memory.readword(0xFF850A))
+	end
+	if globals.show_place == true then
+		gui.text(34,198,"Place: " .. memory.readdword(0xFF8410) .. "," .. memory.readdword(0xFF8414))
+	end
+	-- gui.text(0,0,"Taunts: " .. memory.readbyte(0xFF8579))
 		
 		-- Status
 		if memory.readword(0xff854e) == 0x0808 then
@@ -54,11 +60,17 @@ local function hud()
 		end
 		
 --Player 2
-	gui.text(315,16,"Red Life: " .. memory.readword(0xFF8852),0xFF0000FF)
-	gui.text(226,16,"White Life: " .. memory.readword(0xFF8850))
-	gui.text(312,207,"Meter: ".. memory.readword(0xFF890A))
-	gui.text(260,198,"Place: " .. memory.readdword(0xFF8810) .. "," .. memory.readdword(0xFF8814))
-	gui.text(344,0,"Taunts: " .. memory.readbyte(0xFF8979))
+	if globals.show_life == true then
+		gui.text(315,16,"Red Life: " .. memory.readword(0xFF8852),0xFF0000FF)
+		gui.text(226,16,"White Life: " .. memory.readword(0xFF8850))
+	end
+	if globals.show_meter == true then
+		gui.text(312,207,"Meter: ".. memory.readword(0xFF890A))
+	end
+	if globals.show_place == true then
+		gui.text(260,198,"Place: " .. memory.readdword(0xFF8810) .. "," .. memory.readdword(0xFF8814))
+	end
+	-- gui.text(344,0,"Taunts: " .. memory.readbyte(0xFF8979))
 		
 		-- Status
 		if memory.readword(0xff894e) == 0x0808 then

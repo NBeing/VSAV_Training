@@ -9,6 +9,9 @@
 -- for development purposes. It will make your logs noisy.
 log_debug = true
 
+-----------------------------------
+-- HUD CONFIG
+
 -- Shows lifebar value and character positions
 display_hud = true
 -- Shows characters movelist
@@ -17,6 +20,12 @@ display_movelist = false
 scrolling_input = true
 -- Silence on screen frame data display 
 quiet_framedata = false
+-- Show position data
+show_position = true
+-- Show meter data
+show_meter = true
+-- Show life data
+show_life = true
 -------------------------------------------------
 --VSAV hitbox script options
 

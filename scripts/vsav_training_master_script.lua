@@ -51,7 +51,11 @@ globals = {
 	config_state    = nil,
 	show_menu       = false,
 	controlling_p1  = true,
-	quiet_framedata = quiet_framedata
+	quiet_framedata = quiet_framedata,
+	show_position = show_position,
+	show_meter = show_meter,
+	show_life = show_life
+
 }
 
 emu.message = function(text)

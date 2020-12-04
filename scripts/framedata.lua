@@ -160,7 +160,6 @@ local function update_frame_data()
 
 	if count.active then --display count if counting
 		if globals.quiet_framedata ~= true then
-			print("Running")
 			emu.message(count.total .. " (" .. count.total_superfreeze .. ")" .. " [" .. count.hitfreeze .. "]")
 		end
 	end

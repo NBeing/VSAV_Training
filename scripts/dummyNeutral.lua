@@ -73,29 +73,19 @@ local function is_jumping()
 	return p2_jump_value	
 end
 
-local _prevFrameCount = 0
 dummyNeutralModule = {
 	["registerBefore"] = function()
 
         attacking =  memory.readbyte(0xFF8505) == 0x01
-        -- print("Attacking?", attacking)
-        curFrameCount = emu.framecount()
-        -- print("Jump started on: " , jump_started_on_frame)
-		-- is_jumping()
-		-- print(curFrameCount > prevFrameCount)
-		-- if curFrameCount > prevFrameCount then
-			-- print("Running")
-            set_dummy_action()
-            jumping_state = is_jumping()
+		set_dummy_action()
+		jumping_state = is_jumping()
 
-            -- if jumping_state == true and jump_started_on_frame ~= nil and curFrameCount - jump_started_on_frame > 0 then
-            --     keys = joypad.get()
-            --     away = globals.dummy.away_btn
-            --     keys[away] = true
-            --     joypad.set(keys)
-			-- end
+		-- if jumping_state == true and jump_started_on_frame ~= nil and curFrameCount - jump_started_on_frame > 0 then
+		--     keys = joypad.get()
+		--     away = globals.dummy.away_btn
+		--     keys[away] = true
+		--     joypad.set(keys)
 		-- end
-		_prevFrameCount = curFrameCount
     end
 }
 

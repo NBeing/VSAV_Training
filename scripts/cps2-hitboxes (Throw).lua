@@ -19,7 +19,7 @@ local boxes = {
 	         ["axis throw"] = {color = 0xFFAA00, fill = 0x40, outline = 0xFF}, --sfa, sfa2, nwarr
 	          ["throwable"] = {color = 0xF0F0F0, fill = 0x20, outline = 0xFF},
 }
-local serialize  	    = require './scripts/ser'
+
 local globals = {
 	axis_color           = 0xFFFFFFFF,
 	blank_color          = 0xFFFFFFFF,

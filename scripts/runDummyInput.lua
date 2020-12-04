@@ -1,8 +1,6 @@
 local start_frame = nil 
 local current_frame = -1
-local prevFrameCount = 0
 local frame_counter = 0
-local serialize  	    = require './scripts/ser'
 
 local function reset_frames()
     start_frame = nil
@@ -16,12 +14,10 @@ local function runDummyInput(inputs, numFrames, context, cleanup, should_do_acti
             current_frame = -1
 		end
 
-        if globals.game.cur_frame > prevFrameCount then
-            current_frame = current_frame + 1 
-		end
+        current_frame = current_frame + 1 
 
         keys = joypad.get()
-        -- print("current frame:", current_frame, "num frames", numFrames)
+
         if current_frame <= numFrames then
             if should_do_action == true then
                 for _, input in ipairs(inputs[current_frame]) do
@@ -35,8 +31,6 @@ local function runDummyInput(inputs, numFrames, context, cleanup, should_do_acti
     else 
         reset_frames()
     end
-
-    prevFrameCount = globals.game.cur_frame
 
 	return keys
 end

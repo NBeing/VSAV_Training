@@ -9,7 +9,6 @@ for _,var in ipairs({
 	var = nil
 end
 -- dofile("macro-options.lua", "r") --load the globals
-local serialize  	    = require './scripts/ser'
 local boxes = {
 	      ["vulnerability"] = {color = 0x7777FF, fill = 0x40, outline = 0xFF},
 	             ["attack"] = {color = 0xFF0000, fill = 0x40, outline = 0xFF},
@@ -341,10 +340,7 @@ define_box = {
 		if box.type == "push" then
 			obj.val_y, obj.rad_y = box.val_y, box.rad_y
 		end
-		if box.type == "attack" then
-			-- print(serialize(obj))
-			-- block_now = true
-		end
+
 		box.val_x  = (box.pos_x or obj.pos_x) + box.val_x * obj.flip_x
 		box.val_y  = (box.pos_y or obj.pos_y) - box.val_y
 		box.left   = box.val_x - box.rad_x
@@ -522,7 +518,6 @@ local update_hitboxes = function()
 	end
 	local screen_left_ptr = game.address.screen_left or game.get_cam_ptr()
 	local screen_top_ptr  = game.address.screen_top or screen_left_ptr + 0x4
-	-- print("Fb", serialize(frame_buffer))
 	for f = 1, DRAW_DELAY do
 		frame_buffer[f] = copytable(frame_buffer[f+1])
 	end
@@ -584,17 +579,7 @@ local draw_hitbox = function(hb)
 		not globals.draw_throwable_boxes and hb.type == "throwable",
 	}) then return
 	end
-	-- if hb["type"] == "attack" then
-	-- 	-- print("~~~~~~~~~~~~~~~~~~~")
-	-- 	-- print("Drawing", serialize(hb))
-	-- 	-- print("~~~~~~~~~~~~~~~~~~~")
-		
-	-- 	block_now = true
-	-- 	print("block now", block_now)
 
-	-- else
-	-- 	block_now = false
-	-- end
 	if globals.draw_mini_axis then
 		gui.drawline(hb.val_x, hb.val_y-globals.mini_axis_size, hb.val_x, hb.val_y+globals.mini_axis_size, boxes[hb.type].outline)
 		gui.drawline(hb.val_x-globals.mini_axis_size, hb.val_y, hb.val_x+globals.mini_axis_size, hb.val_y, boxes[hb.type].outline)
@@ -613,9 +598,7 @@ end
 _p2_attacking = false 
 
 local render_hitboxes = function()
-	-- gui.clearuncommitted()
 	local f = frame_buffer[1]
-	-- print(serialize(frame_buffer))
 	if not f.match_active then
 		return
 	end
@@ -774,12 +757,6 @@ cps2HitboxModule = {
 		end
 	end,
 	["registerBefore"] = function()
-		-- print(serialize(frame_buffer))
-		-- for k, v in ipairs(frame_buffer) do
-		-- 	for _k, _v in ipairs(v) do
-		-- 		print("k ",_k," : v ",serialize(_v))
-		-- 	end
-		-- end
 	end
 }
 return cps2HitboxModule

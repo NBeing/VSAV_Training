@@ -1,8 +1,4 @@
-local prevFrameCount = 0
 local frame_counter = 0
--- local random_num = nil
--- local next_should_gc = true
--- local next_delay = 0
 
 function get_gc_table( delay )
 
@@ -279,12 +275,11 @@ local function runInput(run_dummy_input, context)
 	)
 end
 local function runUpback(run_dummy_input, context)
-	-- print("run it")
 	local table = {}
 	tableMetadata = get_counter_table(0)
 	inputs     = tableMetadata["frame_input_table"]
 	num_frames = tableMetadata["num_frames"]
-	-- print(globals.dummy.next_should_upback)
+
 	return run_dummy_input(
 		inputs, 
 		num_frames, 
@@ -293,7 +288,7 @@ local function runUpback(run_dummy_input, context)
 		globals.dummy.next_should_gc
 	)
 end
-local serialize  	    = require './scripts/ser'
+
 local function runPB(run_dummy_input)
 	local table = {}
 	tableMetadata = get_pb_table(globals.dummy.next_gc_delay, globals.dummy.pb_type)
@@ -333,8 +328,6 @@ local function guardCancelCheck(run_dummy_input)
 	player_state_addr = 0xFF8800 + 0x04
 	player_state = memory.readword(player_state_addr)
 
-	prevFrameCount = globals.game.cur_frame
-	-- print("Guard action",globals.dummy.guard_action )
 	if globals.dummy.guard_action == 'none' then
 		return
 	elseif 	globals.options.gc_freq == 0 then
@@ -361,17 +354,10 @@ local function guardCancelCheck(run_dummy_input)
 		if wasJustGuarding == false and block_stun_timer ~= 0 then
 			wasJustGuarding = true
 			frameStartedGuarding = globals.game.cur_frame
-			-- print("Blocking started on", globals.game.cur_frame)
 		end
-
-		-- if block_stun_timer ~= 0 then
-			-- print("in guard stun", block_stun_timer)
-		-- end
 
 		if wasJustGuarding == true and block_stun_timer == 0 and block_stop ~= true then
 			frameEndedGuarding = globals.game.cur_frame
-			-- print("Done guarding", frameEndedGuarding)
-
 			wasJustGuarding = false
 		end
 		if globals.game.cur_frame < (numBlockStunExitInput + frameEndedGuarding) then 
@@ -389,7 +375,6 @@ local function guardCancelCheck(run_dummy_input)
 		p2_reversal = memory.readbyte(0xFF8800 + 0x174)
 		p1_reversal = memory.readbyte(0xFF8400 + 0x174)	
 
-		-- print("Rev Timer is: ", p2_reversal)
 		return runInput(run_dummy_input, p2_reversal > 0)
 
 	end

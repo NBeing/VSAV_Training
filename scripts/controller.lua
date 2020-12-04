@@ -1,5 +1,3 @@
-serialize = require './scripts/ser'
-
 function swap_inputs(_out_input_table)
   function swap(_input)
     local carry = _out_input_table["P1 ".._input]
@@ -18,7 +16,6 @@ function swap_inputs(_out_input_table)
   swap("Medium Kick")
   swap("Strong Kick")
 end
-local serialize  	    = require './scripts/ser'
 
 controllerModule = {
 

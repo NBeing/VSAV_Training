@@ -8,16 +8,12 @@
 
 -- for development purposes. It will make your logs noisy.
 log_debug = true
-
+-- show description of controller settings in lua window
+show_controls_message = true
 -----------------------------------
 -- HUD CONFIG
-
--- Shows lifebar value and character positions
-display_hud = true
--- Shows characters movelist
-display_movelist = false
 -- Display scrolling input
-scrolling_input = true
+scrolling_input = false
 -- Silence on screen frame data display 
 quiet_framedata = false
 -- Show position data
@@ -32,9 +28,10 @@ show_life = true
 -- Default for showing hitboxes can be toggled
 display_hitbox_default = true
 
+
 -- Configure what is displayed by the hitbox
 -- Whether to use the below config or not, if false it will use the default which is pretty much everything enabled except blank screen and throw boxes
-use_hb_config                  = false
+use_hb_config                  = true
 -- Fine grained hitbox data  
 hb_config_blank_screen         = false  -- setting this to true will show ONLY the hitboxes
 hb_config_draw_axis            = false -- This shows a pointer below your character
@@ -42,10 +39,6 @@ hb_config_draw_pushboxes       = false -- Enables pushbox (your characters 'coll
 hb_config_draw_throwable_boxes = true -- shows where you can be thrown
 hb_config_no_alpha             = false -- removes overlay inside boxes if true
 ------------------------------------------------------------
--- Enable frame data
-mo_enable_frame_data = true
---------------------------------------------------------------------------------
-mo_show_facing = true
 -- File handling settings
 
 -- name of the macro to be played

@@ -3046,9 +3046,9 @@ end
 --Distance Difference
 ------------------------------------------------------------------
 
-------------------------------------------------------------------
---Scrolling Input Display Originally by Dammit9x
-------------------------------------------------------------------
+-- ------------------------------------------------------------------
+-- --Scrolling Input Display Originally by Dammit9x
+-- ------------------------------------------------------------------
 
 iconfile     = "capcom-8.png"  --file containing the icons to be shown
 
@@ -3296,28 +3296,26 @@ vsavScriptModule = {
 		if type(idle) ~= "table" then idle = { [1] =    0, [2] =    0 } end
 	end,
 	["guiRegister"] = function()
-		if display_hud == true then
+		if globals.options.display_hud == true then
 			hud()
 		end
 	
 		projectile_onscreen(hud)
-		if display_movelist == true then
+		if globals.options.display_movelist == true then
 			movelist()
 		end 
 		charaspecfic()
-		for player = 1, 2 do
-			if draw[player] then
-				for line in pairs(inp[player]) do
-					for index,row in pairs(inp[player][line]) do
-						display(margin[player] + (index-1)*effective_width, margin[3] + (line-1)*icon_size, row)
+			if draw[2] then
+				for line in pairs(inp[2]) do
+					for index,row in pairs(inp[2][line]) do
+						display(margin[2] + (index-1)*effective_width, margin[3] + (line-1)*icon_size, row)
 					end
 				end
 			end
-		end
 	end,
 	["runCheats"] = function()
 		p1life()
-		p2life()
+		-- p2life()
 		checked()
 		timer()
 	end

@@ -331,8 +331,9 @@ blockStunRunCommand = false
 function string.starts(String,Start)
 	return string.sub(String,1,string.len(Start))==Start
  end
- 
-local function guardCancelCheck(run_dummy_input)
+local willEndReversalFrame = nil;
+
+local function guardCancelCheck(run_dummy_input, macroLua_funcs)
 	block_stun_timer_addr = 0xFF8558 + 0x400 
 	block_stun_timer = memory.readbyte(block_stun_timer_addr)
 	block_stop_addr = 0xFF8820 
@@ -381,24 +382,89 @@ local function guardCancelCheck(run_dummy_input)
 		else 
 			blockStunRunCommand = false
 		end
+		rev_timer = memory.readbyte(0xFF8974)
+		-- print("rev_timer", rev_timer)
+		-- print("block_stun_timer", block_stun_timer)
+		-- print("hit pause", memory.readword(0xFF8800 + 0x164))
+		-- print("throw invuln", memory.readword(0xFF8800 + 0x143))
+		-- print("P1 gc", memory.readbyte(0xFF8558))
 
-		return runUpback(run_dummy_input, blockStunRunCommand)
+		if wasJustGuarding == false and block_stun_timer ~= 0 then
+			wasJustGuarding = true
+			frameStartedGuarding = globals.game.cur_frame
+			-- print("Blocking started on", globals.game.cur_frame)
+		end
+
+		-- -- if block_stun_timer ~= 0 then
+		-- 	-- print("in guard stun", block_stun_timer)
+		-- -- end
+		-- print("rev timer", rev_timer)
+		-- if wasJustGuarding == true and rev_timer > 0 and block_stop ~= true then
+		-- 	frameEndedGuarding = globals.game.cur_frame
+		-- 	print("Done guarding", frameEndedGuarding)
+		-- 	blockStunRunCommand = true
+		-- 	wasJustGuarding = false
+		-- else
+		-- 	blockStunRunCommand = true
+		-- end
+		-- print("Here",blockStunRunCommand)
+		-- return runUpback(run_dummy_input, blockStunRunCommand)
+
+		-- print(blockStunRunCommand, wasJustGuarding,block_stun_timer, block_state, block_stop)
+		return runInput(run_dummy_input, blockStunRunCommand)
 	elseif globals.dummy.guard_action == 'reversal' then
 		if globals.options.counter_attack == 0 then
 			emu.message("Not running counter, please set counter type")
 			return
 		end
+		-- print("Before neutral wakeup", memory.readbyte(0xFF89A4))
+		-- print("reversak timer?", memory.readbyte(0xFF8943))
+
 		p2_reversal = memory.readbyte(0xFF8800 + 0x174)
-		p1_reversal = memory.readbyte(0xFF8400 + 0x174)	
+		p1_reversal = memory.readbyte(0xFF8400 + 0x174)
+		-- print("p2_reversal", p2_reversal)
+
 		return runInput(run_dummy_input, p2_reversal > 0)
 
+	elseif globals.dummy.guard_action == 'recording' then
+		if globals.options.counter_attack == 0 then
+			emu.message("Not running counter, please set counter type")
+			return
+		end
+		-- print("Is skip frame", globals.skip_frame )
+		-- print("block_stun_timer", block_stun_timer)
+		if wasJustGuarding == false and block_stun_timer ~= 0 then
+			wasJustGuarding = true
+			frameStartedGuarding = globals.game.cur_frame
+		end
+
+		if wasJustGuarding == true and block_stun_timer == 0 and block_stop ~= true then
+			frameEndedGuarding = globals.game.cur_frame
+			wasJustGuarding = false
+		end
+		-- if globals.game.cur_frame <= (numBlockStunExitInput + 2 + frameEndedGuarding) then 
+		-- 	blockStunRunCommand = true
+		-- else 
+		-- 	blockStunRunCommand = false
+		-- end
+
+		if globals.game.cur_frame <= (numBlockStunExitInput + frameEndedGuarding) then 
+			blockStunRunCommand = true
+		else 
+			blockStunRunCommand = false
+		end
+		-- print("Run it",blockStunRunCommand, "Timer: ", block_stun_timer, "Blocking?", block_state, "Stopped?", block_stop)
+		return runInput(run_dummy_input, blockStunRunCommand)
+		-- if blockStunRunCommand == true then
+		-- 	return macroLua_funcs.playcontrol(true)
+		-- end
 	end
 
 end
 
 guardCancelModule = {
-	["registerBefore"] = function(run_dummy_input)
-        return guardCancelCheck(run_dummy_input)
+	["registerBefore"] = function(run_dummy_input, macroLua_funcs)
+        return guardCancelCheck(run_dummy_input, macroLua_funcs)
     end
 }
 return guardCancelModule

@@ -752,7 +752,7 @@ cps2HitboxModule = {
 		update_hitboxes()
 	end,
 	["guiRegister"] = function(display_hitbox_default, use_hb_config)
-		if display_hitbox_default== true then
+		if display_hitbox_default == true then
 			render_hitboxes()
 		end
 	end,

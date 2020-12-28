@@ -251,10 +251,12 @@ local function get_guard_action()
         return 'gc' 
     elseif globals.options.guard_action == 0x2 then
         return 'pb'
-    -- elseif globals.options.guard_action == 0x3 then
-    --     return 'counter'
     elseif globals.options.guard_action == 0x3 then
+        return 'counter'
+    elseif globals.options.guard_action == 0x4 then
         return 'reversal'
+    -- elseif globals.options.guard_action == 0x5 then
+    --     return 'recording'
     else
         return 'none'
     end
@@ -279,6 +281,25 @@ local function get_pb_type()
     end
 
     return parsed
+end
+local function get_recording_slot()
+    pb_type = globals.options.recording_slot
+    slot = 'none'
+    if pb_type == 0x0 then
+        slot = 'last_recording.mis'
+    elseif pb_type == 0x1 then
+        slot = 'slot_1.mis'
+    elseif pb_type == 0x2 then
+        slot = 'slot_2.mis'
+    elseif pb_type == 0x3 then
+        slot = 'slot_3.mis'
+    elseif pb_type == 0x4 then
+        slot = 'slot_4.mis'
+    elseif pb_type == 0x5 then
+        slot = 'slot_5.mis'
+    end
+
+    return slot
 end
 local function get_dummy_state()
     config = {
@@ -306,6 +327,8 @@ local function get_dummy_state()
 
         setNextUpbackValue = setNextUpbackValue,
         setNextUpbackSeed  = setNextUpbackSeed,
+
+        recording_slot = get_recording_slot(), 
 
         pb_type        = get_pb_type(),
 

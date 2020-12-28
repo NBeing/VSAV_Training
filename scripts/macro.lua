@@ -632,9 +632,11 @@ local function finalize(t)
 	--Save the text.
 	local prefix = emu.romname and emu.romname() .. "-" or ""
 	local filename = prefix .. os.date("%Y-%m-%d_%H-%M-%S") .. ".mis"
-	if playbackfile == "last_recording.mis" then
-		filename = "last_recording.mis"
-	end
+	-- if playbackfile == "last_recording.mis" then
+	-- 	filename = "last_recording.mis"
+	-- end
+	filename = globals.dummy.recording_slot 
+
 	local file = io.output(path:gsub("\\", "/") .. filename)
 	file:write(text) --Write to file.
 	file:close() --Close the file.
@@ -670,48 +672,6 @@ local function bulletproof(active, f1, f2, t1, t2) --1 = current, 2 = loaded
 	return true
 end
 
--- if savestate.registersave and savestate.registerload then --registersave/registerload are unavailable in some emus
-
-	-- savestate.registersave(function(slot)
-	-- 	if mame then return emu.framecount() end
-	-- 	if playing then print("Saved progress to slot", slot, "while playing frame", frame) end
-	-- 	if recording then print("Saved progress to slot", slot, "while recording frame", recframe) end
-	-- 	if playing or recording then return frame, inputstream, macrosize, recframe, recinputstream end
-	-- end)
-	
-	-- savestate.registerload(function(slot)
-	-- 	if mame then
-	-- 		framediff = savestate.loadscriptdata(slot)
-	-- 		if playing and not framediff then
-	-- 			--[[if not (wait.duration or loopmode) then
-	-- 				print("Savestate " .. slot .. " has no framecount data. This macro may not play correctly!")
-	-- 				print("Resave this savestate with the script running and idle to avoid problems.")
-	-- 			end]]
-	-- 			framediff = emu.framecount()
-	-- 		end
-	-- 		return
-	-- 	end
-	-- 	if not playing and not recording then
-	-- 		return
-	-- 	end
-	-- 	if playing and not loopmode then
-	-- 		print("Loaded from slot", slot, "while playing frame", frame)
-	-- 	end
-	-- 	if recording then
-	-- 		print("Loaded from slot", slot, "while recording frame", recframe)
-	-- 	end
-	-- 	local tmp = {}
-	-- 	tmp.frame,tmp.inputstream,tmp.macrosize,tmp.recframe,tmp.recinputstream = savestate.loadscriptdata(slot)
-	-- 	playing = bulletproof(playing,frame,tmp.frame,inputstream,tmp.inputstream)
-	-- 	recording = bulletproof(recording,recframe,tmp.recframe,recinputstream,tmp.recinputstream)
-	-- 	frame          = tmp.frame          or frame
-	-- 	inputstream    = tmp.inputstream    or inputstream
-	-- 	macrosize      = tmp.macrosize      or macrosize
-	-- 	recframe       = tmp.recframe       or recframe
-	-- 	recinputstream = tmp.recinputstream or recinputstream
-	-- end)
-	
--- end
 
 local function dostate(f)
 	if stateop[f+1] then
@@ -762,22 +722,60 @@ local function dumpinputstream()
 			dump = dump .. "|\n"
 		end
 	end
-	local filename = playbackfile:gsub("%....$", "")
+	local filename = globals.dummy.recording_slot:gsub("%....$", "")
 	filename = filename .. "-inputstream.txt"
 	local file = io.output(path:gsub("\\", "/") .. filename)
 	file:write(dump) --Write to file.
 	file:close() --Close the file.
-	print("Converted " .. playbackfile .. " to " .. filename .. " (" .. macrosize .. " frames)") print()
+	print("Converted " .. globals.dummy.recording_slot .. " to " .. filename .. " (" .. macrosize .. " frames)") print()
 	return true
 end
-
+function stop_macro_playback()
+	if playing then 
+		playing = false
+	end
+end
+function start_macro_playback()
+		playing = true
+end
+local function get_playback_file()
+	local slot = globals.dummy.recording_slot
+	if globals.options.random_playback == true then
+		local slots = {
+			["1"] = {enabled = globals.options.enable_slot_1, filename = "slot_1.mis"},
+			["2"] = {enabled = globals.options.enable_slot_2, filename = "slot_2.mis"},
+			["3"] = {enabled = globals.options.enable_slot_3, filename = "slot_3.mis"},
+			["4"] = {enabled = globals.options.enable_slot_4, filename = "slot_4.mis"},
+			["5"] = {enabled = globals.options.enable_slot_5, filename = "slot_5.mis"}
+		}
+		local numItems = 0
+		local enabled_slots = {}
+		for k,v in pairs(slots) do
+			if v.enabled == true then
+				enabled_slots[numItems] = v.filename
+				numItems = numItems + 1
+			end
+		end
+		if numItems == 0 then
+			emu.message("No slots selected for playback")
+			return globals.dummy.recording_slot
+		end
+		local seed = math.random(0, numItems - 1)
+		slot = enabled_slots[seed]
+		return slot
+	else 
+		return slot
+	end
+end
 local function playcontrol(silent)
+	local slot = get_playback_file()
+	print(slot)
 	if not playing then
-		if not parse(playbackfile) or warning("Macro is zero frames long.", macrosize == 0) or dumpinputstream(dumpmode) then
+		if not parse(slot) or warning("Macro is zero frames long.", macrosize == 0) or dumpinputstream(dumpmode) then
 			return
 		end
 		if not silent then
-			print("Now playing " .. playbackfile .. " (" .. macrosize .. " frames)" .. (loopmode and " in loop mode" or wait.duration and " in incremental wait mode" or ""))
+			print("Now playing " .. slot .. " (" .. macrosize .. " frames)" .. (loopmode and " in loop mode" or wait.duration and " in incremental wait mode" or ""))
 		end
 		dostate(frame)
 		playing = true
@@ -968,7 +966,11 @@ macroLuaModule = {
 			return {
 				["playcontrol"] = playcontrol,
 				["reccontrol"] = reccontrol,  
-				["toggleloop"] = toggleloop
+				["toggleloop"] = toggleloop,
+				["stop_macro_playback"] = stop_macro_playback,
+				["start_macro_playback"] = start_macro_playback,
+				["recording"] = recording,
+				["playing"] = playing
 			}
 		end,
 

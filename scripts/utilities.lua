@@ -55,6 +55,7 @@ function do_tables_match (o1, o2, ignore_mt)
     end
     return true
 end
+
 function to_hex(num)
     local charset = {"0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"}
     local tmp = {}
@@ -65,6 +66,29 @@ function to_hex(num)
     return table.concat(tmp)
 end
 
+local last_frame_data = nil
+function printRamAddresses(start_addr, end_addr)
+	local current_frame_data = {}
+	for i = start_addr, end_addr, 1 do 
+		current_frame_data[to_hex(i)] = memory.readbyte(i)
+	end
+	diffs = {}
+	if last_frame_data ~= nil then 
+		for k,v in pairs(current_frame_data) do
+			if last_frame_data[k] ~= current_frame_data[k] then 
+				diffs[k] = v
+			end
+		end
+		print("\t",last_frame_data["frame"], "\t", emu.framecount())
+		
+	end
+	for k,v in pairs(diffs) do
+		print(k,"\t", v,"\t", last_frame_data[k], "\n")
+	end
+
+	last_frame_data = current_frame_data
+	last_frame_data["frame"] = emu.framecount()
+end
 function read_object_from_json_file(_file_path)
 	local _f = io.open(_file_path, "r")
 	if _f == nil then
@@ -134,13 +158,23 @@ function load_training_data()
 	end
 	-- restore_recordings()
 end
-  
+function disable_taunts()
+		-- Set remaining taunts to 0 for better start button behavior
+		memory.writebyte(0xFF8400 + 0x179, 0)
+		memory.writebyte(0xFF8800 + 0x179, 0)
+end
 utilitiesModule = {
     ["save_training_data"]         = save_training_data,
     ["load_training_data"]         = load_training_data,
     ["do_tables_match"]            = do_tables_match,
     ["to_hex"]                     = to_hex,
     ["read_object_from_json_file"] = read_object_from_json_file,
-    ["write_object_to_json_file"]  = write_object_to_json_file
+	["write_object_to_json_file"]  = write_object_to_json_file,
+	["registerStart"]              = function()
+		return {
+			printRamAddresses = printRamAddresses,
+			disable_taunts = disable_taunts,
+		}
+	end
 }
 return utilitiesModule

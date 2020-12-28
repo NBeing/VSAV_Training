@@ -141,6 +141,10 @@ local function update_frame_data()
 			count.freeze_details = count.prefreeze .. " (" .. count.superfreeze .. ") " .. count.postfreeze
 		end
 		print_results(count)
+		globals.set_last_data(
+			string.format("Startup  : %d\nAtkrecov : %d\nHitstun  : %d\nAdvantage: %+d\nHitfreeze: %d", 
+			count.startup, count.atkrecov, count.hitstun, count.advantage, count.hitfreeze, count.non_projectile, count.freeze_details)
+		)
 		count.active = false
 	end
 
@@ -173,7 +177,7 @@ frameDataModule = {
 	["registerAfter"] = function(mo_enable_frame_data, command_func)
 		gc_command = command_func
 		-- print("world",gc_command)
-		if mo_enable_frame_data == true then
+		if globals.options.mo_enable_frame_data == true then
 			register_count = register_count + 1
 			if register_count == game.update.cycle then
 				update_frame_data()
@@ -195,7 +199,7 @@ frameDataModule = {
 					game = module
 					-- print("tracking " .. shortname .. " frame data")
 					if fba and (emu.sourcename() == "CPS1" or emu.sourcename() == "CPS2") then
-						print("Warning: FBA gives inaccurate results for CPS1/CPS2.")
+						-- print("Warning: FBA gives inaccurate results for CPS1/CPS2.")
 					end
 					if game.supering then
 						-- print("Lua hotkey 2: toggle normal/super-only mode")

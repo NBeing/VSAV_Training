@@ -52,7 +52,7 @@ end
 function list_menu_item(_name, _object, _property_name, _list, _default_value)
     if _default_value == nil then _default_value = 0 end
     local _o = {}
-    -- print("_list", _list[0])
+
     _o.name = _name
     _o.object = _object
     _o.property_name = _property_name
@@ -182,8 +182,9 @@ guard_action_type = {
     [0] = "None",
     "Guard Cancel",
     "Push Block",
-    -- "Counter Attack",
-    "Reversal"
+    "Counter Attack",
+    "Reversal",
+    -- "Recording"
 }
 
 _push_block_type = {
@@ -230,18 +231,42 @@ guard = {
     "Block",
     "autoguard"
 }
-
+input_event_type = {
+  [0] = "None",
+  "Guard Cancel",
+  "Push Block"
+}
+recording_slot = {
+  [0] = "Last Recording",
+  "Slot 1",
+  "Slot 2",
+  "Slot 3",
+  "Slot 4",
+  "Slot 5",
+}
 -- function list_menu_item(_name, _object, _property_name, _list, _default_value)
 menu = {
     {
-        name = "Game Settings",
+        name = "Recording ",
         entries = {
-          checkbox_menu_item("Infinite Time", training_settings, "infinite_time"),
-          checkbox_menu_item("Show Hitboxes", training_settings, "show_hitboxes"),
+          list_menu_item("Recording Slot", training_settings, "recording_slot", recording_slot,0),
+          checkbox_menu_item("Random Playback (must enable looped playback!)", training_settings, "random_playback"),
+          checkbox_menu_item("Enable Slot 1", training_settings, "enable_slot_1"),
+          checkbox_menu_item("Enable Slot 2", training_settings, "enable_slot_2"),
+          checkbox_menu_item("Enable Slot 3", training_settings, "enable_slot_3"),
+          checkbox_menu_item("Enable Slot 4", training_settings, "enable_slot_4"),
+          checkbox_menu_item("Enable Slot 5", training_settings, "enable_slot_5"),
+        }
+      },
+      {
+        name = "Life/Meter",
+        entries = {
+          integer_menu_item("Max White Life", training_settings, "max_life", 0, 288, false, 288),
+          integer_menu_item("Refill Timer (seconds)", training_settings, "refill_timer", 0, 20, false, 1),
         }
       },
     {
-        name = "Dummy Settings",
+        name = "Defensive",
         entries = {
             list_menu_item("Pose", training_settings, "dummy_neutral", dummy_neutral,0),
             list_menu_item("Wakeup", training_settings, "roll_direction", roll_direction,0),
@@ -253,7 +278,22 @@ menu = {
             list_menu_item("Push Block Type", training_settings, "pb_type", _push_block_type,0),
             integer_menu_item("GC/PB Delay", training_settings, "gc_delay", 0, 15, false, 20),
         }
-    }
+    },
+    {
+      name = "HUD",
+      entries = {
+        integer_menu_item("Scroll input viewer", training_settings, "inp_history_scroll", 0, 80, false, 0),
+        checkbox_menu_item("HUD", training_settings, "display_hud"),
+        checkbox_menu_item("Movelist", training_settings, "display_movelist"),
+        checkbox_menu_item("Frame Data", training_settings, "mo_enable_frame_data"),
+        checkbox_menu_item("Recording GUI", training_settings, "display_recording_gui"),
+        checkbox_menu_item("Display Hitboxes", training_settings, "display_hitbox_default"),
+        checkbox_menu_item("Show Pushblock Counter", training_settings, "display_pb_counter"),
+        checkbox_menu_item("Show Damage Calc", training_settings, "show_damage_calc"),
+        checkbox_menu_item("Show Scrolling Input", training_settings, "show_scrolling_input"),
+        checkbox_menu_item("Show GC Trainer", training_settings, "show_gc_trainer"),
+      }
+    },
 }
 
 main_menu_selected_index = 1
@@ -261,7 +301,22 @@ is_main_menu_selected = true
 sub_menu_selected_index = 1
 current_popup = nil
 
+function togglemenu()
+	globals.show_menu =  not globals.show_menu
+	if globals.show_menu then
+		globals.controllerModule.disable_both_players()
+	else 
+		globals.controllerModule.enable_both_players()
+		globals.inpHistoryModule.reset_inp_history_scroll()
+	end
+end
+
 menuModule = {
+    ["registerStart"] = function()
+      return{
+        togglemenu = togglemenu
+      }
+    end,
     ["guiRegister"] = function()
         -- globals.show_menu = true
         if globals.show_menu then
@@ -402,17 +457,6 @@ menuModule = {
                 _draw_index = _draw_index + 1
             end
             end
-
-            -- check1 = checkbox_menu_item("Infinite Time", {["infinite_time"] = true}, "infinite_time")
-            -- check2 = checkbox_menu_item("Infinite Time", {["infinite_time"] = true}, "infinite_time")
-            -- check1:draw(100,100,true)
-
-            -- if mo_show_facing == true then            
-            --     gui.box(0, 0, 100, 20, text_default_color, text_default_border_color)
-            --     gui.text(5, 2, "p1_facing: "..globals.dummy.p1_facing, text_default_color, text_default_border_color)
-            --     gui.text(5, 10, "p2_facing: "..globals.dummy.p2_facing, text_default_color, text_default_border_color)
-            --     gui.text(5, 18, "P1 Y : "..memory.readword(0xFF8400 + 0x14), text_default_color, text_default_border_color)
-            -- end
         else
             gui.box(0,0,0,0,0,0) -- if we don't draw something, what we drawed from last frame won't be cleared
         end

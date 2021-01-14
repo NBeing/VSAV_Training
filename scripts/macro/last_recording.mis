@@ -1,3 +1,11 @@
-# vsavj 12/6/2020 10:45:16 PM
+# vsavj 12/31/2020 1:34:42 PM
 
-W13,_L.W27,^L..._R.W21,^R.
+< # Player 1
+W78,C.C.C.C.C.C.C.C.C.W8,_D.._L.W8,1.1.1.1.1.1.1.1.W30,^D^L.W67
+
+/ # Player 2
+W27,
+_D.._L..U.U.U.U.U.U.U.U.U.W20,_R.W4,^L.W46,L^D^R.D.DL1.W41,_D_R.W36,
+^D^R.W18
+
+>

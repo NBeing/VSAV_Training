@@ -27,7 +27,7 @@ img_7_dir,
 img_8_dir,
 img_9_dir
 }
-input_history_size_max = 30
+input_history_size_max = 80
 input_history = {
     {},
     {}
@@ -43,7 +43,7 @@ history_categories = {}
 history_recording_on = false
 history_category_count = 0
 current_entry = 1
-history_size_max = 80
+history_size_max = 100
 history_line_count_max = 25
 history_line_offset = 0
 local frame_number = 0
@@ -118,6 +118,19 @@ function string_to_color(_str)
 	return _color
   end
   
+  history_enabled = false
+  history_recording_on = false
+  history_categories_shown =
+{
+--   input = false,
+--   fight = true,
+--   parry_training_FORWARD = false,
+  -- PB = true,
+  -- GC = true,
+  -- hit_spark = true,
+  -- hit_spark = true,
+  -- idle = true
+}
 function history_add_entry(_section_name, _category_name, _event_name)
   if not history_enabled then return end
   if not history_recording_on then return end
@@ -221,7 +234,6 @@ function history_draw()
   local _y_start = 5
 
   local _line_height = 8
-  local _line_height = 2
   local _current_line = 0
   local _columns_start = { 0, 20, 200 }
   local _box_size = 6
@@ -302,6 +314,40 @@ function make_input_history_entry(_prefix, _input)
   }
 end
 
+
+function make_input_history_entry_for_graph(_prefix, _input)
+  local _up = _input[_prefix.." Up"]
+  local _down = _input[_prefix.." Down"]
+  local _left = _input[_prefix.." Left"]
+  local _right = _input[_prefix.." Right"]
+  local _direction = 5
+  if _down then
+    if _left then _direction = 1
+    elseif _right then _direction = 3
+    else _direction = 2 end
+  elseif _up then
+    if _left then _direction = 7
+    elseif _right then _direction = 9
+    else _direction = 8 end
+  else
+    if _left then _direction = 4
+    elseif _right then _direction = 6
+    else _direction = 5 end
+  end
+
+
+  return {
+      direction = _direction,
+      buttons = {
+        _input[_prefix.." Weak Punch"],
+        _input[_prefix.." Medium Punch"],
+        _input[_prefix.." Strong Punch"],
+        _input[_prefix.." Weak Kick"],
+        _input[_prefix.." Medium Kick"],
+        _input[_prefix.." Strong Kick"]
+      }
+  }
+end
 function is_input_history_entry_equal(_a, _b)
   if (_a.direction ~= _b.direction) then return false end
   if (_a.buttons[1] ~= _b.buttons[1]) then return false end
@@ -316,25 +362,110 @@ function is_input_history_entry_equal(_a, _b)
   end
   return true
 end
+function is_event_history_entry_equal(_a, _b)
+    if globals.options and globals.options.show_gc_trainer == true then 
+        if (_a.gc_event ~= _b.gc_event) then
+            print("Returning because equal gc") 
+            return false
+         end
+        if (_a.pb_event ~= _b.pb_event) then
+            print("Returning because equal pb")
 
-function update_input_history(_history, _prefix, _input)
-  local _entry = make_input_history_entry(_prefix, _input)
+             return false
+        end
+      end
+    return true    
+end
+function make_event_history_entry(event)
+    return {
+        type = "event",
+        frame = frame_number,
+        gc_event = globals.gc_event,
+        pb_event = globals.pb_event    
+    }
+end
+function update_input_history(_history, _prefix, _input, isEvent, event)
+  local entry
+  local inp_entry = make_input_history_entry_for_graph(_prefix, _input)
 
+  if isEvent then
+     _entry = make_event_history_entry(event)
+  else
+      _entry = make_input_history_entry(_prefix, _input)
+  end 
+  -- print("frame", frame_number, _prefix, globals.input_history[_prefix], #globals.input_history[_prefix])
+  if 
+    _prefix and
+    frame_number and
+    globals.input_history and
+    globals.input_history[_prefix] and
+    #globals.input_history[_prefix] == 0 and 
+    globals.input_history[_prefix][frame_number]
+  then
+    globals.input_history[_prefix][frame_number] = inp_entry
+  else
+    if gather_graph_data == true then 
+      local input_last_entry = globals.input_history[_prefix][#globals.input_history]
+      if input_last_entry and input_last_entry.frame and input_last_entry.frame ~= frame_number then
+        globals.input_history[_prefix][frame_number] = inp_entry
+        -- table.insert(globals.input_history, inp_entry)
+      end
+    else
+      globals.input_history = {}
+    end
+
+  end
   if #_history == 0 then
     table.insert(_history, _entry)
   else
     local _last_entry = _history[#_history]
-    if _last_entry.frame ~= frame_number and not is_input_history_entry_equal(_entry, _last_entry) then
-      table.insert(_history, _entry)
+    local _last_event_entry = nil
+    for i = #_history, 1, -1 do
+        if _last_event_entry == nil and _history[i].type == "event" then 
+            _last_event_entry = _history[i]
+        end
+    end
+    if isEvent then
+        -- if _last_entry.frame ~= frame_number and _last_event_entry ~= nil and not is_event_history_entry_equal(_entry, _last_event_entry) then
+        --     table.insert(_history, _entry)
+        -- end
+    else
+        if _last_entry.frame ~= frame_number and not is_input_history_entry_equal(_entry, _last_entry) then
+          table.insert(_history, _entry)
+        end
     end
   end
 
   while #_history > input_history_size_max do
     table.remove(_history, 1)
   end
+  
+  while #input_history > input_history_size_max do
+    table.remove(input_history, 1)
+  end
 end
 
 function draw_input_history_entry(_entry, _x, _y, color, step)
+  if _entry and _entry.type then
+    if _entry.gc_event == "p1_gc_begin" then
+      gui.text(_x + 1 , _y - 9, "GC", "#00FF00")
+      gui.box(_x + 10, _y - 9, _x + step - 1, _y - 4, "#99EE9977", "#99EE9977")
+    elseif _entry.gc_event == "p1_gc_in_progress" then
+      gui.box(_x , _y - 9, _x + step - 2, _y - 4, "#99EE9977","#99EE9977")
+    elseif _entry.gc_event == "p1_gc_ended" then
+      gui.text(_x + 1 , _y - 9, "GC", "#FF0000")
+    end
+    
+    if _entry.pb_event == "p1_pb_begin" then
+      gui.text(_x + 1 , _y - 9, "PB", "#00FF00")
+      gui.box(_x + 10 , _y - 9, _x + step - 1, _y - 4, "#99EE9977", "#99EE9977")
+    elseif _entry.pb_event == "p1_pb_in_progress" then
+      gui.box(_x , _y - 9, _x + step - 2, _y - 4, "#99EE9977","#99EE9977")
+    elseif _entry.pb_event == "p1_pb_ended" then
+      gui.text(_x + 1 , _y - 9, "PB", "#FF0000")
+    end
+    return
+  end
 	local no_buttons =  _entry.buttons[1] == false and
 						_entry.buttons[2] == false and
 						_entry.buttons[3] == false and
@@ -350,8 +481,8 @@ function draw_input_history_entry(_entry, _x, _y, color, step)
 			gui.box(_x , _y - 9, _x + step - 2, _y - 4, "#99EE9977","#99EE9977")
 		elseif _entry.gc_event == "p1_gc_ended" then
 			gui.text(_x + 1 , _y - 9, "GC", "#FF0000")
-        end
-        if _entry.pb_event == "p1_pb_begin" then
+    end
+    if _entry.pb_event == "p1_pb_begin" then
 			gui.text(_x + 1 , _y - 9, "PB", "#00FF00")
 			gui.box(_x + 10 , _y - 9, _x + step - 1, _y - 4, "#99EE9977", "#99EE9977")
 		elseif _entry.pb_event == "p1_pb_in_progress" then
@@ -359,7 +490,7 @@ function draw_input_history_entry(_entry, _x, _y, color, step)
 		elseif _entry.pb_event == "p1_pb_ended" then
 			gui.text(_x + 1 , _y - 9, "PB", "#FF0000")
 		end
-	end
+  end
 	if no_buttons and _entry.direction == 5 then
 		-- gui.box(_x -1 , _y - 1, _x + 30, _y + 20, color)
 		gui.text(_x + 1 , _y + 2, "IDLE", "#99EE99")
@@ -419,16 +550,19 @@ function draw_input_history(_history, _x, _y, _is_left)
 	scroll_offset = globals.options.inp_history_scroll
   end
   for _i = #_history - scroll_offset, 1, -1 do
-	local _entry = _history[_i]
-	-- print(_entry.event)
-	local state = nil
-	local no_buttons = _entry.buttons[1] == false and
+    local _entry = _history[_i]
+    local state = nil
+    local no_buttons
+    if _entry and _entry.type then
+        no_buttons = true
+    else
+        no_buttons = _entry.buttons[1] == false and
 		_entry.buttons[2] == false and
 		_entry.buttons[3] == false and
 		_entry.buttons[4] == false and
 		_entry.buttons[5] == false and
-		_entry.buttons[6] == false 
-
+		_entry.buttons[6] == false  
+    end
 	local step = 0
 	if no_buttons == false and _entry.direction ~= 5 then
 		state = "both"
@@ -508,8 +642,8 @@ function reset_inp_history_scroll()
     globals.options.inp_history_scroll = 0
 end
 local function handle_gc_event()
-    local block_stun_timer_addr = 0xFF8558 
-    local block_stun_timer = memory.readbyte(block_stun_timer_addr)
+    local hit_spark_timer_addr = 0xFF8558 
+    local hit_spark_timer = memory.readbyte(hit_spark_timer_addr)
     local p1_gc_timer = memory.readbyte(0xFF8558)
 
     if p1_gc_timer == 0 and globals.gc_event == "p1_gc_in_progress" then
@@ -520,11 +654,15 @@ local function handle_gc_event()
       history_add_entry("P1", "GC", globals.gc_event)
     elseif p1_gc_timer > 0 then
         globals.gc_event = "p1_gc_in_progress"
-        history_add_entry("P1", "GC", globals.gc_event)
+        -- history_add_entry("P1", "GC", globals.gc_event)
     elseif globals.gc_event == "p1_gc_ended" then 
       globals.gc_event = "p1_gc_none"
-      history_add_entry("P1", "GC", globals.gc_event)
+    --   history_add_entry("P1", "GC", globals.gc_event)
+    else 
+        return false
     end
+    return true
+
 end
 local function handle_pb_event()
 
@@ -533,37 +671,125 @@ local function handle_pb_event()
 
     if p1_tech_hit_timer == 0 and globals.pb_event == "p1_pb_in_progress" then
         globals.pb_event = "p1_pb_ended"
+        history_add_entry("P1", "PB", globals.pb_event)
     elseif globals.pb_event == "p1_pb_none" and p1_tech_hit_timer > 0 then
         globals.pb_event = "p1_pb_begin"
+        history_add_entry("P1", "PB", globals.pb_event)
     elseif p1_tech_hit_timer > 0 then
         globals.pb_event = "p1_pb_in_progress"
     elseif globals.pb_event == "p1_pb_ended" then 
         globals.pb_event = "p1_pb_none"
+    else 
+        return false
     end
+    return true
+
+end
+
+local p2_block_state_addr = 0xFF8806 
+local p2_prev_hitspark = false
+local p2_hitspark_in_progress = false
+local function handle_post_hitspark_event()
+    local p2_is_post_hitspark = memory.readbyte(p2_block_state_addr) == 0x02
+    -- print("blocking?", p2_is_post_hitspark)
+    if p2_is_post_hitspark and not p2_prev_hitspark then
+        globals.post_hit_spark_event = "p2_post_hitspark_begin"
+        p2_prev_hitspark = true
+        history_add_entry("P2", "hit_spark", globals.post_hit_spark_event)
+    elseif not p2_is_post_hitspark and p2_prev_hitspark then
+        globals.post_hit_spark_event = "p2_post_hitspark_end"
+        p2_prev_hitspark = false
+        history_add_entry("P2", "hit_spark", globals.post_hit_spark_event)
+    end
+    -- if p2_hit_spark_timer == 0 and globals.hit_spark_event == "p2_hit_spark_in_progress" then
+    --     globals.hit_spark_event = "p2_hit_spark_ended"
+    --     history_add_entry("P2", "hit_spark", globals.hit_spark_event)
+    -- elseif globals.hit_spark_event == "p2_hit_spark_none" and p2_hit_spark_timer > 0 then
+    --     globals.hit_spark_event = "p2_hit_spark_begin"
+    --     history_add_entry("P2", "hit_spark", globals.hit_spark_event)
+    -- elseif p2_hit_spark_timer > 0 then
+    --     globals.hit_spark_event = "p2_hit_spark_in_progress"
+    -- elseif globals.hit_spark_event == "p2_hit_spark_ended" then 
+    --     globals.hit_spark_event = "p2_hit_spark_none"
+    -- else 
+    --     return false
+    -- end
+    -- return true
+end
+
+local p2_hit_spark_timer_addr = 0xFF8558 + 0x400 
+local function handle_hit_spark_event()
+    local p2_hit_spark_timer = memory.readbyte(p2_hit_spark_timer_addr)
+
+    if p2_hit_spark_timer == 0 and globals.hit_spark_event == "p2_hit_spark_in_progress" then
+        globals.hit_spark_event = "p2_hit_spark_ended"
+        history_add_entry("P2", "hit_spark", globals.hit_spark_event)
+    elseif globals.hit_spark_event == "p2_hit_spark_none" and p2_hit_spark_timer > 0 then
+        globals.hit_spark_event = "p2_hit_spark_begin"
+        history_add_entry("P2", "hit_spark", globals.hit_spark_event)
+    elseif p2_hit_spark_timer > 0 then
+        globals.hit_spark_event = "p2_hit_spark_in_progress"
+    elseif globals.hit_spark_event == "p2_hit_spark_ended" then 
+        globals.hit_spark_event = "p2_hit_spark_none"
+    else 
+        return false
+    end
+    return true
+end
+
+function handle_idle_event( was_gc_event, was_pb_event,_was_hit_spark_event)
+    if history and not history[#history] then
+        history_add_entry("P1", "idle", "Begin")
+        history_add_entry("P2", "idle", "Begin")
+        
+    end
+    -- local last_event_was_idle = nil
+    -- if history and history[#history] then
+    --     last_event_was_idle = history[#history].events[1].category == "idle" and history[#history].events[2].category == "idle"
+    -- end
+
+    -- if not was_gc_event and 
+    --     not was_pb_event and 
+    --     not was_hit_spark_event and 
+    --     not last_event_was_idle
+    -- then
+    --     -- last_event_was_idle = true
+    --     history_add_entry("P1", "idle", "No Event")
+    --     history_add_entry("P2", "idle", "No Event")
+    -- end
+
 end
 local inpHistoryModule = {
     ["registerStart"] = function()
         return {
-            reset_inp_history_scroll = reset_inp_history_scroll
+            reset_inp_history_scroll = reset_inp_history_scroll,
+            draw_input_history_entry = draw_input_history_entry
         }
     end,
-    ["registerBefore"] = function()
+    ["registerBefore"] = function(_input)
         frame_number = emu.framecount()
-        local _input = joypad.get()
-        handle_gc_event()
-        handle_pb_event()
+        -- local _input = joypad.get()
+        local was_gc_event = handle_gc_event()
+        -- local was_pb_event = handle_pb_event()
+        -- local was_hit_spark_event = handle_hit_spark_event()
+        -- handle_post_hitspark_event()
+        -- handle_idle_event(was_gc_event, was_pb_event,_was_hit_spark_event)
+
         if globals.show_menu ~= true then
+            update_input_history(input_history[1], "P1", _input, true, {})
             update_input_history(input_history[1], "P1", _input)
-            -- update_input_history(input_history[2], "P2", _input)
+            update_input_history(input_history[2], "P2", _input)
             history_update()				
             return
         end
     end,
-    ["guiRegister"] = function()
-        local _i = joypad.get()
+    ["guiRegister"] = function(_i)
+        -- local _i = joypad.get()
 		
-		local _p1 = make_input_history_entry("P1", _i)
-		local _p2 = make_input_history_entry("P2", _i)
+      local _p1 = make_input_history_entry("P1", _i)
+      local _p2 = make_input_history_entry("P2", _i)
+      globals.p1 = _p1
+      globals.p2 = _p2 
 		-- gui.rect(p1_inp_disp_x,p1_inp_disp_y ,p1_inp_disp_x + 35 ,p1_inp_disp_y + 10,"#000000")
 		-- gui.rect(p2_inp_disp_x,p1_inp_disp_y ,p2_inp_disp_x + 35 ,p1_inp_disp_y + 10,"#000000")
 
@@ -573,7 +799,8 @@ local inpHistoryModule = {
 		local input_underlay_x = 0
 		local input_underlay_y = emu.screenheight() - 21
 		gui.box(input_underlay_x, input_underlay_y, emu.screenwidth(), input_underlay_y + 25 ,"#00000099", "#00000055")
-		draw_input_history(input_history[1], emu.screenwidth() - 15 + globals.options.inp_history_scroll, input_underlay_y + 2, true) 
+        draw_input_history(input_history[1], emu.screenwidth() - 15 + globals.options.inp_history_scroll, input_underlay_y + 2, true) 
+        history_draw()
     end
 }
 return inpHistoryModule

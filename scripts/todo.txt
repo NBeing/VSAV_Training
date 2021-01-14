@@ -1,9 +1,59 @@
-0x143 Throw Invulnerability Timer 
-0x147 	Invincibility Timer 
-0x121 	Return to Neutral Flag 
-0x114 	Back Dash Flag 
-0x109 	Meter Stock
-0x10A 	WORD Super Meter Value 
-0x5C 	Hit-Pause Timer 
+Completed
+The Dreaded Reversals
+    ✓ Scrutinize reversal timings
+    ✓ Allow all guard actions to use perfect reversal or bullet proof options
 
-Menu off when returning to char select
+Dark Force 
+    ✓ Infinite dark force timer
+    ✓ Darkforce Reversals (explained by kyle), and dark force button selection for all guard actions
+
+Menu
+    ✓ Make sure all options enable/disable their sub options in the menu
+    ✓ Force menu off when returning to char select (easy to fix, just havent gotten to it)
+    ✓ Finish off all per option descriptions
+
+Recording
+    ✓ Right now recording slots are character specific, add general (non specific) slots as well
+
+Character Selection
+    ✓ Infinite character select time
+        0x26 	Character Select Timer Minutes
+        0x27 	Character Select Timer Seconds
+Throws
+    ✓ Implement throw tech option
+Guard
+    ✓ Random block 
+
+TODO:
+The Dreaded Reversals
+    - Iron out showing PB/GC/R in input display (this is easy but annoying bc of gui permutations)
+    - randomized character specific reversals (e.g. i want a Soul Fist OR Shadow Blade or DI as my reversal randomly). 
+    - Randomized "manual" reversal options e.g. "I want upback + button OR 5lp as a counter attack". Recording slots can already be randomized.
+
+Menu
+    - In menu general tutorial text (should be easier to digest than menu digging for descriptions)
+
+Throws
+    - Also grapple mashes
+
+Character Selection
+    - Fun but not necessary: Character pallette swaps on char select (Kyle doing this was so cool!)
+
+Recording
+    - Give recording side swap another go (**difficult**)
+
+Distribution
+    - TEST TEST TEST and send to your favorite BETA tester friends
+    - Create videos for training mode usage and common training scenarios
+    - Distribute :)
+
+Guard
+    - Simple adaptive guard (i.e. switch to blocking low if its a low move, probably not sooo bad because no standing lows or low hitting specials iirc)
+    - Try to smooth over the blocking algo
+    - chicken guard
+
+Possible ideas (not all investigated):
+- Investigate and create GUI countdowns if possible for:
+  0x143   Throw Invulnerability Timer 
+  0x147 	Invincibility Timer 
+- Option to show the values of various block timers on screen (hit spark, push back etc)

@@ -7,28 +7,23 @@
 --VSAV training script options
 
 -- for development purposes. It will make your logs noisy.
-log_debug = true
+log_debug = false
 -- show description of controller settings in lua window
 show_controls_message = true
+
 -----------------------------------
 -- HUD CONFIG
--- Display scrolling input
-scrolling_input = false
 -- Silence on screen frame data display 
 quiet_framedata = false
 -- Show position data
-show_position = true
+show_position = false
 -- Show meter data
 show_meter = true
 -- Show life data
 show_life = true
+
 -------------------------------------------------
 --VSAV hitbox script options
-
--- Default for showing hitboxes can be toggled
-display_hitbox_default = true
-
-
 -- Configure what is displayed by the hitbox
 -- Whether to use the below config or not, if false it will use the default which is pretty much everything enabled except blank screen and throw boxes
 use_hb_config                  = true
@@ -37,7 +32,7 @@ hb_config_blank_screen         = false  -- setting this to true will show ONLY t
 hb_config_draw_axis            = false -- This shows a pointer below your character
 hb_config_draw_pushboxes       = false -- Enables pushbox (your characters 'collision' box rather than hurtbox)
 hb_config_draw_throwable_boxes = true -- shows where you can be thrown
-hb_config_no_alpha             = false -- removes overlay inside boxes if true
+hb_config_no_alpha             = true -- removes overlay inside boxes if true
 ------------------------------------------------------------
 -- File handling settings
 

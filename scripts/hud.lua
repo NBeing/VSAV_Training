@@ -51,12 +51,20 @@ local function draw_pb_counter()
 		globals.timers.p1_pushblock_counter = 0
 	end
 end
+local function draw_controlling()
+	if globals.controlling_p1 == true then 
+		gui.text( 2, 2, "Controlling: P1")
+	else 
+		gui.text( 2, 2, "Controlling: P2")
+	end
+end
 local hudModule = {
     ["registerStart"] = function()
     end,
     ["guiRegister"] = function()
 		draw_fd()
 		draw_pb_counter()
+		draw_controlling()
 		if globals.options.display_recording_gui == true then
 			draw_rec()
 		end

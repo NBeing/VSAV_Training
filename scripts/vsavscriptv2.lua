@@ -34,7 +34,7 @@ local function hud()
 	if globals.show_meter == true then
 		gui.text(34,207,"Meter: ".. memory.readword(0xFF850A))
 	end
-	if globals.show_place == true then
+	if globals.show_position == true then
 		gui.text(34,198,"Place: " .. memory.readdword(0xFF8410) .. "," .. memory.readdword(0xFF8414))
 	end
 	-- gui.text(0,0,"Taunts: " .. memory.readbyte(0xFF8579))
@@ -67,7 +67,7 @@ local function hud()
 	if globals.show_meter == true then
 		gui.text(312,207,"Meter: ".. memory.readword(0xFF890A))
 	end
-	if globals.show_place == true then
+	if globals.show_position == true then
 		gui.text(260,198,"Place: " .. memory.readdword(0xFF8810) .. "," .. memory.readdword(0xFF8814))
 	end
 	-- gui.text(344,0,"Taunts: " .. memory.readbyte(0xFF8979))

@@ -186,6 +186,8 @@ frameDataModule = {
 				register_count = 0
 			end
 			last_frame = emu.framecount()
+		else
+			globals.set_last_data("")
 		end
 	end,
 	["registerStart"] = function(mo_enable_frame_data)

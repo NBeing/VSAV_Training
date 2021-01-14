@@ -1,5 +1,5 @@
 for _,var in ipairs({playbackfile, use_last_recording,
-					path,playkey,recordkey,togglepausekey,toggleloopkey,longwait,longpress,longline,framemame, 
+					path,playkey,recordkey,togglepausekey,toggleloopkey,longwait,longpress,longline,framemame, show_position,
 					 display_recording_gui,
 					 use_hb_config, hb_config_blank_screen, hb_config_draw_axis, hb_config_draw_pushboxes, hb_config_draw_throwable_boxes, hb_config_no_alpha,
 					 mo_enable_frame_data, debug, quiet_framedata, show_controls_message}) do
@@ -13,6 +13,7 @@ end
 dofile("macro-options.lua", "r") --load the globals
 dofile("macro-modules.lua", "r")
 
+serialize  	    = require './scripts/ser'
 local configModule      = require './scripts/config'
 training_settings_file  = "training_settings.json"
 training_settings       = configModule.default_training_settings
@@ -26,9 +27,7 @@ local guardCancelModule = require "./scripts/guardCancel"
 local autoguardModule   = require "./scripts/autoguard"
 local gameStateModule   = require './scripts/gameState'
 local dummyStateModule  = require './scripts/dummyState'
-local runInputModule    = require './scripts/runDummyInput'
 local neutralModule     = require './scripts/dummyNeutral' 
-serialize  	    = require './scripts/ser'
 local util              = require './scripts/utilities'
 local playerObject      = require './scripts/playerObject'
 local menuModule        = require './scripts/menu'
@@ -37,9 +36,10 @@ local cps2HitboxModule  = require "./scripts/cps2-hitboxes"
 local healthAndMeter    = require "./scripts/healthAndMeter"
 local hudModule         = require "./scripts/hud"
 local timersModule      = require "./scripts/timers"
+local throwTechModule   = require "./scripts/throwTech"
 
-
-local frameskipHandlerModule = require "./scripts/frameskipHandler"
+print(training_settings.p2_max_life)
+-- local frameskipHandlerModule = require "./scripts/frameskipHandler"
 
 if show_controls_message == true then
 	print("* Press Start open the training menu..")
@@ -52,6 +52,47 @@ end
 
 local p1_addr = 0xFF8400
 local p2_addr = 0xFF8800
+last_dummy_config = {  }
+last_dummy_dict = {}
+local graph_data = nil
+function update_graph_data()
+	local keyset={}
+	local n=0
+	for k,v in pairs(last_dummy_config) do
+		n=n+1
+		if tonumber(k) ~= nil then
+			keyset[tonumber(k)]=v
+		end
+	end
+
+	local sorted = {}
+	for k, v in pairs(keyset) do
+		table.insert(sorted,{frame = k, state = v})
+	end
+
+	table.sort(sorted, function(a,b) 
+		return a["frame"] < b["frame"] 
+	end)
+	local min_items = 7
+	local chopped = {}
+	local chop_index = - min_items
+	for key, val in pairs(sorted) do
+		if 
+			(chop_index > globals.graph_data_index and chop_index < globals.graph_data_index + 7) 
+		then 
+			table.insert(chopped,{frame = val.frame, state = val.state})
+		end
+
+		chop_index = chop_index + 1
+
+	  end
+	  
+	graph_data = chopped
+end
+
+local init_clock = 0
+local fc = 0
+local prev_frames = {}
 
 globals = {
 	game_state      = nil,
@@ -66,8 +107,10 @@ globals = {
 	show_life = show_life,
 	timers = {},
 	dmg_calc = {
-		red_life = training_settings.max_life,
-		white_life = training_settings.max_life
+		p2_red_life = training_settings.p2_max_life,
+		p2_white_life = training_settings.p2_max_life,
+		p1_red_life = training_settings.p1_max_life,
+		p1_white_life = training_settings.p1_max_life,
 	},
 	skip_frame = false,
 	macroLua = nil,
@@ -78,21 +121,36 @@ globals = {
 	gc_event = "p1_gc_none",
 	pb_event = "p1_pb_none",
 	controllerModule = nil,
+	dummyStateModule = nil,
 	util = nil,
 	menuModule = nil,
+	frameskipReady = false,
+	graph_data_index = 0,
+	graph_data_max = 8,
+	show_graph_menu = false,
+	update_graph_data = update_graph_data,
+	input_history = {P1 ={}, P2 = {}},
+	_input = {},
+	parsed_dummy_state = {},
+	graph_data_max = 100,
+	playing = false,
+	recording = false,
 }
+
+local gather_graph_data = false
+local was_gathering_graph_data = false
 
 input.registerhotkey(5, function()
 	print("Debug", emu.framecount())
 	-- print("=======p1======")
 	-- globals.util.printRamAddresses(0xFF8400, 0xFF8400 + 0x400)
-	print("=======p2======")
-	globals.util.printRamAddresses(0xFF8800, 0xFF8800 + 0x400)
+	print("=======RESETTING======")
+	-- globals.util.printRamAddresses(0xFF8800, 0xFF8800 + 0x400)
 end)
-
 
 input.registerhotkey(4, function()
 	-- Return to char select
+	globals.show_menu = false
 	memory.writebyte(0xFF8005, 0x0C)
 	last_fd = ""
 end)
@@ -100,9 +158,10 @@ input.registerhotkey(3, function()
 	globals.macroLua.toggleloop()
 end)
 toggleloop = nil
-
 emu.registerstart(function()
+
 	util.load_training_data()
+	-- globals.frameSkipHandlerModule = frameskipHandlerModule.registerStart()
 	globals["options"] = configModule.registerBefore()
 	globals.show_menu = false
 	globals.controllerModule = controllerModule.registerStart()
@@ -111,79 +170,134 @@ emu.registerstart(function()
 	globals.inpHistoryModule.reset_inp_history_scroll()
 	globals.menuModule = menuModule.registerStart()
 	player_objects = {
-		playerObject.make_player_object(1, 0x02068C6C, "P1"),
-		playerObject.make_player_object(2, 0x02069104, "P2")
-	  }
-	frameDataModule.registerStart(mo_enable_frame_data, quiet_framedata)
+		playerObject.make_player_object(1, 0xFF8400, "P1"),
+		playerObject.make_player_object(2, 0xFF8800, "P2")
+	}
+	P1 = player_objects[1]
+	P2 = player_objects[2]
+	
+	frameDataModule.registerStart(globals.options.mo_enable_frame_data, quiet_framedata)
 	cps2HitboxModule.registerStart()
 	macroLuaModule.registerStart()
 
 end)
 
 emu.registerbefore(function()
-	function to_hex(num)
-		local charset = {"0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"}
-		local tmp = {}
-		repeat
-			table.insert(tmp,1,charset[num%16+1])
-			num = math.floor(num/16)
-		until num==0
-		return table.concat(tmp)
-	end
-	function lookForValue(start_addr, end_addr, player)
-		for i = start_addr, end_addr, 1 do 
-			val = memory.readbyte(i)
-			-- if val == 12 then print("found 12", to_hex(i), val) end
-			if val == 11 then print(player.."==== found 11", to_hex(i), val) end
-		end
-	end
-	-- print("block_stun_timer", block_stun_timer)
-	-- print("hit pause", memory.readword(0xFF8800 + 0x164))
-	-- print("569", memory.readbyte(0xff8569))
-	-- print("958", memory.readbyte(0xff8958))
-	-- print("9ab", memory.readbyte(0xff89ab))
-	-- print("9ab", memory.readbyte(0xff89FC))
-	-- lookForValue(0xFF8400, 0xFF8400 + 0x400, "P1")
-	-- lookForValue(0xFF8800, 0xFF8800 + 0x400, "P2")
-
-	inpHistoryModule.registerBefore()
-	match_begun = gameStateModule.registerBefore().match_begun
-	if match_begun == false then
+	-- fc = fc + 1
+    -- if fc % 60 == 0 then 
+    --     local cur_clock = os.clock()
+    --     print("ending at", cur_clock)
+    --     print("It takes this amount of time to run 60 frame", cur_clock - init_clock )
+    --     table.insert(prev_frames, 1, {cur_clock - init_clock})
+    --     fc = 0
+    --     init_clock = cur_clock
+    -- end
+    -- if tablelength(prev_frames) == 6 then
+    --     print(serialize(prev_frames))
+	-- end
+	gameStateModule.registerBefore()
+	if globals.game_state.match_begun == false then
 		return
 	end
+	charMovesModule.registerBefore()
 
-	if globals.controlling_p1 == true then 
-		p1 = playerObject.read_player_vars(player_objects[1])
-		p2 = playerObject.read_player_vars(player_objects[2])
-		gui.text( 2, 2, "Controlling: P1")
-	else 
-		gui.text( 2, 2, "Controlling: P2")
-	end
-	globals["options"] = configModule.registerBefore()
-	globals["game"]    = gameStateModule.registerBefore() 
-	globals["dummy"]   = dummyStateModule.registerBefore()
-	globals["skip_frame"] = frameskipHandlerModule.registerBefore()
-	globals["timers"] = timersModule.registerBefore()
+	globals["options"] 		 = configModule.registerBefore()
+	globals["game"]    		 = gameStateModule.registerBefore() 
+	globals["char_moves"]    = charMovesModule.registerBefore()
+	globals["dummy"]   		 = dummyStateModule.registerBefore().get_dummy_state()
+	-- globals["skip_frame"] 	 = frameskipHandlerModule.registerBefore()
+	globals["timers"] 		 = timersModule.registerBefore()
+	globals["current_frame"] = emu.framecount()
+	-- print("rev", globals.dummy.p2_reversal)
 
 	globals.util.disable_taunts()
-	neutralModule.registerBefore()
 	healthAndMeter.registerBefore()
-	runDummyInput = runInputModule.registerBefore()
 	cps2HitboxModule.registerBefore()
-	autoguardModule.registerBefore()
-	globals.macroLua  = macroLuaModule.registerBefore()
 	rollingModule.roll()
-	controllerModule.registerBefore()
+
 	globals.controllerModule.handle_hotkeys()
-	gc_keys = guardCancelModule.registerBefore(runDummyInput, globals.macroLua)
+
+	globals._input = controllerModule.registerBefore()
+	globals.macroLua  = macroLuaModule.registerBefore()
+
+
+	-- if globals.macroLua and (globals.macroLua.playing == true or globals.macroLua.recording == true) then
+	-- 	if was_gathering_graph_data == false then
+	-- 		last_dummy_config = {}
+	-- 	end
+	-- 	gather_graph_data = true
+	-- 	was_gathering_graph_data = true
+	-- else 
+	-- 	gather_graph_data = false
+	-- 	was_gathering_graph_data = false
+	-- end
+
+	if 
+		globals and
+		globals.current_frame and 
+		-- gather_graph_data and
+		last_dummy_config 
+	then
+		last_dummy_config[globals.current_frame] = globals.parsed_dummy_state
+		last_dummy_dict[globals.current_frame] = globals["dummy"]
+		if util.tablelength(last_dummy_config) > globals.graph_data_max then
+			last_dummy_dict[globals.current_frame - globals.graph_data_max]  = nil 
+			last_dummy_config[globals.current_frame - globals.graph_data_max] = nil
+		end
+	end
+
+	playerObject.read_player_vars(player_objects[1])
+	playerObject.read_player_vars(player_objects[2])
+	
+	if globals.macroLua.playing == true then
+		local macroLua_keys = globals.macroLua.get_keytable()
+		for k,v in pairs(macroLua_keys) do globals._input[k] = v end
+	else
+		local dummy_neutral_keys = neutralModule.registerBefore(globals._input)
+		autoguardModule.registerBefore(dummy_neutral_keys)
+		local gc_keys = guardCancelModule.registerBefore()
+		throwTechModule.registerBefore(globals._input)
+	end
+
+	globals.controllerModule.process_pending_input_sequence(player_objects[1], globals._input)
+	globals.controllerModule.process_pending_input_sequence(player_objects[2], globals._input)
+
+
+	-- local p2_horizontal_charge = memory.readword(0xFF8740 + 0x400)
+	-- local p2_horizontal_charge_1 = memory.readbyte(0xFF8800 + 0x316)
+	-- local p2_horizontal_charge_2 = memory.writebyte(0xFF8800 + 0x33E, 0x3C)
+
+	-- print(p2_horizontal_charge, p2_horizontal_charge_1,p2_horizontal_charge_2)
+	joypad.set(globals._input)
+
+	inpHistoryModule.registerBefore(globals._input)
+	-- VerticalCharge Value is at PL1/PL2 + 0x33E & 0x34E
+	-- A successful charge value is equal to or greater than a value of 0x3C
+	-- That address is a WORD and there is address 0x33C & 0x34c that starts at at 
+	-- value 0x3C and reduces the value until value 0x00, this is another check for the charge function.
+	
+	-- I did find anotehr indication that a charge time is complete.
+	-- Horizontal Charge State Address = 0xFF8740. 
+	-- Where a "charging" value is 0x02 and a sucessful charge is value "0x04".
+
+	-- Vertical Charge State Address = 0xFF8738 & 0xFF8748.
+	-- Where a "charging" value is 0x02 and a sucessful charge is value "0x04".
+
 end)
 
 
 emu.registerafter(function() --recording is done after the frame, not before, to catch input from playing macros
-	match_begun = gameStateModule.registerBefore().match_begun
-	if match_begun == false or globals == nil or globals.options == nil then
+	if globals.game_state.match_begun == false or globals == nil or globals.options == nil then
 		return
 	end
+	if memory.readdword(0xFF8804) == 0x02020400 then
+		-- print("reversal frame registered after frame was drawn", emu.framecount())		
+		-- local current = last_dummy_dict[globals.current_frame]
+		-- current.p2_reversal_frame = true
+		memory.writebyte(0xFF8902, 0x00)
+		memory.writebyte(0xFF8906, 0x02)
+	end
+
 	vsavScriptModule.registerAfter()
 	cps2HitboxModule.registerAfter()
 	frameDataModule.registerAfter(globals.options.mo_enable_frame_data)
@@ -204,13 +318,15 @@ if savestate.registersave and savestate.registerload then --registersave/registe
 
 		globals["options"] = configModule.registerBefore()
 		globals["game"]    = gameStateModule.registerBefore() 
-		globals["dummy"]   = dummyStateModule.registerBefore()
+		globals["dummy"]   = dummyStateModule.registerBefore().get_dummy_state()
 
 		configModule.registerBefore()
 		frameDataModule.registerLoad()
 		vsavScriptModule.registerLoad(slot)
 		cps2HitboxModule.registerLoad()
 		macroLuaModule.registerLoad(slot)
+		globals.dmg_calc.red_life = 0
+		globals.dmg_calc.white_life = 0
 		input_history[1] = {}
 		input_history[2] = {}
 	end)
@@ -221,32 +337,107 @@ emu.registerexit(function() --Attempt to save if the script exits while recordin
 	if recording then recording = false finalize(recinputstream) end
 end)
 
-
 ----------------------------------------------------------------------------------------------------
 --[[ Handle pausing in the while true loop. ]]--
 while true do
 	gui.register(function()
+		-- if memory.readdword(0xFF8804) == 0x02020400 then
+		-- 	print("reversal frame registered during gui lifecycle hook")
+		-- end
+	
 		if globals == nil or globals.options == nil then
 			return
 		end
-		match_begun = gameStateModule.registerBefore().match_begun
-		if match_begun == false then
+		if globals.game_state and globals.game_state.match_begun == false then
 			return
 		end
-
 		hudModule.guiRegister()
 		vsavScriptModule.guiRegister(display_hud, display_movelist)
 		cps2HitboxModule.guiRegister(globals.options.display_hitbox_default, use_hb_config)
 		vsavScriptModule.runCheats()
-		inpHistoryModule.guiRegister()
 		menuModule.guiRegister()
-		
+		if globals.options.show_scrolling_input == true then
+			inpHistoryModule.guiRegister(globals._input)
+		end
+
+	  
+		-- local frame_index = 0
+
+		-- local step_x = 50
+		-- local step_y = 10
+		-- local init_x = 2
+		-- local init_y = 2
+		-- local current_x = 0
+		-- local current_y = 0 
+		-- if 
+		-- 	graph_data ~= nil 
+		-- 	and globals.show_graph_menu == true 
+		-- 	and globals.input_history 
+		-- 	and globals.input_history.P2 
+		-- then
+		-- 	gui.box(0,0,emu.screenwidth(), emu.screenheight(),"black")
+		-- 	update_graph_data()
+		-- 	local added_space = 0
+
+		-- 	for k, v in ipairs(graph_data) do
+		-- 		if frame_index == 0 then
+
+		-- 			local index_row = 0 
+
+		-- 			for _k, _v in pairs(v["state"]) do
+		-- 				local __x = init_x
+		-- 				local __y = init_y + 12 +  10 + ( step_y * index_row )
+		-- 				if type(_v.value) ~= "function" then
+		-- 					if tostring(_v.name) == "p2_input" then
+		-- 						added_space = 8
+		-- 					end
+		-- 					gui.text(__x,__y + added_space, _v.name)
+		-- 					index_row = index_row + 1
+		-- 				end
+		-- 			end
+		-- 		end
+		-- 		local _x = init_x + 70 + (step_x * frame_index)
+		-- 		local _y = init_y
+
+		-- 		gui.text(_x,_y,v["frame"])
+		-- 		if globals.input_history.P1 and globals.input_history.P1[v.frame] then
+		-- 			globals.inpHistoryModule.draw_input_history_entry(globals.input_history.P1[v.frame], _x,_y + 8, 0)
+		-- 		end
+		-- 		local index_row = 0 
+
+		-- 		added_space = 0
+		-- 		if util.tablelength(v.state) then 
+		-- 			for key, val in pairs(v["state"]) do
+		-- 			local __y = init_y + 12 + 10 + ( step_y * index_row )
+
+		-- 			if type(val.value) ~= "function" then
+
+		-- 				if tostring(val.name) == "p2_input" then
+		-- 					if globals.input_history.P2 and globals.input_history.P2[v.frame] then
+		-- 						globals.inpHistoryModule.draw_input_history_entry(globals.input_history.P2[v.frame], _x,__y+5, 0)
+		-- 					end
+		-- 					added_space = 10
+		-- 					index_row = index_row + 1
+		-- 				else 
+		-- 					local color =  util.string_to_color(tostring(val.name)..tostring(val.value))
+		-- 					gui.rect(_x - 1,__y + added_space, _x + step_x - 1, __y + step_y+ added_space, color)
+		-- 					gui.text(_x + 2,__y + 2+ added_space, tostring(val.value), color)
+		-- 					index_row = index_row + 1
+		-- 				end
+		-- 			end
+		-- 		end
+		-- 	end
+		-- 		frame_index = frame_index+1
+		-- 		current_x = _x
+		-- 		current_y = _y
+		-- 	end
+		-- end	
 	end)
 
 	macroLuaModule.gameLoop()
 
 	amountOfGarbage = collectgarbage("count")
-	if amountOfGarbage > 10000 then
+	if amountOfGarbage > 15000 then
 		collectgarbage("collect")
 	end
 end

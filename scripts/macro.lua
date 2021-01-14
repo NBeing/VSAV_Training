@@ -635,7 +635,12 @@ local function finalize(t)
 	-- if playbackfile == "last_recording.mis" then
 	-- 	filename = "last_recording.mis"
 	-- end
-	filename = globals.dummy.recording_slot 
+	local use_char_specific_slot = globals.options.use_character_specific_slots
+	local prepend_to_path = ""
+	if use_char_specific_slot then 
+		prepend_to_path = globals.dummy.p2_char
+	end
+	filename = prepend_to_path.."/"..globals.dummy.recording_slot 
 
 	local file = io.output(path:gsub("\\", "/") .. filename)
 	file:write(text) --Write to file.
@@ -739,14 +744,20 @@ function start_macro_playback()
 		playing = true
 end
 local function get_playback_file()
+	print("get playback file")
 	local slot = globals.dummy.recording_slot
 	if globals.options.random_playback == true then
+		local use_char_specific_slot = globals.options.use_character_specific_slots
+		local prepend_to_path = ""
+		if use_char_specific_slot then 
+			prepend_to_path = globals.dummy.p2_char
+		end
 		local slots = {
-			["1"] = {enabled = globals.options.enable_slot_1, filename = "slot_1.mis"},
-			["2"] = {enabled = globals.options.enable_slot_2, filename = "slot_2.mis"},
-			["3"] = {enabled = globals.options.enable_slot_3, filename = "slot_3.mis"},
-			["4"] = {enabled = globals.options.enable_slot_4, filename = "slot_4.mis"},
-			["5"] = {enabled = globals.options.enable_slot_5, filename = "slot_5.mis"}
+			["1"] = {enabled = globals.options.enable_slot_1, filename = prepend_to_path.."/".."slot_1.mis"},
+			["2"] = {enabled = globals.options.enable_slot_2, filename = prepend_to_path.."/".."slot_2.mis"},
+			["3"] = {enabled = globals.options.enable_slot_3, filename = prepend_to_path.."/".."slot_3.mis"},
+			["4"] = {enabled = globals.options.enable_slot_4, filename = prepend_to_path.."/".."slot_4.mis"},
+			["5"] = {enabled = globals.options.enable_slot_5, filename = prepend_to_path.."/".."slot_5.mis"}
 		}
 		local numItems = 0
 		local enabled_slots = {}
@@ -757,19 +768,23 @@ local function get_playback_file()
 			end
 		end
 		if numItems == 0 then
-			emu.message("No slots selected for playback")
-			return globals.dummy.recording_slot
+			emu.message("No slots selected for random playback")
+			return globals.dummy.p2_char.."/"..globals.dummy.recording_slot 
 		end
 		local seed = math.random(0, numItems - 1)
 		slot = enabled_slots[seed]
 		return slot
 	else 
-		return slot
+		local use_char_specific_slot = globals.options.use_character_specific_slots
+		local prepend_to_path = ""
+		if use_char_specific_slot then 
+			prepend_to_path = globals.dummy.p2_char
+		end
+		return prepend_to_path.."/"..slot
 	end
 end
 local function playcontrol(silent)
 	local slot = get_playback_file()
-	print(slot)
 	if not playing then
 		if not parse(slot) or warning("Macro is zero frames long.", macrosize == 0) or dumpinputstream(dumpmode) then
 			return
@@ -958,11 +973,14 @@ macroLuaModule = {
 			--must joypad.set the keytable with every registerbefore, even if multiple times per frame, to ensure all keys are sent
 			if playing then
 				if fba or mame then
-					joypad.set(keytable)
+					-- joypad.set(keytable)
 				else
 					for p = 1,nplayers do joypad.set(p, keytable[p]) end
 				end
 			end
+
+			globals.playing = playing
+			globals.recording = recording
 			return {
 				["playcontrol"] = playcontrol,
 				["reccontrol"] = reccontrol,  
@@ -970,7 +988,29 @@ macroLuaModule = {
 				["stop_macro_playback"] = stop_macro_playback,
 				["start_macro_playback"] = start_macro_playback,
 				["recording"] = recording,
-				["playing"] = playing
+				["playing"] = playing,
+				["get_keytable"] = function()
+					-- if playing then return keytable else return {} end
+					if keytable then
+						-- if player_objects[2].flip_input then
+						-- 	local should_flip = player_objects[2].flip_input
+						-- 	local flipped = {}
+						-- 	for k,v in pairs(keytable) do
+						-- 		if k == "P2 Right" then
+						-- 			flipped["P2 Left"] = true
+						-- 		elseif k == "P2 Left" then
+						-- 			flipped["P2 Right"] = true
+						-- 		else
+						-- 			flipped[k] = v
+						-- 		end
+						-- 	end
+						-- 	keytable = flipped
+						-- end
+						return keytable
+					else 
+						return {}
+					end
+				end,
 			}
 		end,
 

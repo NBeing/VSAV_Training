@@ -691,7 +691,7 @@ guard = {
     "None",
     "Block",
     "autoguard",
-    "All Guard"
+    -- "All Guard"
 }
 input_event_type = {
   "None",
@@ -774,7 +774,7 @@ local p2_reversal_list_menu_item = list_menu_item("P2 Character Available Revers
 p2_reversal_list_menu_item.is_disabled = char_specific_reversal_is_disabled
 local p2_reversal_strength_menu_item = list_menu_item("Strength", training_settings, "p2_reversal_strength", { "Light", "Medium","Heavy","ES"}, 1, nil, "The strength of the reversal,\nPlease use normal game values (e.g. EX for EX moves)")
 p2_reversal_strength_menu_item.is_disabled = char_specific_reversal_is_disabled
-local p2_block_chance_menu_item = list_menu_item("P2 Random Guard %", training_settings, "p2_block_chance", p2_block_chance, 5, nil, "Randomize Blocking")
+-- local p2_block_chance_menu_item = list_menu_item("P2 Random Guard %", training_settings, "p2_block_chance", p2_block_chance, 5, nil, "Randomize Blocking")
 p2_block_chance_menu_item.is_disabled = function() return training_settings.guard ~= 2 end
 
 --1 "None",

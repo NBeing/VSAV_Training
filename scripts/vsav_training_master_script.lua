@@ -360,9 +360,7 @@ while true do
 		menuModule.guiRegister()
 		if globals.options.show_scrolling_input == true then
 			inpHistoryModule.guiRegister(globals._input)
-		end
-		gui.text(105,25,"Bee Woman")
-	  
+		end	  
 		-- local frame_index = 0
 
 		-- local step_x = 50

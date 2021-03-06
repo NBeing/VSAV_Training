@@ -841,7 +841,7 @@ return {
             list_menu_item("Guard", training_settings, "guard", guard,1, "Autoguard will block everything, including unblockable setups.\nBlock will make the dummy tap back for one frame to put them in proxy block.\nCurrently does not work with all moves."),
             -- integer_menu_item("# Guard Frames", training_settings, "p2_refill_timer", 0, 20, false, 0, nil, "This timer controls when the life meter will be refilled.\nOccurs this many seconds after being hit"),
 
-            p2_block_chance_menu_item,
+            -- p2_block_chance_menu_item,
             list_menu_item("Guard Action Type", training_settings, "guard_action", guard_action_type, 1, {
               --1 "None",
               --2 "Guard Cancel",

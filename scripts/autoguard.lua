@@ -77,13 +77,13 @@ function dummy_guard(cur_keys)
         if not has_blocked then 
             block_started_frame = emu.framecount()
             cur_keys[ away_btn ] = true
-            if p1_is_crouch_attack then  
+            if p1_is_crouch_attack and globals.options.guard == 0x04 then  
                 cur_keys["P2 Down"] = true
             end
             has_blocked = true
             return cur_keys
         elseif block_started_frame and emu.framecount() == block_started_frame + 1 then
-            if p1_is_crouch_attack then  
+            if p1_is_crouch_attack and globals.options.guard == 0x04 then  
                 cur_keys[ away_btn ] = true
                 cur_keys["P2 Down"] = true
             end

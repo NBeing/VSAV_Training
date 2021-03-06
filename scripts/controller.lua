@@ -45,7 +45,6 @@ function enable_player( player_num )
 	end 
 	memory.writebyte(player_addr + 0x200, 0x00)
 	memory.writebyte(player_addr + 0x3B4, 0x00)
-
 end
 function disable_both_players()
 	disable_player(1)
@@ -349,35 +348,35 @@ function process_pending_input_sequence(_player_obj, _input, delay)
       _input_name = _input_name.."Medium Kick"
     elseif _current_frame_input[i] == "HK" then
       _input_name = _input_name.."Strong Kick"
-    elseif _current_frame_input[i] == "h_charge" then
-      if _player_obj.char_str == "urien" then
-        memory.writeword(_gauges_base + _gauges_offsets[1], 0xFFFF)
-      elseif _player_obj.char_str == "oro" then
-        memory.writeword(_gauges_base + _gauges_offsets[3], 0xFFFF)
-      elseif _player_obj.char_str == "chunli" then
-      elseif _player_obj.char_str == "q" then
-        memory.writeword(_gauges_base + _gauges_offsets[1], 0xFFFF)
-        memory.writeword(_gauges_base + _gauges_offsets[2], 0xFFFF)
-      elseif _player_obj.char_str == "remy" then
-        memory.writeword(_gauges_base + _gauges_offsets[2], 0xFFFF)
-        memory.writeword(_gauges_base + _gauges_offsets[3], 0xFFFF)
-      elseif _player_obj.char_str == "alex" then
-        memory.writeword(_gauges_base + _gauges_offsets[5], 0xFFFF)
-      end
-    elseif _current_frame_input[i] == "v_charge" then
-      if _player_obj.char_str == "urien" then
-        memory.writeword(_gauges_base + _gauges_offsets[2], 0xFFFF)
-        memory.writeword(_gauges_base + _gauges_offsets[4], 0xFFFF)
-      elseif _player_obj.char_str == "oro" then
-        memory.writeword(_gauges_base + _gauges_offsets[1], 0xFFFF)
-      elseif _player_obj.char_str == "chunli" then
-        memory.writeword(_gauges_base + _gauges_offsets[1], 0xFFFF)
-      elseif _player_obj.char_str == "q" then
-      elseif _player_obj.char_str == "remy" then
-        memory.writeword(_gauges_base + _gauges_offsets[1], 0xFFFF)
-      elseif _player_obj.char_str == "alex" then
-        memory.writeword(_gauges_base + _gauges_offsets[4], 0xFFFF)
-      end
+    -- elseif _current_frame_input[i] == "h_charge" then
+    --   if _player_obj.char_str == "urien" then
+    --     memory.writeword(_gauges_base + _gauges_offsets[1], 0xFFFF)
+    --   elseif _player_obj.char_str == "oro" then
+    --     memory.writeword(_gauges_base + _gauges_offsets[3], 0xFFFF)
+    --   elseif _player_obj.char_str == "chunli" then
+    --   elseif _player_obj.char_str == "q" then
+    --     memory.writeword(_gauges_base + _gauges_offsets[1], 0xFFFF)
+    --     memory.writeword(_gauges_base + _gauges_offsets[2], 0xFFFF)
+    --   elseif _player_obj.char_str == "remy" then
+    --     memory.writeword(_gauges_base + _gauges_offsets[2], 0xFFFF)
+    --     memory.writeword(_gauges_base + _gauges_offsets[3], 0xFFFF)
+    --   elseif _player_obj.char_str == "alex" then
+    --     memory.writeword(_gauges_base + _gauges_offsets[5], 0xFFFF)
+    --   end
+    -- elseif _current_frame_input[i] == "v_charge" then
+    --   if _player_obj.char_str == "urien" then
+    --     memory.writeword(_gauges_base + _gauges_offsets[2], 0xFFFF)
+    --     memory.writeword(_gauges_base + _gauges_offsets[4], 0xFFFF)
+    --   elseif _player_obj.char_str == "oro" then
+    --     memory.writeword(_gauges_base + _gauges_offsets[1], 0xFFFF)
+    --   elseif _player_obj.char_str == "chunli" then
+    --     memory.writeword(_gauges_base + _gauges_offsets[1], 0xFFFF)
+    --   elseif _player_obj.char_str == "q" then
+    --   elseif _player_obj.char_str == "remy" then
+    --     memory.writeword(_gauges_base + _gauges_offsets[1], 0xFFFF)
+    --   elseif _player_obj.char_str == "alex" then
+    --     memory.writeword(_gauges_base + _gauges_offsets[4], 0xFFFF)
+    --   end
     end
     _input[_input_name] = true
     _s = _s.._input_name

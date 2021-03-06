@@ -40,8 +40,8 @@ gameStateModule = {
         globals.game_state = get_game_state()
         if not globals.game_state.match_begun then
             -- Set infinite character select time
-            memory.writebyte(0xFF8400 + 0x27, 60)
-            memory.writebyte(0xFF8800 + 0x27, 60)
+            -- memory.writebyte(0xFF8400 + 0x27, 60)
+            -- memory.writebyte(0xFF8800 + 0x27, 60)
 
             -- if globals.options.enable_custom_palette then
                 -- local _inputs = joypad.getup()

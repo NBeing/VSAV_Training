@@ -38,7 +38,6 @@ local hudModule         = require "./scripts/hud"
 local timersModule      = require "./scripts/timers"
 local throwTechModule   = require "./scripts/throwTech"
 
-print(training_settings.p2_max_life)
 -- local frameskipHandlerModule = require "./scripts/frameskipHandler"
 
 if show_controls_message == true then
@@ -199,6 +198,7 @@ emu.registerbefore(function()
 	if globals.game_state.match_begun == false then
 		return
 	end
+	-- memory.writebyte(0xFF8400 + 0x19D, 5)
 	charMovesModule.registerBefore()
 
 	globals["options"] 		 = configModule.registerBefore()
@@ -290,13 +290,13 @@ emu.registerafter(function() --recording is done after the frame, not before, to
 	if globals.game_state.match_begun == false or globals == nil or globals.options == nil then
 		return
 	end
-	if memory.readdword(0xFF8804) == 0x02020400 then
-		-- print("reversal frame registered after frame was drawn", emu.framecount())		
-		-- local current = last_dummy_dict[globals.current_frame]
-		-- current.p2_reversal_frame = true
-		memory.writebyte(0xFF8902, 0x00)
-		memory.writebyte(0xFF8906, 0x02)
-	end
+	-- if memory.readdword(0xFF8804) == 0x02020400 then
+	-- 	-- print("reversal frame registered after frame was drawn", emu.framecount())		
+	-- 	-- local current = last_dummy_dict[globals.current_frame]
+	-- 	-- current.p2_reversal_frame = true
+	-- 	memory.writebyte(0xFF8902, 0x00)
+	-- 	memory.writebyte(0xFF8906, 0x02)
+	-- end
 
 	vsavScriptModule.registerAfter()
 	cps2HitboxModule.registerAfter()
@@ -346,9 +346,11 @@ while true do
 		-- end
 	
 		if globals == nil or globals.options == nil then
+			gui.clearuncommitted()
 			return
 		end
 		if globals.game_state and globals.game_state.match_begun == false then
+			gui.clearuncommitted()
 			return
 		end
 		hudModule.guiRegister()
@@ -359,7 +361,7 @@ while true do
 		if globals.options.show_scrolling_input == true then
 			inpHistoryModule.guiRegister(globals._input)
 		end
-
+		gui.text(105,25,"Bee Woman")
 	  
 		-- local frame_index = 0
 

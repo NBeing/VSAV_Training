@@ -690,7 +690,8 @@ p2_block_chance = {
 guard = {
     "None",
     "Block",
-    "autoguard"
+    "autoguard",
+    "All Guard"
 }
 input_event_type = {
   "None",

@@ -46,15 +46,15 @@ local function run_one_frame_special()
 	-- 0x14E 	Palette Effects & Curse , ES/EX, etc
 	-- ES Value is 1E
 	-- EX Value is 1C
-	if move_strength == 0x06 then 
-		memory.writebyte(0xFF8800 + 0x14E , 0x1E)
-	end
-	if isEX then
-		memory.writebyte(0xFF8800 + 0x14E , 0x1C)
-	elseif move_strength == 0x06 then 
-		memory.writebyte(0xFF8800 + 0x14E , 0x1E)
-	end
-	-- Write WORD at FF8406 to value 0x0E00
+	-- if move_strength == 0x06 then 
+	-- 	memory.writebyte(0xFF8800 + 0x14E , 0x1E)
+	-- end
+	-- if isEX then
+	-- 	memory.writebyte(0xFF8800 + 0x14E , 0x1C)
+	-- elseif move_strength == 0x06 then 
+	-- 	memory.writebyte(0xFF8800 + 0x14E , 0x1E)
+	-- end
+	-- -- Write WORD at FF8406 to value 0x0E00
 	memory.writeword(0xFF8806, 0x0E00)
 	memory.writebyte(0xFF87B5, 0x0C)
 end
@@ -181,12 +181,14 @@ local function guardCancelCheck(run_dummy_input, macroLua_funcs)
 		end
 	elseif globals.dummy.guard_action == 'Character Specific Reversal' then
 		if should_reversal then 
+			print("running one frame special rev")
 			run_one_frame_special()
 		else
 			_defender.counter.sequence = nil
 		end
 	elseif globals.dummy.guard_action == 'Character Specific Counter' then
 		if should_counter then 
+			print("running one frame special counter")
 			run_one_frame_special()
 		else
 			_defender.counter.sequence = nil

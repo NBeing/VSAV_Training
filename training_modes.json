@@ -3,14 +3,14 @@
       "game":"VSAV",
       "description":"P Deece Training mode",
       "author":"N-Bee",
-      "version":3,
-	  "url": "https://github.com/BornPosthumous/VSAV_Training/archive/1f_reversal.zip"
+      "versions":["3", "4"],
+	   "url": "https://github.com/BornPosthumous/VSAV_Training/archive/1f_reversal.zip"
    },
    {
       "game":"VSAV dos",
       "description":"P Deece Training mode",
-      "author":"N-Bee",
-      "version":3,
-	  "url":"https://github.com/BornPosthumous/VSAV_Training/archive/1f_reversal.zip"
+      "author":"Not N-Bee",
+      "versions":["3", "4"],
+	   "url":"https://github.com/BornPosthumous/VSAV_Training/archive/1f_reversal.zip"
    }
 ]

@@ -20,12 +20,12 @@ What is described in the video guide:
   
  
 ## Hotkeys
-    Press Start open the training menu..")
-    Press Coin to swap controls to dummy")
-    Press Volume Down to play back recording. (found in 'map game inputs')")
-    Press Volume Up to record dummy. (found in 'map game inputs')")
-    Press Alt + 3 to toggle looping playback.")
-    Press Alt + 4 to return to character select.")
+    Press Start open the training menu.
+    Press Coin to swap controls to dummy
+    Press Volume Down to play back recording. (found in 'map game inputs')
+    Press Volume Up to record dummy. (found in 'map game inputs')
+    Press Alt + 3 to toggle looping playback.
+    Press Alt + 4 to return to character select
 
 ## Features
     In this version all features should be documented with description text within the training mode itself.

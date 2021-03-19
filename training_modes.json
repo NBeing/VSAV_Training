@@ -1,16 +1,17 @@
 [
    {
-      "game":"VSAV",
+      "game":"Vampire Savior",
       "description":"P Deece Training mode",
       "author":"N-Bee",
-      "versions":["3", "4"],
-	   "url": "https://github.com/BornPosthumous/VSAV_Training/archive/1f_reversal.zip"
+      "use_release": true,
+	   "releases_url": "https://api.github.com/repos/BornPosthumous/VSAV_Training/releases",
+	   "latest_url": "https://github.com/BornPosthumous/VSAV_Training/archive/refs/heads/fc2.zip"
    },
    {
-      "game":"VSAV dos",
-      "description":"P Deece Training mode",
-      "author":"Not N-Bee",
-      "versions":["3", "4"],
-	   "url":"https://github.com/BornPosthumous/VSAV_Training/archive/1f_reversal.zip"
+      "game":"Many",
+      "description":"Universal Training Mode",
+      "author":"peon2",
+      "use_release": false,
+	   "latest_url": "https://github.com/peon2/fbneo-training-mode/archive/refs/heads/master.zip"
    }
 ]

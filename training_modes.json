@@ -3,6 +3,7 @@
       "game":"Vampire Savior",
       "description":"P Deece Training mode",
       "author":"N-Bee",
+      "key": "vsavj",
       "use_release": true,
 	   "releases_url": "https://api.github.com/repos/BornPosthumous/VSAV_Training/releases",
 	   "latest_url": "https://github.com/BornPosthumous/VSAV_Training/archive/refs/heads/fc2.zip"
@@ -11,6 +12,7 @@
       "game":"Many",
       "description":"Universal Training Mode",
       "author":"peon2",
+      "key":"utm",
       "use_release": false,
 	   "latest_url": "https://github.com/peon2/fbneo-training-mode/archive/refs/heads/master.zip"
    }

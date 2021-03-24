@@ -24,6 +24,6 @@
       "script_entry": "\\fbneo-training-mode-master\\fbneo-training-mode.lua",
       "savestate": "savestates\\vsavj_fbneo.fs",
       "use_savestate": true,
-      "supported_roms": ["sfa2", "cybots", "jojoba", "jojo","mvc", "mvsc", "xmvsf", "xmcota", "redearth", "sfa2","lb2","samsho3", "ssf2xjr1", "vhuntrj2"]
+      "supported_roms": ["sfa2u", "cybots", "jojoba", "jojo","mvc", "mvsc", "xmvsf", "xmcota", "redearth", "sfa2","lb2","samsho3", "ssf2xjr1", "vhuntrj2"]
    }
 ]

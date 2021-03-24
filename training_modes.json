@@ -23,7 +23,7 @@
 	   "latest_url": "https://github.com/peon2/fbneo-training-mode/archive/refs/heads/master.zip",
       "script_entry": "\\scripts\\vsav_training_master_script.lua",
       "savestate": "savestates\\vsavj_fbneo.fs",
-      "use_savestate": false,
-      "supported_roms": ["sfa2"]
+      "use_savestate": true,
+      "supported_roms": ["sfa2", "cybots", "jojoba", "jojo","mvc", "mvsc", "xmvsf", "xmcota", "redearth", "sfa2","lb2","samsho3", "ssf2xjr1", "vhuntrj2"]
    }
 ]

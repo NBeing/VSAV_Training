@@ -133,6 +133,23 @@ local function guardCancelCheck(run_dummy_input, macroLua_funcs)
 		else
 			_defender.counter.sequence = nil
 		end
+	elseif globals.dummy.guard_action ==  'recording on pushblock' then
+		if player_objects[2].started_guarding then 
+			_defender.counter.attack_frame = globals.current_frame
+			_stick = "PB-"..globals.dummy.pb_type_rec
+			_button = ""
+			_defender.counter.sequence = make_input_sequence(_stick, _button, delay_type, delay)
+		else
+			_defender.counter.sequence = nil
+		end
+		if should_reversal then 
+			if not globals.macroLua.playing then  
+				globals.macroLua.playcontrol()
+			end
+		else
+			-- _defender.counter.sequence = nil
+			-- _defender.pending_input_sequence = nil
+		end
 
 	elseif globals.dummy.guard_action == 'counter' then
 		if should_counter then

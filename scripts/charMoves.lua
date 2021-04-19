@@ -11,7 +11,7 @@ local function get_character(base_addr)
     elseif char_id == 0x08 	then return "Bishamon"
     elseif char_id == 0x09 	then return "Aulbath"
     elseif char_id == 0x0A 	then return "Sasquatch"
-    elseif char_id == 0x0B 	then return "Random Select"
+    elseif char_id == 0x0B 	then return "Zabel"
     elseif char_id == 0x0C 	then return "Q-Bee"
     elseif char_id == 0x0D 	then return "Lei-Lei"
     elseif char_id == 0x0E 	then return "Lilith"

@@ -219,6 +219,7 @@ emu.registerbefore(function()
 
 	globals._input = controllerModule.registerBefore()
 	globals.macroLua  = macroLuaModule.registerBefore()
+	globals.macroLua.setloop()
 
 	-- if globals.macroLua and (globals.macroLua.playing == true or globals.macroLua.recording == true) then
 	-- 	if was_gathering_graph_data == false then

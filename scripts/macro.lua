@@ -744,7 +744,6 @@ function start_macro_playback()
 		playing = true
 end
 local function get_playback_file()
-	print("get playback file")
 	local slot = globals.dummy.recording_slot
 	if globals.options.random_playback == true then
 		local use_char_specific_slot = globals.options.use_character_specific_slots
@@ -841,6 +840,9 @@ local function toggleloop()
 		loopmode = not loopmode
 		print("Loop mode: " .. (loopmode and "on" or "off"))
 	end
+end
+function setloop()
+	loopmode = globals.options.looped_playback
 end
 
 local oldplaykey,oldrecordkey,oldpausekey,oldloopkey
@@ -985,6 +987,7 @@ macroLuaModule = {
 				["playcontrol"] = playcontrol,
 				["reccontrol"] = reccontrol,  
 				["toggleloop"] = toggleloop,
+				["setloop"] = setloop,
 				["stop_macro_playback"] = stop_macro_playback,
 				["start_macro_playback"] = start_macro_playback,
 				["recording"] = recording,

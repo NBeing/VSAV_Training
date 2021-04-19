@@ -49,6 +49,7 @@ local default_training_settings = {
     p2_char_palette = 0,
     p2_throw_tech = true,
     p2_block_chance = 1,
+    pb_type_rec = 0,
   }
   
 

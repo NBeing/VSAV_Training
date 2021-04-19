@@ -613,6 +613,7 @@ guard_action_type = {
     "Counter Attack - Character Specific",
     "Counter Attack - Specified",
     "Counter Attack - Recording",
+    "PB Recording",
 }
 
 _push_block_type = {
@@ -717,8 +718,11 @@ local function check_for_gc_disabled()
   return training_settings.guard_action ~= 2 -- GC
 end
 
+local function check_for_pb_disabled_rev()
+  return training_settings.guard_action ~= 0xA -- PB
+end
 local function check_for_pb_disabled()
-  return training_settings.guard_action ~= 3 -- PB
+  return training_settings.guard_action ~= 0x3 -- PB
 end
 
 local pb_button_menu_item = list_menu_item("Push Block Type", training_settings, "pb_type", _push_block_type, 1, {
@@ -727,9 +731,19 @@ local pb_button_menu_item = list_menu_item("Push Block Type", training_settings,
   "A medium Push block will be input.\nThis takes 12 frames e.g.: (mp, no input) x 6 ",
   "A heavy Push block will be input.\nThis takes 12 frames e.g.: (hp, no input) x 6 ",
   "An ascending push block will be input.\nThis takes 6 frames",
-  "A descending push block will be input."
+  "A descending push block will be input.\nThis takes 6 frames"
 })
 pb_button_menu_item.is_disabled = check_for_pb_disabled
+
+local pb_rev_button_menu_item = list_menu_item("Push Block Type", training_settings, "pb_type_rec", _push_block_type, 1, {
+  "No push block will be performed",
+  "A light Push block will be input.\n his takes 12 frames e.g.: (lp, no input) x 6 ",
+  "A medium Push block will be input.\nThis takes 12 frames e.g.: (mp, no input) x 6 ",
+  "A heavy Push block will be input.\nThis takes 12 frames e.g.: (hp, no input) x 6 ",
+  "An ascending push block will be input.\nThis takes 6 frames",
+  "A descending push block will be input.\nThis takes 6 frames"
+})
+pb_rev_button_menu_item.is_disabled = check_for_pb_disabled_rev
 
 local gc_button_menu_item = list_menu_item("Guard Cancel Button", training_settings, "gc_button", gc_button,1, { "Choose a GC button"})
 gc_button_menu_item.is_disabled = check_for_gc_disabled
@@ -860,7 +874,9 @@ return {
               "Specify an input to be performed after the dummy hurt, block, or wakeup.\nFor notes on timing please read the notes for 'True Reversal'",
               "Specify an action to be performed after the dummy blocks.\nFor notes on timing please read the notes for 'True Reversal'",
               "A recording will be played after the opponent finishes guarding.\nThe recording played can be set in the 'Recording' tab.\nThis can be specified or random\nFor notes on timing please read the notes for 'True Reversal'",
-              "Specify a character specific special move.\nto be performed after the dummy is finished blocking",  
+              "Specify a character specific special move.\nto be performed after the dummy is finished blocking",
+              "Play recording after pushblock",
+              
             }, "Use this to set up various counter attacks."),
             guard_action_frequency_menu_item,
             reversal_calculation_menu_item, 
@@ -868,6 +884,7 @@ return {
             counter_attack_button_menu_item,
             gc_button_menu_item,
             pb_button_menu_item,
+            pb_rev_button_menu_item,
             guard_action_delay_menu_item,
             p2_reversal_list_menu_item,
             p2_reversal_strength_menu_item,

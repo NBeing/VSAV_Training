@@ -131,12 +131,35 @@ local function get_guard_action()
         return 'counter'
     elseif globals.options.guard_action == 0x9 then
         return 'recording on counter'
+    elseif globals.options.guard_action == 0xA then
+        return 'recording on pushblock'
     elseif globals.options.guard_action == 0x1 then
         return 'none'
     end
 end
 local function get_pb_type()
     pb_type = globals.options.pb_type
+    parsed = 'none'
+    if pb_type == 0x1 then
+        parsed = 'none'
+    elseif pb_type == 0x2 then
+        parsed = 'light'
+    elseif pb_type == 0x3 then
+        parsed = 'medium'
+    elseif pb_type == 0x4 then
+        parsed = 'heavy'
+    elseif pb_type == 0x5 then
+        parsed = 'ascending'
+    elseif pb_type == 0x6 then
+        parsed = 'descending'
+    elseif pb_type == 0x7 then
+        parsed = 'random'
+    end
+
+    return parsed
+end
+local function get_pb_type_rec()
+    pb_type = globals.options.pb_type_rec
     parsed = 'none'
     if pb_type == 0x1 then
         parsed = 'none'
@@ -464,7 +487,7 @@ local function get_dummy_state()
         recording_slot = get_recording_slot(), 
 
         pb_type        = get_pb_type(),
-
+        pb_type_rec    = get_pb_type_rec(),
         p1_char_specific_reversal   = get_p1_char_specific_reversal(),
         p1_reversal_strength        = get_p1_reversal_strength(),
         p2_char_specific_reversal   = get_p2_char_specific_reversal(),

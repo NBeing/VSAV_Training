@@ -1,0 +1,31 @@
+[
+   {
+      "game":"Vampire Savior",
+      "description":"P Deece Training mode",
+      "author":"N-Bee",
+      "key": "vsavj",
+      "use_release": true,
+      "supported_roms": ["vsavj"],
+      "repo_base_url": "https://api.github.com/repos/BornPosthumous/VSAV_Training/",
+	   "releases_url": "https://api.github.com/repos/BornPosthumous/VSAV_Training/releases",
+	   "latest_url": "https://github.com/BornPosthumous/VSAV_Training/archive/refs/heads/fc2.zip",
+      "script_entry": "\\scripts\\vsav_training_master_script.lua",
+      "savestate": "savestates\\vsavj_fbneo.fs",
+      "use_savestate": true
+
+   },
+   {
+      "game":"Many",
+      "description":"Universal Training Mode",
+      "author":"peon2",
+      "key":"utm",
+      "use_release": false,
+      "repo_base_url": "https://api.github.com/repos/peon2/fbneo-training-mode",
+      "releases_url": "https://github.com/peon2/fbneo-training-mode/archive/refs/heads/master.zip",
+	   "latest_url": "https://github.com/peon2/fbneo-training-mode/archive/refs/heads/master.zip",
+      "script_entry": "\\fbneo-training-mode-master\\fbneo-training-mode.lua",
+      "savestate": "savestates\\vsavj_fbneo.fs",
+      "use_savestate": true,
+      "supported_roms": ["sfa2u", "cybots", "jojoba", "jojo","mvc", "mvsc", "xmvsf", "xmcota", "redearth", "sfa2","lb2","samsho3", "ssf2xjr1", "vhuntrj2"]
+   }
+]

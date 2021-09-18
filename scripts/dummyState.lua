@@ -29,9 +29,9 @@ function get_gc_button()
 	elseif GC_type_config == 0x3 then
 		gc_button_type = 'LK'
 	elseif GC_type_config == 0x4 then
-		gc_button_type = 'EXP'
+		gc_button_type = 'MP+HP'
 	elseif GC_type_config == 0x5 then
-        gc_button_type = 'EXK'
+        gc_button_type = 'MK+HK'
 	end
 
 	return gc_button_type

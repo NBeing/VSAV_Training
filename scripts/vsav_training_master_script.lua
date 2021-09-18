@@ -254,7 +254,7 @@ emu.registerbefore(function()
 		for k,v in pairs(macroLua_keys) do globals._input[k] = v end
 	else
 		local dummy_neutral_keys = neutralModule.registerBefore(globals._input)
-		autoguardModule.registerBefore(dummy_neutral_keys)
+		autoguardModule.registerBefore(dummy_neutral_keys, player_objects)
 		local gc_keys = guardCancelModule.registerBefore()
 		throwTechModule.registerBefore(globals._input)
 	end

@@ -29,20 +29,19 @@ local function get_block_chance()
 
     return should_block    
 end
-local run_once_stand = nil
-local run_once_crouch = nil
-local block_started_frame = nil
-local is_attacking = nil
-local has_blocked = false
 
-function dummy_guard(cur_keys)
+local block_started_frame = nil
+local is_blocking = false
+local current_block_chance = nil
+
+function dummy_guard(cur_keys,player_objects)
     local block_chance = get_block_chance()
     -- 0x100 	Standing or crouching normal-attack indicator. 2 = crouch 
     local p1_is_crouch_attack = memory.readbyte(0xFF8400 + 0x100) == 2 
     if globals.dummy.p1_status_2 == "Jump" then
         p1_is_crouch_attack = false
     end
-    -- print("is cruch?", p1_is_crouch_attack)
+    -- print("is crouch?", p1_is_crouch_attack)
     local p1_x_pos = memory.readword(0xFF8400 + 0x10)
 	local p2_x_pos = memory.readword(0xFF8800 + 0x10)
     local p1_proj  = memory.readword(0xFF8400 + 0x149)
@@ -65,22 +64,35 @@ function dummy_guard(cur_keys)
         cur_keys[ away_btn ] = true
 		return cur_keys
     end
-    if globals.dummy.p2_guarding == true then
-        has_blocked = false
+    if globals.dummy.p2_status_1 == "Hurt or Block" then
+        is_blocking = false
     end
     if attack_flag then
         is_attacking = true
     else 
         block_started_frame = nil
     end
-    if attack_flag and close_enough then
-        if not has_blocked then 
+
+    if attack_flag and current_block_chance == nil then
+        current_block_chance = get_block_chance()
+    end
+    if player_objects[2].guard_ended then 
+        current_block_chance = nil
+        return cur_keys
+    end
+    if current_block_chance == false then
+        return cur_keys
+    end
+
+
+    if current_block_chance == true and attack_flag and close_enough then
+        if not is_blocking then
             block_started_frame = emu.framecount()
             cur_keys[ away_btn ] = true
-            if p1_is_crouch_attack and globals.options.guard == 0x04 then  
+            if p1_is_crouch_attack and globals.options.guard == 0x04 then 
                 cur_keys["P2 Down"] = true
             end
-            has_blocked = true
+            is_blocking = true
             return cur_keys
         elseif block_started_frame and emu.framecount() == block_started_frame + 1 then
             if p1_is_crouch_attack and globals.options.guard == 0x04 then  
@@ -89,47 +101,17 @@ function dummy_guard(cur_keys)
             end
         end
     end
-    if not attack_flag and has_blocked == true then
+    if not attack_flag and is_blocking == true then
         attack_started_frame = nil
-        has_blocked = false
+        is_blocking = false
         is_attacking = false
     end
-    -- if attack_flag and close_enough == true then
-    -- 	if run_once_stand == false and first_frame == nil then
-    --         first_frame = emu.framecount()
-    --          cur_keys[ away_btn ] = true
-    --         return cur_keys
-    --     end
-    --     if p1_is_crouch_attack then
-    --         -- Crouch blocking requires two frames to be bulletproof
-    --         if run_once_crouch == false and first_frame == nil or (first_frame and emu.framecount() == first_frame + 1) then
-    --             first_frame = emu.framecount()
-    --             cur_keys[ away_btn ] = true
-    --             if p1_is_crouch_attack then  
-    --                 cur_keys["P2 Down"] = true
-    --             end
-    --             return cur_keys
-    --         end
-    --     end
-    --     -- if  first_frame ~= nil and emu.framecount() < first_frame + 1 and block_chance then
-    --     --     cur_keys[ away_btn ] = true
-    --     --     if p1_is_crouch_attack then  
-    --     --         cur_keys["P2 Down"] = true
-    --     --     end
-    --     --     return cur_keys
-	-- 	-- else 
-	
-	-- 	-- end
-    -- else
-    --     run_once_stand = false
-    --     run_once_crouch = false
-	-- 	first_frame = nil
-	-- end
+
     return {}
 end
 
 autoguardModule = {
-    ["registerBefore"] = function(cur_keys)
+    ["registerBefore"] = function(cur_keys, player_objects)
         if globals.options.guard == 0x3 then
             memory.writebyte(auto_guard_addr_1, 0x1)
             memory.writebyte(auto_guard_addr_2, 0x1)
@@ -137,8 +119,8 @@ autoguardModule = {
             memory.writebyte(auto_guard_addr_1, 0x0)
             memory.writebyte(auto_guard_addr_2, 0x0)
         end
-        if globals.options.guard == 2 then
-            return dummy_guard(cur_keys)
+        if globals.options.guard == 2 or globals.options.guard == 4 then
+            return dummy_guard(cur_keys, player_objects)
         else
             return {}
         end

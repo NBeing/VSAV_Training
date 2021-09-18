@@ -11,9 +11,11 @@
 *.exe
 *.dll
 *.zip
+*
 !*/scripts
 
 # But not these files...
 !.gitignore
 !run_vsav_training.bat
+!run_vsav_training.sh
 # etc...

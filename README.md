@@ -12,7 +12,7 @@ BIGGEST SHOUTOUT to KyleW! This definitely would not have happened or continued 
  `N-Bee`
 
 ## Installation 
-Follow the video guide: https://streamable.com/6srfnh
+Follow the video guide: https://www.youtube.com/watch?v=To7DpTNSRi8
 
 What is described in the video guide: 
   1) Place `run_vsav_training.bat` (windows) or `run_vsav_training.bat` (linux) in your `yourfc2install\emulators\fc2\emulator\fbneo`

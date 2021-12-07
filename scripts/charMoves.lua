@@ -486,7 +486,7 @@ local moves_lookup = {
     ["Jedah"]     = get_moves_Jedah(),      -- https://twitter.com/VMP_KyleW/status/1063252518686253056
 -- ["Oboro"]     = get_moves_Morrigan()	    -- https://twitter.com/VMP_KyleW/status/1063641654622441474
 -- ["Hyper Zabel"] = get_moves_Morrigan()   -- https://twitter.com/VMP_KyleW/status/1062978029595455489
--- ["Dark Gallon"] 	= get_moves_Morrigan()  -- https://twitter.com/VMP_KyleW/status/1062251253487398912
+    ["Dark Gallon"] 	= get_moves_Gallon()  -- https://twitter.com/VMP_KyleW/status/1062251253487398912
 } 
 local function get_player_moves(base_addr)
     local char_name = get_character(base_addr)

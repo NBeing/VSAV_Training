@@ -37,7 +37,7 @@ local globals = {
 }
 if use_hb_config == true then
 	globals.blank_screen = hb_config_blank_screen
-	globals.draw_axis = hb_config_draw_axis
+	globals.draw_axis = true
 	globals.draw_pushboxes = hb_config_draw_pushboxes
 	globals.draw_throwable_boxes = hb_config_draw_throwable_boxes
 	globals.no_alpha = hb_config_no_alpha
@@ -124,7 +124,7 @@ local profile = {
 		end},
 	},
 	clones = {
-		["vsava"] = 0, ["vsavd"] = 0, ["vsavh"] = 0, ["vsavj"] = 0, ["vsavu"] = 0, 
+		["vsava"] = 0, ["vsavd"] = 0, ["vsavh"] = 0, ["vsavj"] = 0, ["vsavu"] = 0, ["vsavae"] = 0,
 		["vsav2"] = 0, ["vsav2d"] = 0, ["vhunt2"] = 0, ["vhunt2d"] = 0, ["vhunt2r1"] = -0xB2
 	},
 	process_throw = function(obj, box)

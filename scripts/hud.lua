@@ -14,7 +14,8 @@ local function draw_rec()
 	end
 	local recording = globals.macroLua.recording
 	local playing = globals.macroLua.playing
-	local slot = globals.options.recording_slot
+	local slot = globals.options.recording_slot - 1
+
 	mid_width =  23
 	mid_height = 38
 	if recording and playing then

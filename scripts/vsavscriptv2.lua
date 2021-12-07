@@ -3242,11 +3242,11 @@ end
 --Evil Dragon Check
 --------------------
 function checked()
-if memory.readbyte(0xff8b82) == 0x12 then
-	error"Why are you using this character? He's exactly the same as regular Gallon"
-elseif memory.readbyte(0xff8782) == 0x12 then
-	error"Why are you using this character? He's exactly the same as regular Gallon"
-end
+-- if memory.readbyte(0xff8b82) == 0x12 then
+-- 	error"Why are you using this character? He's exactly the same as regular Gallon"
+-- elseif memory.readbyte(0xff8782) == 0x12 then
+-- 	error"Why are you using this character? He's exactly the same as regular Gallon"
+-- end
 end
 
 ---------------------------------------------------

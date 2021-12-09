@@ -51,6 +51,7 @@ local default_training_settings = {
     p2_block_chance = 1,
     looped_playback = true,
     pb_type_rec = 0,
+    anak_projectile = 1,
   }
   
 

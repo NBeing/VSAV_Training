@@ -440,6 +440,80 @@ local function get_p2_reversal_strength(player)
     end
 end
 
+  
+local function get_anak_projectile()
+    local current = globals.options.anak_projectile
+    if globals and globals.getCharacter(0xFF8400) ~= "Anakaris" then 
+        memory.writedword(0xFF84A6, 0xFFFFFFFF0000)
+        return
+    end
+    if current == 1 then
+        memory.writedword(0xFF84A6, 0xFFFFFFFF0000)
+        return
+    elseif current == 2 then
+        -- "Bulleta St.Hk"
+        memory.writebyte(0xff8782, 0x06)
+        memory.writeword(0xFF8400 + 0xA6, 0x0000)
+        memory.writeword(0xFF8400 + 0xA8, 0xFF0A)
+        memory.writeword(0xFF8400 + 0xAA, 0x6000)
+    elseif current == 3 then
+        -- "Bulleta Missile"
+        memory.writeword(0xFF8400 + 0xA6, 0x0200)
+        memory.writeword(0xFF8400 + 0xA8, 0xFF0A)
+        memory.writeword(0xFF8400 + 0xAA, 0x6000)
+    elseif current == 4 then
+        -- "Demitri Chaos Flare"
+        memory.writeword(0xFF8400 + 0xA6, 0x0401)
+        memory.writeword(0xFF8400 + 0xA8, 0xFF0A)
+        memory.writeword(0xFF8400 + 0xAA, 0x6000)
+    elseif current == 5 then
+        -- "Morrigan Soul Fist"
+        memory.writeword(0xFF8400 + 0xA6, 0x0B05)
+        memory.writeword(0xFF8400 + 0xA8, 0xFF0A)
+        memory.writeword(0xFF8400 + 0xAA, 0x0000)
+
+    elseif current == 6 then
+        -- "Morrigan Air Soul Fist"
+        memory.writebyte(0xff8782, 0x06)
+        memory.writeword(0xFF8400 + 0xA6, 0x0C05)
+        memory.writeword(0xFF8400 + 0xA8, 0xFF0A)
+        memory.writeword(0xFF8400 + 0xAA, 0x0000)
+    elseif current == 7 then
+        -- "Anakaris Curse"
+        memory.writebyte(0xff8782, 0x06)
+        memory.writeword(0xFF8400 + 0xA6, 0x1206)
+        memory.writeword(0xFF8400 + 0xA8, 0xFF0A)
+        memory.writeword(0xFF8400 + 0xAA, 0x4000)
+
+    elseif current == 8 then
+        -- "Aulbath Sonic Wave",
+        memory.writebyte(0xff8782, 0x06)
+        memory.writeword(0xFF8400 + 0xA6, 0x1E09)
+        memory.writeword(0xFF8400 + 0xA8, 0xFF0A)
+        memory.writeword(0xFF8400 + 0xAA, 0x6000)
+
+    elseif current == 9 then
+        -- "Lei-Lei Anki Oh"
+        memory.writebyte(0xff8782, 0x06)
+        memory.writeword(0xFF8400 + 0xA6, 0x2D0D)
+        memory.writeword(0xFF8400 + 0xA8, 0xFF0A)
+        memory.writeword(0xFF8400 + 0xAA, 0x0000)
+
+    elseif current == 10 then
+        -- "Lillith Soul Flash"
+        memory.writebyte(0xff8782, 0x06)
+        memory.writeword(0xFF8400 + 0xA6, 0x330E)
+        memory.writeword(0xFF8400 + 0xA8, 0xFF0A)
+        memory.writeword(0xFF8400 + 0xAA, 0x0000)
+
+    elseif current == 11 then
+        -- "Jedah Dio Sega"
+        memory.writebyte(0xff8782, 0x06)
+        memory.writeword(0xFF8400 + 0xA6, 0x380F)
+        memory.writeword(0xFF8400 + 0xA8, 0xFF0A)
+        memory.writeword(0xFF8400 + 0xAA, 0x4000)
+    end
+end
 local config = {}
 local function get_dummy_state()
     config = {
@@ -501,6 +575,7 @@ end
 dummyStateModule = {
     ["registerBefore"] = function()
         globals.parsed_dummy_state = parsed_dummy_state()
+        get_anak_projectile()
         return {
             get_dummy_state = get_dummy_state,
             -- parsed_dummy_state = parsed_dummy_state

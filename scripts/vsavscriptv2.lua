@@ -2995,12 +2995,16 @@ function ate(special)
 		text = "Chaos Flare"
 	elseif memory.readword(0xff84a6) == 0x0B05 then
 		text = "Soul Fist"
+	elseif memory.readword(0xff84a6) == 0x0C05 then
+		text = "Air Soul Fist"
 	elseif memory.readword(0xff84a6) == 0x1206 then
 		text = "Royal Judgement"	
 	elseif memory.readword(0xff84a6) == 0x1E09 then
 		text = "Sonic Wave"	
-	-- Lei Lei 0x??0D
-	-- Soul Flash 0x??0E
+	elseif memory.readword(0xff84a6) == 0x2D0D then
+		text = "Anki Oh"	
+	elseif memory.readword(0xff84a6) == 0x330E then
+		text = "Soul Flash"	
 	elseif memory.readword(0xff84a6) == 0x380F then
 		text = "Dio Sehga"		
 	else

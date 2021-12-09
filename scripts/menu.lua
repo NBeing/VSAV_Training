@@ -707,6 +707,19 @@ recording_slot = {
   "Slot 4",
   "Slot 5",
 }
+anak_projectile = {
+  "None",
+  "Bulleta St.Hk",
+  "Bulleta Missile",
+  "Demitri Chaos Flare",
+  "Morrigan Soul Fist",
+  "Morrigan Air Soul Fist",
+  "Anakaris Curse",
+  "Aulbath Sonic Wave",
+  "Lei-Lei Anki Oh",
+  "Lillith Soul Flash",
+  "Jedah Dio Sega"
+}
 
 -- This is for button or stick
 local function check_for_counter_attack_disabled()
@@ -807,6 +820,12 @@ reversal_calculation_menu_item.is_disabled = function()
           training_settings.guard_action == 2 or -- PB
           training_settings.guard_action == 3  -- GC
 end
+
+local anak_menu_item = list_menu_item("Anak Projectile", training_settings, "anak_projectile", anak_projectile ,1, "Choose Which Projectile Anakaris has eaten")
+anak_menu_item.is_disabled = function()
+  return globals and globals.getCharacter(0xFF8400) ~= "Anakaris"
+end
+
 local is_random_playback_on = function() return training_settings.random_playback == false end
 local enable_slot_1_menu_item = checkbox_menu_item("Enable Slot 1", training_settings, "enable_slot_1", 0, "Enable this slot for random recording")
 enable_slot_1_menu_item.is_disabled = is_random_playback_on 
@@ -847,10 +866,11 @@ return {
         }
       },
     {
-        name = "Defensive",
+        name = "Player",
         entries = {
             list_menu_item("Pose", training_settings, "dummy_neutral", dummy_neutral,1,"The dummy will hold this direction."),
             list_menu_item("Wakeup", training_settings, "roll_direction", roll_direction,1, "Determines which direction the dummy will roll on knockdown"),
+            anak_menu_item,
             checkbox_menu_item("Tech Throws", training_settings, "p2_throw_tech",0,"The dummy will tech throws at this %."),
             list_menu_item("Guard", training_settings, "guard", guard,1, "Autoguard will block everything, including unblockable setups.\nBlock will make the dummy tap back for one frame to put them in proxy block.\nCurrently does not work with all moves."),
             -- integer_menu_item("# Guard Frames", training_settings, "p2_refill_timer", 0, 20, false, 0, nil, "This timer controls when the life meter will be refilled.\nOccurs this many seconds after being hit"),

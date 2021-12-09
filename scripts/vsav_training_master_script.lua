@@ -168,6 +168,7 @@ emu.registerstart(function()
 	globals.inpHistoryModule = inpHistoryModule.registerStart() 
 	globals.inpHistoryModule.reset_inp_history_scroll()
 	globals.menuModule = menuModule.registerStart()
+	globals.getCharacter = utilitiesModule.get_character
 	player_objects = {
 		playerObject.make_player_object(1, 0xFF8400, "P1"),
 		playerObject.make_player_object(2, 0xFF8800, "P2")

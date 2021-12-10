@@ -934,6 +934,17 @@ return {
         checkbox_menu_item("Show GC Trainer", training_settings, "show_gc_trainer", 1,"This option shows the GC window in the input viewer.\nThe Green GC shows when the window begins,\nand Red when it is performed or ends."),
       }
     },
+    {
+      name = "Timers",
+      entries = {
+        checkbox_menu_item("Show Invuln Timer", training_settings, "show_invuln_timer", false,""),
+        checkbox_menu_item("Show Mash Timer", training_settings, "show_mash_timer", false,""),
+        checkbox_menu_item("Show Throw Invulnerability Timer", training_settings, "show_throw_invuln_timer", false,""),
+        checkbox_menu_item("Show Curse Timer", training_settings, "show_curse_timer", false,""),
+        checkbox_menu_item("Show Push Block Timer", training_settings, "show_pb_timer", false,""),
+        checkbox_menu_item("Show Push Block Push Bash Timer", training_settings, "show_pb_pushback_timer", false,""), 
+      }
+    }
 }
 end
 

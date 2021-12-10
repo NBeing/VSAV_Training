@@ -449,7 +449,6 @@ local function set_lei_lei_stun_item()
         memory.writebyte(0xFF8400 + 0x19D, 0x08)
     end
 end
-  
 local function get_anak_projectile()
     local current = globals.options.anak_projectile
     if globals and globals.getCharacter(0xFF8400) ~= "Anakaris" then 

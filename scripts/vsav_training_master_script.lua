@@ -359,6 +359,7 @@ while true do
 		cps2HitboxModule.guiRegister(globals.options.display_hitbox_default, use_hb_config)
 		vsavScriptModule.runCheats()
 		menuModule.guiRegister()
+		timersModule.guiRegister()
 		if globals.options.show_scrolling_input == true then
 			inpHistoryModule.guiRegister(globals._input)
 		end	  

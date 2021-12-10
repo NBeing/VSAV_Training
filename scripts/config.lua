@@ -52,6 +52,7 @@ local default_training_settings = {
     looped_playback = true,
     pb_type_rec = 0,
     anak_projectile = 1,
+    lei_lei_stun_item = 0,
   }
   
 

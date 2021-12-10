@@ -199,7 +199,7 @@ emu.registerbefore(function()
 	if globals.game_state.match_begun == false then
 		return
 	end
-	-- memory.writebyte(0xFF8400 + 0x19D, 5)
+
 	charMovesModule.registerBefore()
 
 	globals["options"] 		 = configModule.registerBefore()

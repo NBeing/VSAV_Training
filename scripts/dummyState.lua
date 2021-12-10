@@ -440,6 +440,15 @@ local function get_p2_reversal_strength(player)
     end
 end
 
+local function set_lei_lei_stun_item()
+    local current = globals.options.lei_lei_stun_item
+    if globals and globals.getCharacter(0xFF8400) ~= "Lei-Lei" then 
+        return
+    end
+    if current == true then
+        memory.writebyte(0xFF8400 + 0x19D, 0x08)
+    end
+end
   
 local function get_anak_projectile()
     local current = globals.options.anak_projectile
@@ -576,6 +585,7 @@ dummyStateModule = {
     ["registerBefore"] = function()
         globals.parsed_dummy_state = parsed_dummy_state()
         get_anak_projectile()
+        set_lei_lei_stun_item()
         return {
             get_dummy_state = get_dummy_state,
             -- parsed_dummy_state = parsed_dummy_state

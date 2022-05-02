@@ -1,8 +1,6 @@
 # VSAV Training Mode - Fightcade 2 
 
 ## About
-[Quick and Dirty Installation Video](https://streamable.com/6srfnh)
-
 A training mode for VSAV. ** You must supply your own ROM! ** 
 
 Shoutouts to: Dammit and Jed for their wizardry, Grouflon (Stole their 3s training mode menu, and settings workflow!) and the VSAV Community. 
@@ -20,7 +18,16 @@ What is described in the video guide:
   3) IMPORTANT: The path where you installed fightcade 2 should not have a space in it: e.g. 
   Bad: `C:/fightcade 2/` Good: `C:/fightcade2`. Try to make sure the path is also not too deep.
   4) Double click `run_vsav_training.bat` (windows), or run `./run_vsav_training.bat` in the terminal (windows) 
+
+### Debugging Installation Issues
+
+  1) If you encounter `gd.dll` issue, reinstall Fightcade 2. `gd.dll` is part of Fightcade 2 and not my training mode. It seems to break on update occasionally.
+  2) If you are having issues with the above, make sure to whitelist `fcadefbneo.exe` on windows defender or other AntiVirus
+  3) If you are having weird input issues make sure p2 controls are bound!
+  4) If the .bat script does not work it may be because your path has spaces or is too long. I cannot control this, this is part of FC2 FBneo lua. See step 3 for more info above.
+  5) Reach out to me on the Vampire Savior Discord's #development channel! I will usually respond on the same day.
  
+
 ## Hotkeys
     Press Start open the training menu.
     Press Coin to swap controls to dummy

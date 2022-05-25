@@ -18,7 +18,7 @@
   "counter_attack_random_upback":1,
   "enable_slot_2":0,
   "enable_slot_5":0,
-  "display_airdash_trainer":1,
+  "display_airdash_trainer":true,
   "dummy_neutral":1,
   "counter_attack":1,
   "enable_slot_3":true,

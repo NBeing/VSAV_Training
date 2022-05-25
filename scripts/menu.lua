@@ -932,17 +932,19 @@ return {
         checkbox_menu_item("Show Damage Calc", training_settings, "show_damage_calc",1, "This shows a damage calculation.\nDamage calculations are recalculated on hit"),
         checkbox_menu_item("Show Scrolling Input", training_settings, "show_scrolling_input",1, "Display the Scrolling Input Viewer"),
         checkbox_menu_item("Show GC Trainer", training_settings, "show_gc_trainer", 1,"This option shows the GC window in the input viewer.\nThe Green GC shows when the window begins,\nand Red when it is performed or ends."),
+        checkbox_menu_item("Show IAD Trainer", training_settings, "display_airdash_trainer", 0,"This option shows the HEIGHT of your last few aidashes.\nGreen is best! Red is Worst!"),
       }
     },
     {
-      name = "Timers",
+      name = "Timers/Testing",
       entries = {
         checkbox_menu_item("Show Invuln Timer", training_settings, "show_invuln_timer", false,""),
         checkbox_menu_item("Show Mash Timer", training_settings, "show_mash_timer", false,""),
         checkbox_menu_item("Show Throw Invulnerability Timer", training_settings, "show_throw_invuln_timer", false,""),
         checkbox_menu_item("Show Curse Timer", training_settings, "show_curse_timer", false,""),
         checkbox_menu_item("Show Push Block Timer", training_settings, "show_pb_timer", false,""),
-        checkbox_menu_item("Show Push Block Push Bash Timer", training_settings, "show_pb_pushback_timer", false,""), 
+        checkbox_menu_item("Show Push Block Push Back Timer", training_settings, "show_pb_pushback_timer", false,""), 
+        checkbox_menu_item("Testing: PB Delayed Pushback Bug ", training_settings, "show_move_strength", false,""), 
       }
     }
 }

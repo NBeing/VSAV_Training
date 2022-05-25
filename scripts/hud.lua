@@ -52,11 +52,45 @@ local function draw_pb_counter()
 		globals.timers.p1_pushblock_counter = 0
 	end
 end
+local function draw_airdash_trainer()
+	if globals.options.display_airdash_trainer == true then
+		local p1_char = util.get_character(0xFF8400)
+
+		if p1_char ~= "Q-Bee" and p1_char ~= "Zabel" and p1_char ~= "Lei-Lei" and p1_char ~= "Jedah" then
+			return
+		end
+
+		local copy_of_table = copytable(globals.airdash_heights)
+		table.sort(copy_of_table, function (left, right) return left < right end)
+
+		local base_airdash = 50
+		local average = 0
+		
+		for _,item in pairs(globals.airdash_heights) do average = average + item end
+		average = average / #globals.airdash_heights
+		if tostring(average) == "-nan(ind)"  then average = 0 end
+		gui.text(10, base_airdash , "IAD Height. Avg:".. math.floor(average))
+		for i = #globals.airdash_heights, 1, -1 do
+			local color = "#FFFFFF"
+			-- Best!
+			if globals.airdash_heights[i] == copy_of_table[1] then color = "#00FF00" end
+			if globals.airdash_heights[i] == copy_of_table[#copy_of_table] then
+				color = "#FF0000" 
+			end
+
+			gui.text(10, base_airdash + 10 + ((#globals.airdash_heights - i) * 10), globals.airdash_heights[i], color)
+		end
+
+		-- for key = 1, util.tablelength( globals.airdash_heights ) do
+		-- 	gui.text(10,base_airdash + (key * 10), globals.airdash_heights[key])
+		-- end
+	end
+end
 local function draw_controlling()
 	if globals.controlling_p1 == true then 
-		gui.text( 2, 2, "Controlling: P1")
+		gui.text( 1, 1, "Controlling: P1")
 	else 
-		gui.text( 2, 2, "Controlling: P2")
+		gui.text( 1, 1, "Controlling: P2")
 	end
 end
 local hudModule = {
@@ -66,6 +100,7 @@ local hudModule = {
 		draw_fd()
 		draw_pb_counter()
 		draw_controlling()
+		draw_airdash_trainer()
 		if globals.options.display_recording_gui == true then
 			draw_rec()
 		end

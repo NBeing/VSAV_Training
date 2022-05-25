@@ -141,6 +141,36 @@ local function draw_push_block_push_back_timer(player_adr, coords)
         gui.text((coords.base.x - 65), coords.base.y - 120, "PB PushBack" )
     end
 end
+local function get_move_strength(move_strength)
+    if move_strength == 0 then 
+        move_strength_display = "None / Light"
+    elseif move_strength == 1 then 
+        move_strength_display = "Medium"
+    elseif move_strength == 2 then 
+        move_strength_display = "Heavy"
+    elseif move_strength == 3 then 
+        move_strength_display = "ES"
+    else
+        move_strength_display = ""
+    end
+    return move_strength.." ( "..move_strength_display.." )"
+end
+local function draw_move_strength_display(player_adr)
+    local move_strength_p1 = memory.readbyte(0xFF8859)
+    local move_strength_display_p1 = get_move_strength(move_strength_p1)
+
+    local move_strength_p2 = memory.readbyte(0xFF8459)
+    local move_strength_display_p2 = get_move_strength(move_strength_p2)
+
+    local push_block_push_back_timer_p1 = memory.readword(0xFF8400 + 0x1B0) 
+    local push_block_push_back_timer_p2 = memory.readword(0xFF8800 + 0x1B0) 
+
+    gui.text(50,50,"P1 Last Got Hit By       : "..move_strength_display_p2)
+    gui.text(50,58,"P2 Last Got Hit By       : "..move_strength_display_p1)
+    
+    gui.text(50,66,"P1 Push Back Timer Value : "..push_block_push_back_timer_p1)
+    gui.text(50,74,"P2 Push Back Timer Value : "..push_block_push_back_timer_p2)
+end
 local record_tech_hit_results = false
 timerModule = {
     ["guiRegister"] = function()
@@ -151,6 +181,9 @@ timerModule = {
         if globals.options.show_pb_pushback_timer then
             draw_push_block_push_back_timer( 0xFF8400, p1_coords)
             draw_push_block_push_back_timer( 0xFF8800, p2_coords)
+        end
+        if globals.options.show_move_strength then
+            draw_move_strength_display()
         end
         if globals.options.show_pb_timer then
             draw_push_block_timer( 0xFF8400, p1_coords)

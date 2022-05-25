@@ -53,6 +53,13 @@ local default_training_settings = {
     pb_type_rec = 0,
     anak_projectile = 1,
     lei_lei_stun_item = 0,
+    show_move_strength = 0,
+    show_pb_pushback_timer = 0,
+    show_pb_timer = 0,
+    show_throw_invuln_timer = 0,
+    show_mash_timer = 0,
+    show_invuln_timer = 0,
+    display_airdash_trainer = 0,
   }
   
 

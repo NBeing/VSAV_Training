@@ -93,8 +93,9 @@ function make_input_set(_value)
     update_player_input(_player_obj.input, "HK", _local_input[_player_obj.prefix.." Strong Kick"])
   end
 
-  function read_player_vars(_player_obj)
-    update_input(_player_obj)
+  function read_player_vars(_player1_obj, _player2_obj)
+    update_input(_player1_obj)
+    update_input(_player2_obj)
     -- if  memory.readdword(0xFF8804) == 0x02020400 then
     --   print("got it")
     -- end
@@ -128,7 +129,20 @@ function make_input_set(_value)
           player_objects[2].p2_trigger_reversal  = false
           
         end
-
+        if not prev.p1_is_dashing and current.p1_is_dashing then 
+          player_objects[1].started_dashing  = true
+          if current.p1_in_air then 
+            local cur = util.tablelength(globals.airdash_heights)
+            if cur == 10 then
+              table.remove(globals.airdash_heights,1)
+              table.insert(globals.airdash_heights, current.p1_y )
+              -- globals.airdash_heights[cur  + 1] = current.p1_y
+            else
+              table.insert(globals.airdash_heights, current.p1_y )            end
+          end
+        else
+          player_objects[1].started_dashing  = false
+        end
       end
     end 
   end

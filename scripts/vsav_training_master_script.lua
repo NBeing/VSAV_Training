@@ -10,6 +10,21 @@ function script_path()
 	local str = debug.getinfo(2, "S").source:sub(2)
 	return str:match("(.*[/\\])")
 end
+function deepcopy(orig)
+    local orig_type = type(orig)
+    local copy
+    if orig_type == 'table' then
+        copy = {}
+        for orig_key, orig_value in next, orig, nil do
+            copy[deepcopy(orig_key)] = deepcopy(orig_value)
+        end
+        setmetatable(copy, deepcopy(getmetatable(orig)))
+    else -- number, string, boolean, etc
+        copy = orig
+    end
+    return copy
+end
+copytable = deepcopy
 dofile("macro-options.lua", "r") --load the globals
 dofile("macro-modules.lua", "r")
 
@@ -114,6 +129,7 @@ globals = {
 	skip_frame = false,
 	macroLua = nil,
 	last_fd = "",
+	airdash_heights = {},
 	set_last_data = function (fd) 
 		globals.last_fd = fd
 	end,
@@ -177,11 +193,12 @@ emu.registerstart(function()
 	P2 = player_objects[2]
 	
 	frameDataModule.registerStart(globals.options.mo_enable_frame_data, quiet_framedata)
-	cps2HitboxModule.registerStart()
+	cps2HitboxModule.registerStart(globals)
 	macroLuaModule.registerStart()
 
 end)
 
+local last 
 emu.registerbefore(function()
 	-- fc = fc + 1
     -- if fc % 60 == 0 then 
@@ -247,8 +264,8 @@ emu.registerbefore(function()
 		end
 	end
 
-	playerObject.read_player_vars(player_objects[1])
-	playerObject.read_player_vars(player_objects[2])
+	playerObject.read_player_vars(player_objects[1], player_objects[2])
+	-- playerObject.read_player_vars(player_objects[2])
 	
 	if globals.macroLua.playing == true then
 		local macroLua_keys = globals.macroLua.get_keytable()
@@ -358,11 +375,11 @@ while true do
 		vsavScriptModule.guiRegister(display_hud, display_movelist)
 		cps2HitboxModule.guiRegister(globals.options.display_hitbox_default, use_hb_config)
 		vsavScriptModule.runCheats()
-		menuModule.guiRegister()
 		timersModule.guiRegister()
+		menuModule.guiRegister()
 		if globals.options.show_scrolling_input == true then
 			inpHistoryModule.guiRegister(globals._input)
-		end	  
+		end
 		-- local frame_index = 0
 
 		-- local step_x = 50

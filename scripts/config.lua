@@ -60,6 +60,7 @@ local default_training_settings = {
     show_mash_timer = 0,
     show_invuln_timer = 0,
     display_airdash_trainer = 0,
+    show_x_distance = 0,
   }
   
 

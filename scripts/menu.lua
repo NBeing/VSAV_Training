@@ -932,6 +932,7 @@ return {
         checkbox_menu_item("Show Damage Calc", training_settings, "show_damage_calc",1, "This shows a damage calculation.\nDamage calculations are recalculated on hit"),
         checkbox_menu_item("Show Scrolling Input", training_settings, "show_scrolling_input",1, "Display the Scrolling Input Viewer"),
         checkbox_menu_item("Show GC Trainer", training_settings, "show_gc_trainer", 1,"This option shows the GC window in the input viewer.\nThe Green GC shows when the window begins,\nand Red when it is performed or ends."),
+        checkbox_menu_item("Show Pushbox Distance", training_settings, "show_x_distance", 1,"Gives a numerical / visual representation of the distances between characters"),
         checkbox_menu_item("Show IAD Trainer", training_settings, "display_airdash_trainer", 0,"This option shows the HEIGHT of your last few aidashes.\nGreen is best! Red is Worst!"),
       }
     },
@@ -1161,10 +1162,18 @@ menuModule = {
           local _menu_x = _menu_box_left + 10
           local _menu_y = _menu_box_top + 23
           local _menu_y_interval = 10
+          local _menu_x_interval = 10
+          local _menu_y_second_column = false
           local _draw_index = 0
-          for i = 1, #menu[main_menu_selected_index].entries do
+          for i = 1, #menu[main_menu_selected_index].entries do            
             if menu[main_menu_selected_index].entries[i].is_disabled == nil or not menu[main_menu_selected_index].entries[i].is_disabled() then
-              menu[main_menu_selected_index].entries[i]:draw(_menu_x, _menu_y + _menu_y_interval * _draw_index, not is_main_menu_selected and not current_popup and sub_menu_selected_index == i)
+              if _draw_index > 10 then _menu_x_interval = 150 else _menu_x_interval = 0 end
+              if _draw_index > 10 then _menu_y_second_column = true else _menu_y_second_column = false end
+              if not _menu_y_second_column then 
+                menu[main_menu_selected_index].entries[i]:draw(_menu_x + _menu_x_interval, _menu_y + _menu_y_interval * _draw_index, not is_main_menu_selected and not current_popup and sub_menu_selected_index == i)
+              else 
+                menu[main_menu_selected_index].entries[i]:draw(_menu_x + _menu_x_interval, (_menu_y - 110) + _menu_y_interval * _draw_index, not is_main_menu_selected and not current_popup and sub_menu_selected_index == i)
+              end 
               _draw_index = _draw_index + 1
             end
           end

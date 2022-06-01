@@ -21,7 +21,7 @@ local boxes = {
 	         ["axis throw"] = {color = 0xFFAA00, fill = 0x40, outline = 0xFF}, --sfa, sfa2, nwarr
 	          ["throwable"] = {color = 0xF0F0F0, fill = 0x20, outline = 0xFF},
 }
-
+local config_globals
 local globals = {
 	axis_color           = 0xFFFFFFFF,
 	blank_color          = 0xFFFFFFFF,
@@ -597,7 +597,92 @@ end
 
 _p2_attacking = false 
 
+local function do_tables_match( a, b )
+    return table.concat(a) == table.concat(b)
+end
+local function draw_push_dist(pushes)
+	if config_globals and config_globals.options and not config_globals.options.show_x_distance then
+		return
+	end
+	if not pushes.p1 or not pushes.p2 then
+		return
+	end
+	local distance = 0
+	local on_left = 'p1'
+	if pushes.p1.right > pushes.p2.right then
+		on_left = 'p2'		
+	end 
+
+	local abs_top_bottom = math.abs(pushes.p2.val_y - pushes.p1.val_y)
+	local y_midpt
+	if (pushes.p2.val_y < pushes.p1.val_y) then
+		y_midpt = pushes.p2.val_y + abs_top_bottom
+	else
+		y_midpt = pushes.p1.val_y + abs_top_bottom
+	end 
+
+	if on_left == 'p1' then
+		-- gui.line(int x1, int y1, int x2, int y2 [, type color [, skipfirst]])
+		distance = pushes.p2.left - pushes.p1.right
+		-- gui.line(pushes.p1.right, pushes.p1.val_y, pushes.p2.left, pushes.p2.val_y )
+		gui.line(pushes.p1.right, 150, pushes.p2.left, 150 , "green")
+		-- gui.text((pushes.p1.right + (distance / 2)), y_midpt - 50,  "X Dist: "..distance)
+		gui.text((pushes.p1.right), 58,  "X Dist: "..distance)
+		
+	else
+		distance = pushes.p1.left - pushes.p2.right
+		gui.line(pushes.p2.right, 150, pushes.p1.left, 150 , "green")
+		gui.text((pushes.p2.right),  58,  "X Dist: "..distance)
+		
+	end
+end
+local function tablelength(T)
+	local count = 0
+	for _ in pairs(T) do count = count + 1 end
+	return count
+end
+local function find_closest_hurtbox( hurtboxes, hitboxes )
+	if next(hitboxes) == nil then return 0 end
+	if next(hurtboxes) == nil then return 0 end
+	local p1_facing = config_globals.dummy.p1_facing
+	local cur_distance = 9999999
+	local closest_hurtbox = nil
+	print("Got boxes...")
+	print(serialize(hitboxes))
+	for k,hitbox in pairs(hitboxes) do 
+		print("Hitbox right", hitbox.right)
+		local closest_hurtbox = nil
+		for k,hurtbox in pairs(hurtboxes) do
+			-- print("Iterating", v)
+			if hurtbox.player == 2 then
+				print("P2 hurtbox")
+				-- print(serialize(hurtbox))
+				print("hurtbox left", hurtbox.left)
+				if hurtbox.left < cur_distance then
+					cur_distance =  hurtbox.left  - hitbox.right 
+					closest_hurtbox = hurtbox
+				end
+			end
+		end
+		if closest_hurtbox then
+			gui.line(hitbox.right, (hitbox.top + ((hitbox.bottom - hitbox.top) / 2)), closest_hurtbox.left, (closest_hurtbox.top + ((closest_hurtbox.bottom - closest_hurtbox.top) / 2)), "red")
+			gui.text(hitbox.right + 20, (hitbox.top + ((hitbox.bottom - hitbox.top) / 2)) - 10, "Distance: "..(cur_distance))
+		end
+	end
+
+end
+local function draw_hurtbox_dist(hurtboxes, hitboxes)
+	-- print("hurtboxes", serialize(hurtboxes))
+	-- print("hitboxes", serialize(hitboxes))
+	find_closest_hurtbox(hurtboxes, hitboxes)
+end
 local render_hitboxes = function()
+	local pushes = {}
+	local hitboxes = {}
+	local hurtboxes = {}
+	local num_hurtboxes = {}
+	local num_hitboxes = 0
+
 	local f = frame_buffer[1]
 	if not f.match_active then
 		return
@@ -610,12 +695,36 @@ local render_hitboxes = function()
 	for entry = 1, f.max_boxes or 0 do
 		for _, obj in ipairs(f) do
 			if obj[entry] then
-				-- if obj[entry] ~= nil and obj[entry] then
-				-- 	print("Entry", obj[entry])
-				-- end
+				if obj[entry] ~= nil and obj[entry] then
+					-- print("Entry", obj[entry])
+				end
+				if obj[entry]['type'] == "push" then
+					local cur_pushes = obj[entry]
+
+					if not pushes.p1 then 
+						pushes.p1 = cur_pushes
+					end
+					if pushes.p1 then
+						-- print("Testinb Match", serialize(cur_pushes), serialize(pushes.p1))
+						if cur_pushes.right ~= pushes.p1.right then
+							-- print("NO MATCH Pushing p2...")
+							pushes.p2 = cur_pushes	
+						end
+					end
+					-- print("pushes result")
+					-- print(serialize(pushes))
+					-- gui.box(int x1, int y1, int x2, int y2 [, type fillcolor [, outlinecolor]])
+					-- gui.box(left, top, right, bottom, "grey", "black")
+				end
+				if obj[entry]['type'] == "vulnerability" then
+					local cur_hurtbox = obj[entry]
+					table.insert(hurtboxes, cur_hurtbox)
+				end
 				if obj[entry]['type'] == "attack" then
-					_p2_attacking = true
-					-- print("heres the obj:", obj[entry])
+					-- _p2_attacking = true
+					local cur_hitbox = obj[entry]
+					table.insert(hitboxes, cur_hitbox)
+					-- print("heres the table:", hitboxes)
 				else
 					_p2_attacking = false
 	
@@ -624,6 +733,8 @@ local render_hitboxes = function()
 			draw_hitbox(obj[entry])
 		end
 	end
+	-- draw_hurtbox_dist(hurtboxes,hitboxes)
+	draw_push_dist(pushes)
 
 	if globals.draw_axis then
 		for _, obj in ipairs(f) do
@@ -742,7 +853,9 @@ local whatgame = function()
 end
 
 cps2HitboxModule = {
-    ["registerStart"] = function()
+    ["registerStart"] = function(_globals)
+		print("Setting config globals")
+		config_globals = _globals
 		whatgame()
 	end,
 	["registerLoad"] = function()

@@ -200,6 +200,16 @@ end)
 
 local last 
 emu.registerbefore(function()
+	-- print("currently selected", memory.readbyte(0xFF8400 + 0x382))
+	-- print("unknown mirror",memory.readbyte(0xFF6198))
+	-- print("have selected character", memory.readbyte(0xFF8400 + 0x3BD))
+	-- memory.writebyte(0xFF8400 + 0x3BD, 0x02)
+
+	-- print("P1 guard", memory.readbyte(0xFF8400 + 0x1AB))
+	-- if memory.readbyte(0xFF8400 + 0x1AB) > 0 then
+	-- 	print("P1 blockin")
+	-- 	memory.writebyte(0xFF8400 + 0x170, 0x06)
+	-- end
 	-- fc = fc + 1
     -- if fc % 60 == 0 then 
     --     local cur_clock = os.clock()

@@ -130,6 +130,10 @@ globals = {
 	macroLua = nil,
 	last_fd = "",
 	airdash_heights = {},
+	time_between_dashes = {},
+	dash_length_frames = {},
+	last_dash_ended = nil,
+	last_dash_started = nil,
 	set_last_data = function (fd) 
 		globals.last_fd = fd
 	end,
@@ -167,6 +171,9 @@ input.registerhotkey(4, function()
 	-- Return to char select
 	globals.show_menu = false
 	memory.writebyte(0xFF8005, 0x0C)
+	globals.airdash_heights = {}
+	globals.time_between_dashes = {}
+	globals.dash_length_frames = {}
 	last_fd = ""
 end)
 input.registerhotkey(3, function()

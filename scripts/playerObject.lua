@@ -129,8 +129,41 @@ function make_input_set(_value)
           player_objects[2].p2_trigger_reversal  = false
           
         end
+        
+        -- Case where the dash has ended
+        -- We set last_dash_ended to emu.framecount()
+        if prev.p1_is_dashing and not current.p1_is_dashing then
+          globals.last_dash_ended = emu.framecount()
+          local cur_dash_length_frames = util.tablelength(globals.dash_length_frames)
+          if globals.last_dash_started ~= nil then
+            local diff = globals.last_dash_ended - globals.last_dash_started
+            if cur_dash_length_frames == 10 then
+              table.remove(globals.dash_length_frames, 1)
+              table.insert(globals.dash_length_frames, diff)
+            else
+              table.insert(globals.dash_length_frames, diff)
+            end  
+          end
+          player_objects[1].stopped_dashing = true
+        else
+          player_objects[1].stopped_dashing = false
+        end
+        -- Case where dash begins
         if not prev.p1_is_dashing and current.p1_is_dashing then 
           player_objects[1].started_dashing  = true
+          globals.last_dash_started = emu.framecount()
+          local cur_time_between_dashes = util.tablelength(globals.time_between_dashes)
+
+          if globals.last_dash_ended == nil then 
+            globals.last_dash_ended = emu.framecount()
+          end
+          local diff = globals.last_dash_started - globals.last_dash_ended
+          if cur_time_between_dashes == 10 then
+            table.remove(globals.time_between_dashes,1)
+            table.insert(globals.time_between_dashes, diff )
+          else
+            table.insert(globals.time_between_dashes, diff)            
+          end
           if current.p1_in_air then 
             local cur = util.tablelength(globals.airdash_heights)
             if cur == 10 then

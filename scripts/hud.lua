@@ -52,6 +52,90 @@ local function draw_pb_counter()
 		globals.timers.p1_pushblock_counter = 0
 	end
 end
+local function draw_dash_length_trainer()
+	if globals.options.display_dash_length_trainer == true then
+		local p1_char = util.get_character(0xFF8400)
+
+		if  p1_char ~= "Sasquatch" and 
+			p1_char ~= "Jedah" and 
+			p1_char ~= "Gallon" and 
+			p1_char ~= "Felicia" and
+			p1_char ~= "Morrigan" 
+		then
+			return
+		end
+
+		local copy_of_table = copytable(globals.dash_length_frames)
+		table.sort(copy_of_table, function (left, right) return left < right end)
+
+		local base_airdash = 50
+		local base_x
+		print()
+		if globals.options.display_dash_interval_trainer == false then 
+			base_x = 10
+		else
+			base_x = 30
+		end
+		local average = 0
+		
+		for _,item in pairs(globals.dash_length_frames) do average = average + item end
+		average = average / #globals.dash_length_frames
+		if tostring(average) == "-nan(ind)"  then average = 0 end
+		-- gui.text(30, base_airdash , "Time In Dash. Avg:".. math.floor(average))
+		for i = #globals.dash_length_frames, 1, -1 do
+			local color = "#FFFFFF"
+			-- Best!
+			if globals.dash_length_frames[i] == copy_of_table[1] then color = "#00FF00" end
+			if globals.dash_length_frames[i] == copy_of_table[#copy_of_table] then
+				color = "#FF0000" 
+			end
+			if p1_char == "Sasquatch" then
+				if globals.dash_length_frames[i] < 20 then
+					gui.text(base_x, base_airdash + 10 + ((#globals.dash_length_frames - i) * 10), ":)", 'green')				
+				else
+					gui.text(base_x, base_airdash + 10 + ((#globals.dash_length_frames - i) * 10), ">:(", 'red')				
+				end
+			else
+				gui.text(base_x, base_airdash + 10 + ((#globals.dash_length_frames - i) * 10), globals.dash_length_frames[i], color)
+			end
+		end
+	end
+end
+local function draw_dash_trainer()
+	if globals.options.display_dash_interval_trainer == true then
+		local p1_char = util.get_character(0xFF8400)
+
+		if  p1_char ~= "Sasquatch" and 
+			p1_char ~= "Jedah" and 
+			p1_char ~= "Gallon" and 
+			p1_char ~= "Felicia" and
+			p1_char ~= "Morrigan" 
+		then
+			return
+		end
+
+		local copy_of_table = copytable(globals.time_between_dashes)
+		table.sort(copy_of_table, function (left, right) return left < right end)
+
+		local base_airdash = 50
+		local average = 0
+		
+		for _,item in pairs(globals.time_between_dashes) do average = average + item end
+		average = average / #globals.time_between_dashes
+		if tostring(average) == "-nan(ind)"  then average = 0 end
+		gui.text(10, base_airdash , "Time Btw Dashes Avg: ".. math.floor(average))
+		for i = #globals.time_between_dashes, 1, -1 do
+			local color = "#FFFFFF"
+			-- Best!
+			if globals.time_between_dashes[i] == copy_of_table[1] then color = "#00FF00" end
+			if globals.time_between_dashes[i] == copy_of_table[#copy_of_table] then
+				color = "#FF0000" 
+			end
+
+			gui.text(10, base_airdash + 10 + ((#globals.time_between_dashes - i) * 10), globals.time_between_dashes[i], color)
+		end
+	end
+end
 local function draw_airdash_trainer()
 	if globals.options.display_airdash_trainer == true then
 		local p1_char = util.get_character(0xFF8400)
@@ -101,6 +185,8 @@ local hudModule = {
 		draw_pb_counter()
 		draw_controlling()
 		draw_airdash_trainer()
+		draw_dash_trainer()
+		draw_dash_length_trainer()
 		if globals.options.display_recording_gui == true then
 			draw_rec()
 		end

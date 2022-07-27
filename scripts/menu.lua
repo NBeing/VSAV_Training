@@ -934,6 +934,8 @@ return {
         checkbox_menu_item("Show GC Trainer", training_settings, "show_gc_trainer", 1,"This option shows the GC window in the input viewer.\nThe Green GC shows when the window begins,\nand Red when it is performed or ends."),
         checkbox_menu_item("Show Pushbox Distance", training_settings, "show_x_distance", 1,"Gives a numerical / visual representation of the distances between characters"),
         checkbox_menu_item("Show IAD Trainer", training_settings, "display_airdash_trainer", 0,"This option shows the HEIGHT of your last few aidashes.\nGreen is best! Red is Worst!"),
+        checkbox_menu_item("Show Dashes Interval", training_settings, "display_dash_interval_trainer", false,"Shows how long you were grounded between dashes.\nGreen is best! Red is Worst!"),
+        checkbox_menu_item("Show Dash Time", training_settings, "display_dash_length_trainer", false,"Shows how many frames you dashed for.\nIf Sas then Smileys describe short hop success.\nGreen is best! Red is Worst!"),
       }
     },
     {

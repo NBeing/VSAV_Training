@@ -84,6 +84,10 @@ function getHeadBoxTopXY(adr)
     }
 
 end
+local function draw_projectile_count_limiter( _ , coords)
+    local projectile_count_limiter = memory.readbyte(0xFFF9BE)
+    gui.text(135,50, "Projectile Allocation Value: ".."0x"..to_hex(projectile_count_limiter))
+end
 local function draw_invuln_timer( player_adr , coords)
     local invuln_timer = memory.readbyte(player_adr + 0x147)
     if invuln_timer ~= 0 then
@@ -204,6 +208,9 @@ timerModule = {
         if globals.options.show_invuln_timer then
             draw_invuln_timer( 0xFF8400, p1_coords)
             draw_invuln_timer( 0xFF8800, p2_coords)
+        end
+        if globals.options.show_projectile_count_limiter then
+            draw_projectile_count_limiter()
         end
             -- draw_pursuit_timer( 0xFF8400, p1_coords)
             -- draw_pursuit_timer( 0xFF8800, p2_coords)

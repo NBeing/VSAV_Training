@@ -9,15 +9,34 @@ BIGGEST SHOUTOUT to KyleW! This definitely would not have happened or continued 
 
  `N-Bee`
 
-## Installation 
+## Windows Installation 
 Follow the video guide: https://www.youtube.com/watch?v=To7DpTNSRi8
 
 What is described in the video guide: 
-  1) Place `run_vsav_training.bat` (windows) or `run_vsav_training.bat` (linux) in your `yourfc2install\emulators\fc2\emulator\fbneo`
-  2) Place the `scripts` folder adjacent to `fcadefbneo.exe` e.g.such that `emulators\fc2\emulator\fbneo\scripts\vsav_training_master_script.lua` is a valid path.
+  1) Place `run_vsav_training.bat` in your `yourfc2install\emulator\fbneo`
+  2) Place the `scripts` folder adjacent to `fcadefbneo.exe` e.g.such that `fightcade\emulator\fbneo\scripts\vsav_training_master_script.lua` is a valid path.
   3) IMPORTANT: The path where you installed fightcade 2 should not have a space in it: e.g. 
   Bad: `C:/fightcade 2/` Good: `C:/fightcade2`. Try to make sure the path is also not too deep.
-  4) Double click `run_vsav_training.bat` (windows), or run `./run_vsav_training.bat` in the terminal (windows) 
+  4) Double click `run_vsav_training.bat` (windows)
+  
+##Linux Installation
+  1) Place  `run_vsav_training.sh` (linux) in your `yourfc2install\emulator\fbneo`
+  2) Place the `scripts` folder adjacent to `fcadefbneo.exe` e.g.such that `fightcade\emulator\fbneo\scripts\vsav_training_master_script.lua` is a valid path.
+  3) IMPORTANT: The path where you installed fightcade 2 should not have a space in it: e.g. 
+  Bad: `C:/fightcade 2/` Good: `C:/fightcade2`. Try to make sure the path is also not too deep.
+  4) Run `./run_vsav_training.sh` in the terminal (linux) 
+
+##MacOS installation
+
+WIP
+  1) Open finder > go to applications > right click on fightcade2 and click "show package contents" > open "contents" folder > open "MacOS" folder > open "emulator" folder > open "fbneo" folder
+  2) Place  `run_vsav_training_macos.sh` in your `
+
+  2) Place the `scripts` folder adjacent to `fcadefbneo.exe` e.g.such that `fightcade\emulator\fbneo\scripts\vsav_training_master_script.lua` is a valid path.
+  3) IMPORTANT: The path where you installed fightcade 2 should not have a space in it: e.g. 
+  Bad: `C:/fightcade 2/` Good: `C:/fightcade2`. Try to make sure the path is also not too deep.
+  4) Run `./run_vsav_training.sh` in the terminal (linux) 
+
 
 ### Debugging Installation Issues
 

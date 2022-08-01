@@ -130,8 +130,26 @@ function make_input_set(_value)
           
         end
         
-        -- Case where the dash has ended
-        -- We set last_dash_ended to emu.framecount()
+         -- Table to keep track of short hop dash counter
+         if prev.p1_is_dashing and not current.p1_is_dashing then
+          globals.last_dash_ended = emu.framecount()
+          local cur_short_hop_counter = util.tablelength(globals.short_hop_counter)
+          if globals.last_dash_started ~= nil then
+            local diff = globals.last_dash_ended - globals.last_dash_started
+            if cur_short_hop_counter == 1000 then
+              table.remove(globals.short_hop_counter, 1)
+              table.insert(globals.short_hop_counter, diff)
+            else
+              table.insert(globals.short_hop_counter, diff)
+            end  
+          end
+          player_objects[1].stopped_dashing = true
+        else
+          player_objects[1].stopped_dashing = false
+        end
+        
+      
+        -- Table tracking framelength of dash
         if prev.p1_is_dashing and not current.p1_is_dashing then
           globals.last_dash_ended = emu.framecount()
           local cur_dash_length_frames = util.tablelength(globals.dash_length_frames)
@@ -148,7 +166,8 @@ function make_input_set(_value)
         else
           player_objects[1].stopped_dashing = false
         end
-        -- Case where dash begins
+
+        -- Table tracking length of dash in frames
         if not prev.p1_is_dashing and current.p1_is_dashing then 
           player_objects[1].started_dashing  = true
           globals.last_dash_started = emu.framecount()

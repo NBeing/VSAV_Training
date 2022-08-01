@@ -936,6 +936,7 @@ return {
         checkbox_menu_item("Show IAD Trainer", training_settings, "display_airdash_trainer", 0,"This option shows the HEIGHT of your last few aidashes.\nGreen is best! Red is Worst!"),
         checkbox_menu_item("Show Dashes Interval", training_settings, "display_dash_interval_trainer", 0,"Shows how long you were grounded between dashes.\nGreen is best! Red is Worst!"),
         checkbox_menu_item("Show Dash Time", training_settings, "display_dash_length_trainer", 0,"Shows how many frames you dashed for.\nIf Sas then Smileys describe short hop success.\nGreen is best! Red is Worst!"),
+        checkbox_menu_item("Show Short Hop Counter", training_settings, "display_short_hop_counter", false,"Shows how many short hops you.\nhave done in a row on Sasquatch"),
       }
     },
     {

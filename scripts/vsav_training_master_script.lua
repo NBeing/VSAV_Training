@@ -132,6 +132,7 @@ globals = {
 	airdash_heights = {},
 	time_between_dashes = {},
 	dash_length_frames = {},
+	short_hop_counter = {},
 	last_dash_ended = nil,
 	last_dash_started = nil,
 	set_last_data = function (fd) 

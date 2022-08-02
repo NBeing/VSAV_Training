@@ -170,7 +170,6 @@ local function draw_short_hop_counter()
 		local x = 161
 		local y = 53
 		local count = 0
-		local count_two = 0
 		gui.rect(x, y, x+61, y+8, color)
 		gui.text( x + 2, y + 1, "Short hops: 0", "#FF0000")
 		local copy_of_table = copytable(globals.short_hop_counter)
@@ -180,7 +179,6 @@ local function draw_short_hop_counter()
 			if globals.short_hop_counter[i] < 20 then
 				gui.text( x + 2, y + 1, "Short hops: ".. count + 1, "#00FF00")
 				count = count + 1
-				if count > 0 then color = "#" end
 			else
 				return				
 			end
@@ -238,6 +236,7 @@ local hudModule = {
 		draw_airdash_trainer()
 		draw_dash_trainer()
 		draw_dash_length_trainer()
+		draw_short_hop_counter()
 		if globals.options.display_recording_gui == true then
 			draw_rec()
 		end

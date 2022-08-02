@@ -175,6 +175,7 @@ input.registerhotkey(4, function()
 	globals.airdash_heights = {}
 	globals.time_between_dashes = {}
 	globals.dash_length_frames = {}
+	globals.short_hop_counter = {}
 	last_fd = ""
 end)
 input.registerhotkey(3, function()

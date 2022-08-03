@@ -29,7 +29,7 @@ What is described in the video guide:
 1) Place the `scripts` folder in `/Applications/FightCade2.app/Contents/MacOS/emulator/fbneo/`
 2) Create a text document in your `/Applications/FightCade2.app/Contents/MacOS/emulator/fbneo/` titled `run_vsav_training.sh`
 3) In the `run_vsav_training.sh` document you created, copy and paste the contents of the file `run_vsav_training_macos.sh`
-4) Select the file in finder and press `⌘I` in the `Open with:` section and select `terminal`
+4) Select the file in finder and press `⌘I`, then in the `Open with:` section select `terminal`
 5) double click on the `run_vsav_training.sh`
 
 ### Debugging Installation Issues

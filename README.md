@@ -27,7 +27,7 @@ What is described in the video guide:
 ##  MacOS installation
 
 1) run the `macos_setup.command` file by double clicking it in your finder
-2) run the `run_vsav_training_macos.command` file on your desktop by double clicking it
+2) run the `run_vsav_training.command` file on your desktop by double clicking it
 
 ### Debugging Installation Issues
 

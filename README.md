@@ -19,8 +19,7 @@ What is described in the video guide:
   4) Double click `run_vsav_training.bat`
   
 ##  Linux Installation
-  1) Place  `run_vsav_training.sh` (linux) in your `yourfc2install\emulator\fbneo`
-  2) Place the `scripts` folder adjacent to `fcadefbneo.exe` e.g.such that `fightcade\emulator\fbneo\scripts\vsav_training_master_script.lua` is a valid path.
+  1) Place  `run_vsav_training.sh` and `scripts` in your `...\Fightcade\emulator\fbneo`
   3) Run `./run_vsav_training.sh` in the terminal
 
 ##  MacOS installation

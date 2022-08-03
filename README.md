@@ -13,7 +13,7 @@ BIGGEST SHOUTOUT to KyleW! This definitely would not have happened or continued 
 Follow the video guide: https://www.youtube.com/watch?v=To7DpTNSRi8
 
 What is described in the video guide: 
-  1) Place `run_vsav_training.bat` file and the `scripts` folder in your `...\Fightcade\emulator\fbneo
+  1) Place `run_vsav_training.bat` file and the `scripts` folder in your `...\Fightcade\emulator\fbneo`
   3) IMPORTANT: The path where you installed fightcade 2 should not have a space in it: e.g. 
   Bad: `C:/fightcade 2/` Good: `C:/fightcade2`. Try to make sure the path is also not too deep.
   4) Double click `run_vsav_training.bat`

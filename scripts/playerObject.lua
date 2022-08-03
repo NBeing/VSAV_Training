@@ -126,12 +126,11 @@ function make_input_set(_value)
         if not prev.p2_reversal_frame and current.p2_reversal_frame then 
           player_objects[2].p2_trigger_reversal  = true
         else
-          player_objects[2].p2_trigger_reversal  = false
-          
+          player_objects[2].p2_trigger_reversal  = false  
         end
         
          -- Table to keep track of short hop dash counter
-         if prev.p1_is_dashing and not current.p1_is_dashing then
+        if prev.p1_is_dashing and not current.p1_is_dashing then
           globals.last_dash_ended = emu.framecount()
           local cur_short_hop_counter = util.tablelength(globals.short_hop_counter)
           if globals.last_dash_started ~= nil then
@@ -148,7 +147,6 @@ function make_input_set(_value)
           player_objects[1].stopped_dashing = false
         end
         
-      
         -- Table tracking framelength of dash
         if prev.p1_is_dashing and not current.p1_is_dashing then
           globals.last_dash_ended = emu.framecount()
@@ -195,6 +193,61 @@ function make_input_set(_value)
         else
           player_objects[1].started_dashing  = false
         end
+        -- tracks the time between dash start and attack start
+        if current.p1_is_attacking and not prev.p1_is_attacking then
+          globals.last_attack_started = emu.framecount()
+          local cur_time_between_dash_and_attack = util.tablelength(globals.time_between_dash_start_attack_start)
+  
+          if globals.last_dash_started ~= nil then
+            local diff = globals.last_attack_started - globals.last_dash_started
+            if cur_time_between_dash_and_attack == 8 then
+              table.remove(globals.time_between_dash_start_attack_start,1)
+              table.insert(globals.time_between_dash_start_attack_start, diff )
+            else
+              table.insert(globals.time_between_dash_start_attack_start, diff)            
+            end
+          end
+        end
+          -- tracks the frame the last attack ended on
+        if prev.p1_is_attacking and not current.p1_is_attacking then
+            globals.last_attack_ended = emu.framecount()
+        end
+        -- tracks the time between attack end and dash start
+        if current.p1_is_dashing and not prev.p1_is_dashing then
+          globals.last_dash_started = emu.framecount()
+          local cur_time_between_attack_and_dash = util.tablelength(globals.time_between_attack_end_dash_start)
+          if globals.last_attack_ended == nil then
+            globals.last_attack_ended = emu.framecount()
+          end
+          local diff = globals.last_dash_started - globals.last_attack_ended
+          if cur_time_between_attack_and_dash == 8 then
+            table.remove(globals.time_between_attack_end_dash_start,1)
+            table.insert(globals.time_between_attack_end_dash_start, diff )
+          else
+            table.insert(globals.time_between_attack_end_dash_start, diff)            
+          end
+        end
+        -- tracks frame the dummy recovers from hit or block stun
+        if prev.p2_is_blocking_or_hit and not current.p2_is_blocking_or_hit then
+          globals.p2_hit_or_block_end = emu.framecount()
+        end
+        -- tracks the frames between recovering from hit or block and next attack
+        if current.p2_is_blocking_or_hit and not prev.p2_is_blocking_or_hit then
+          globals.p2_hit_or_block_begin = emu.framecount()
+          local cur_frames_between_attacks = util.tablelength(globals.frames_between_attacks)
+          if globals.p2_hit_or_block_end == nil then
+            globals.p2_hit_or_block_end = emu.framecount()
+          end
+          local diff = globals.p2_hit_or_block_begin - globals.p2_hit_or_block_end
+          if cur_frames_between_attacks == 10 and diff < 20 then
+              table.remove(globals.frames_between_attacks,1)
+              table.insert(globals.frames_between_attacks, diff )
+          else if diff < 20 then
+            table.insert(globals.frames_between_attacks, diff)
+          end     
+          end
+        end
+
       end
     end 
   end

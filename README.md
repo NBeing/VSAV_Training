@@ -1,7 +1,7 @@
 # VSAV Training Mode - Fightcade 2 
 
 ## About
-A training mode for VSAV. ** You must supply your own ROM! ** 
+A training mode for VSAV. **You must supply your own ROM!** 
 
 Shoutouts to: Dammit and Jed for their wizardry, Grouflon (Stole their 3s training mode menu, and settings workflow!) and the VSAV Community. 
 
@@ -9,15 +9,25 @@ BIGGEST SHOUTOUT to KyleW! This definitely would not have happened or continued 
 
  `N-Bee`
 
-## Installation 
+## Windows Installation 
 Follow the video guide: https://www.youtube.com/watch?v=To7DpTNSRi8
 
 What is described in the video guide: 
-  1) Place `run_vsav_training.bat` (windows) or `run_vsav_training.bat` (linux) in your `yourfc2install\emulators\fc2\emulator\fbneo`
-  2) Place the `scripts` folder adjacent to `fcadefbneo.exe` e.g.such that `emulators\fc2\emulator\fbneo\scripts\vsav_training_master_script.lua` is a valid path.
+  1) Place `run_vsav_training.bat` file and the `scripts` folder in your `...\Fightcade\emulator\fbneo`
   3) IMPORTANT: The path where you installed fightcade 2 should not have a space in it: e.g. 
   Bad: `C:/fightcade 2/` Good: `C:/fightcade2`. Try to make sure the path is also not too deep.
-  4) Double click `run_vsav_training.bat` (windows), or run `./run_vsav_training.bat` in the terminal (windows) 
+  4) Double click `run_vsav_training.bat`
+  
+##  Linux Installation
+  1) Place  `run_vsav_training.sh` and `scripts` in your `...\Fightcade\emulator\fbneo`
+  3) Run `./run_vsav_training.sh` in the terminal
+
+##  MacOS installation
+
+1) Place the `scripts` folder in `/Applications/FightCade2.app/Contents/MacOS/emulator/fbneo/`
+2) Create a text document in your `/Applications/FightCade2.app/Contents/MacOS/emulator/fbneo/` titled `run_vsav_training.command`
+3) In the `run_vsav_training.command` document you created, copy and paste the contents of the file `run_vsav_training.command`
+5) double click on the `run_vsav_training.command`
 
 ### Debugging Installation Issues
 

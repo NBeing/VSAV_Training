@@ -937,6 +937,9 @@ return {
         checkbox_menu_item("Show Dashes Interval", training_settings, "display_dash_interval_trainer", 0,"Shows how long you were grounded between dashes.\nGreen is best! Red is Worst!"),
         checkbox_menu_item("Show Dash Time", training_settings, "display_dash_length_trainer", 0,"Shows how many frames you dashed for.\nIf Sas then Smileys describe short hop success.\nGreen is best! Red is Worst!"),
         checkbox_menu_item("Show Short Hop Counter", training_settings, "display_short_hop_counter", false,"Shows how many short hops you.\nhave done in a row on Sasquatch"),
+        checkbox_menu_item("Show Dash Attack Cancel Trainer", training_settings, "display_dash_attack_cancel_trainer", false,"Shows the frames between starting a dash.\nand the start of an attack\nThis is printed under CATK in the gui."),
+        checkbox_menu_item("Show Attack Dash Gap Trainer", training_settings, "display_attack_dash_gap_trainer", false,"Shows the frames between an attack recovering.\nand the start of a dash.\nThis is printed under DGAP in the gui."),
+        checkbox_menu_item("Show Frame Trap Trainer", training_settings, "frame_trap_trainer", false,"Shows the frames gap between.\nhits or blocks on p2"),
       }
     },
     {

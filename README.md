@@ -17,17 +17,20 @@ What is described in the video guide:
   2) Place the `scripts` folder adjacent to `fcadefbneo.exe` e.g.such that `fightcade\emulator\fbneo\scripts\vsav_training_master_script.lua` is a valid path.
   3) IMPORTANT: The path where you installed fightcade 2 should not have a space in it: e.g. 
   Bad: `C:/fightcade 2/` Good: `C:/fightcade2`. Try to make sure the path is also not too deep.
-  4) Double click `run_vsav_training.bat` (windows)
+  4) Double click `run_vsav_training.bat`
   
 ##  Linux Installation
   1) Place  `run_vsav_training.sh` (linux) in your `yourfc2install\emulator\fbneo`
   2) Place the `scripts` folder adjacent to `fcadefbneo.exe` e.g.such that `fightcade\emulator\fbneo\scripts\vsav_training_master_script.lua` is a valid path.
-  3) Run `./run_vsav_training.sh` in the terminal (linux) 
+  3) Run `./run_vsav_training.sh` in the terminal
 
 ##  MacOS installation
 
-1) run the `macos_setup.command` file by double clicking it in your finder
-2) run the `run_vsav_training.command` file on your desktop by double clicking it
+1) Place the `scripts` folder in `/Applications/FightCade2.app/Contents/MacOS/emulator/fbneo/`
+2) Create a text document in your `/Applications/FightCade2.app/Contents/MacOS/emulator/fbneo/` titled `run_vsav_training.sh`
+3) In the `run_vsav_training.sh` document you created, copy and paste the contents of the `run_vsav_training_macos.sh` downloaded in the folder `VSAV_Training-fc2'
+4) Select the file in finder and press `⌘I` in the `Open with:` section and select `terminal`
+5) double click on the `run_vsav_training.sh`
 
 ### Debugging Installation Issues
 

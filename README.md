@@ -1,7 +1,7 @@
 # VSAV Training Mode - Fightcade 2 
 
 ## About
-A training mode for VSAV. ** You must supply your own ROM! ** 
+A training mode for VSAV. **You must supply your own ROM!** 
 
 Shoutouts to: Dammit and Jed for their wizardry, Grouflon (Stole their 3s training mode menu, and settings workflow!) and the VSAV Community. 
 

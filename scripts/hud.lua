@@ -58,15 +58,6 @@ local function draw_dash_length_trainer()
 		local p1_char = util.get_character(0xFF8400)
 		local x_location = memory.readdword(0xFF8410)
 
-		if  p1_char ~= "Sasquatch" and 
-			p1_char ~= "Jedah" and 
-			p1_char ~= "Gallon" and 
-			p1_char ~= "Felicia" and
-			p1_char ~= "Morrigan" 
-		then
-			return
-		end
-
 		local copy_of_table = copytable(globals.dash_length_frames)
 		table.sort(copy_of_table, function (left, right) return left < right end)
 
@@ -82,7 +73,7 @@ local function draw_dash_length_trainer()
 			if x_location < 41983616 then
 				base_x = 345
 			else
-				base_x = 30
+				base_x = 45
 			end
 		end
 		local average = 0
@@ -115,15 +106,6 @@ local function draw_dash_trainer()
 	if globals.options.display_dash_interval_trainer == true then
 		local p1_char = util.get_character(0xFF8400)
 
-		if  p1_char ~= "Sasquatch" and 
-			p1_char ~= "Jedah" and 
-			p1_char ~= "Gallon" and 
-			p1_char ~= "Felicia" and
-			p1_char ~= "Morrigan" 
-		then
-			return
-		end
-
 		local copy_of_table = copytable(globals.time_between_dashes)
 		table.sort(copy_of_table, function (left, right) return left < right end)
 		
@@ -145,7 +127,7 @@ local function draw_dash_trainer()
 			if globals.time_between_dashes[i] == copy_of_table[#copy_of_table] then color = "#FF0000" end
 			if globals.time_between_dashes[i] < 2 then color = "#FFD700" end
 			if x_location < 41983616 then
-				gui.text(364, 60 + ((#globals.time_between_dashes - i) * 10), globals.time_between_dashes[i], color)
+				gui.text(310, 60 + ((#globals.time_between_dashes - i) * 10), globals.time_between_dashes[i], color)
 			else
 				gui.text(10, 60 + ((#globals.time_between_dashes - i) * 10), globals.time_between_dashes[i], color)
 			end

@@ -522,9 +522,42 @@ local function get_anak_projectile()
         memory.writeword(0xFF8400 + 0xAA, 0x4000)
     end
 end
+  
+local function get_distance_between_players()
+
+    local pushes = globals.pushboxes
+    if not pushes then
+        return 
+    end
+    if not pushes.p1 or not pushes.p2 then
+        return
+    end
+    local distance = 0
+    local on_left = 'p1'
+    if pushes.p1.right > pushes.p2.right then
+        on_left = 'p2'		
+    end 
+    
+    local abs_top_bottom = math.abs(pushes.p2.val_y - pushes.p1.val_y)
+    local y_midpt
+    if (pushes.p2.val_y < pushes.p1.val_y) then
+        y_midpt = pushes.p2.val_y + abs_top_bottom
+    else
+        y_midpt = pushes.p1.val_y + abs_top_bottom
+    end 
+
+    if on_left == 'p1' then
+        -- gui.line(int x1, int y1, int x2, int y2 [, type color [, skipfirst]])
+        distance = pushes.p2.left - pushes.p1.right        
+    else
+        distance = pushes.p1.left - pushes.p2.right
+    end
+    return distance
+end
 local config = {}
 local function get_dummy_state()
     config = {
+        distance_between_players = get_distance_between_players(),
         p1_char         = get_character(p1_base_addr),
         p1_status_1     = parse_status_1(p1_base_addr),
         p1_status_2     = parse_status_2(p1_base_addr),
@@ -536,19 +569,19 @@ local function get_dummy_state()
         p1_dashing          = memory.readbyte(0xFF8406) == 0x14,
         p1_attack_flag      = memory.readbyte(0xFF8505) ~= 0x00,
         p1_reversal         = memory.readbyte(0xFF8400 + 0x174),
-        p1_facing       = get_p1_facing(),
-        p1_away_btn     = get_p1_away(),
-        p1_toward_btn   = get_p1_towards(),
-        p1_is_dashing   = memory.readbyte(0xFF8400 + 0x115) ~= 0,
-        p1_is_attacking = memory.readbyte(0xFF8400 + 0x105) ~= 0,
-        p1_in_air       = memory.readbyte(0xFF8400 + 0x38) ~= 0,
-        p1_y            = memory.readword(0xFF8400 + 0x14),
-        p1_guarding     = memory.readbyte(0xFF8540) ~= 0,
-        p1_pushback_timer = memory.readword(0xFF8400 + 0x164),
-
-        p2_char         = get_character(p2_base_addr),
-        p2_status_1     = parse_status_1(p2_base_addr),
-        p2_status_2     = parse_status_2(p2_base_addr),
+        p1_facing           = get_p1_facing(),
+        p1_away_btn         = get_p1_away(),
+        p1_toward_btn       = get_p1_towards(),
+        p1_is_dashing       = memory.readbyte(0xFF8400 + 0x115) ~= 0,
+        p1_is_attacking     = memory.readbyte(0xFF8400 + 0x105) ~= 0,
+        p1_in_air           = memory.readbyte(0xFF8400 + 0x38) ~= 0,
+        p1_y                = memory.readword(0xFF8400 + 0x14),
+        p1_guarding         = memory.readbyte(0xFF8540) ~= 0,
+        p1_pushback_timer   = memory.readword(0xFF8400 + 0x164),
+        p1_is_crouching     = memory.readbyte(0xFF8400 + 0x121),
+        p2_char             = get_character(p2_base_addr),
+        p2_status_1         = parse_status_1(p2_base_addr),
+        p2_status_2         = parse_status_2(p2_base_addr),
 
         p2_knocked_down = memory.readbyte(dummy_knocked_down_addr), -- our knocked down is actually guard stun
         p2_facing       = get_p2_facing(),
@@ -566,7 +599,8 @@ local function get_dummy_state()
         p2_attack_flag      = memory.readbyte(0xFF8905) ~= 0x00,
         p2_reversal         = memory.readbyte(0xFF8800 + 0x174),
         p2_reversal_frame   = memory.readdword(0xFF8804) == 0x02020400,
-        
+        p2_is_crouching     = memory.readbyte(0xFF8800 + 0x121),
+
         enable_roll    = setShouldRoll(),
         guard_action   = get_guard_action(),
         gc_button      = get_gc_button(),

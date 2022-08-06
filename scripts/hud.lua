@@ -296,6 +296,95 @@ local function frame_trap_trainer()
 		end
 	end
 end
+local function draw_push_dist()
+	if globals and globals.options and not globals.options.show_x_distance or not globals.pushboxes then
+		return
+	end
+	local distance = globals.dummy.distance_between_players
+	local pushes = globals.pushboxes
+
+	if not pushes.p1 or not pushes.p2 then
+		return
+	end
+
+	local on_left = 'p1'
+
+	if pushes.p1.right > pushes.p2.right then
+		on_left = 'p2'		
+	end 
+	
+	if on_left == 'p1' then
+		gui.line(pushes.p1.right, 150, pushes.p2.left, 150 , "green")
+		gui.text((pushes.p1.right), 58,  "X Dist: "..distance)
+		
+	else
+		distance = config_globals.dummy.distance_between_players
+		gui.line(pushes.p2.right, 150, pushes.p1.left, 150 , "green")
+		gui.text((pushes.p2.right),  58,  "X Dist: "..distance)
+		
+	end
+end
+
+local function draw_bishamon_ubk_trainer()
+	local p1_char = globals.getCharacter(0xFF8400)
+	if globals.options.display_bishamon_ubk_trainer == true and p1_char == "Bishamon" then
+
+		print("P1 char", p1_char, p1_char == "Bishamon")
+		local bish_ubk_distance_object = globals.get_bishamon_ubk_ranges_by_char(0xFF8800)
+		local distance = globals.dummy.distance_between_players
+		local pushes = globals.pushboxes
+		if not bish_ubk_distance_object or not distance then
+			return
+		end
+		-- {
+		--     charName = "AU",
+		--     standingDist  = { startDist = 74, endDist = 88 },
+		--     crouchingDist = { startDist = 74, enddist = 90 },
+		--     overlapRange  = { startDist = 74, endDist = 88 }, 
+		--     length = 14
+		-- },
+		if bish_ubk_distance_object.notes then
+			gui.text(50,50, bish_ubk_distance_object.notes, "#FFC0CB")
+		end
+
+
+		midpt_x = pushes.p2.left + ((pushes.p2.right - pushes.p2.left) / 2) - 18
+		midpt_y = pushes.p2.top + ((pushes.p2.bottom - pushes.p2.top) / 2) - 10
+
+		if
+			bish_ubk_distance_object.overlapRange and
+			bish_ubk_distance_object.overlapRange.startDist and  
+			bish_ubk_distance_object.overlapRange.endDist and  
+			distance >= bish_ubk_distance_object.overlapRange.startDist and
+			distance <= bish_ubk_distance_object.overlapRange.endDist   
+		then
+			gui.text(midpt_x, midpt_y,  "Both", "green")
+			return
+		end
+
+		if 
+			bish_ubk_distance_object.standingDist and
+			bish_ubk_distance_object.standingDist.startDist and  
+			bish_ubk_distance_object.standingDist.endDist and  
+			distance >= bish_ubk_distance_object.standingDist.startDist and
+			distance <= bish_ubk_distance_object.standingDist.endDist  
+		then
+			gui.text(midpt_x, midpt_y, "Standing", "green")
+			return
+		end
+		if
+			bish_ubk_distance_object.crouchingDist and  
+			bish_ubk_distance_object.crouchingDist.startDist and  
+			bish_ubk_distance_object.crouchingDist.endDist and  
+			distance >= bish_ubk_distance_object.crouchingDist.startDist and
+			distance <= bish_ubk_distance_object.crouchingDist.endDist   
+		then
+				gui.text(midpt_x, midpt_y,  "Crouching", "green")
+			return
+		end
+		gui.text(midpt_x, midpt_y,  "NO UBK", "red")
+	end
+end
 local function draw_controlling()
 	if globals.controlling_p1 == true then 
 		gui.text( 1, 1, "Controlling: P1")
@@ -313,10 +402,12 @@ local hudModule = {
 		draw_airdash_trainer()
 		draw_dash_trainer()
 		draw_dash_length_trainer()
+		draw_bishamon_ubk_trainer()
 		draw_short_hop_counter()
 		draw_dash_cancel_trainer()
 		draw_dash_link_trainer()
 		frame_trap_trainer()
+		draw_push_dist()
 		if globals.options.display_recording_gui == true then
 			draw_rec()
 		end

@@ -512,6 +512,128 @@ local function get_reversal_moves_names( reversal_moves )
     end
     return names
 end
+
+	
+						
+-- Character    Standing    Crouching    Overlap    Total Overlap length
+local bishamon_unblockable_distance_data = {
+
+    ["Anakaris"] = {  
+        charName = "AN",
+        standingDist  = { startDist = 74, endDist = 87 },
+        crouchingDist = { startDist = 74, endDist = 86 },
+        overlapRange  = { startDist = 74, endDist = 86 }, 
+        length = 12
+    },
+    ["Aulbath"] = {
+        charName = "AU",
+        standingDist  = { startDist = 74, endDist = 88 },
+        crouchingDist = { startDist = 74, endDist = 90 },
+        overlapRange  = { startDist = 74, endDist = 88 }, 
+        length = 14
+    },
+    ["Bishamon"] = {
+        charName = "BI",
+        standingDist = { startDist = 73, endDist = 92},
+        crouchingDist  = { startDist = 73 , endDist = 92 },
+        overlapRange = {startDist = 73, endDist = 92 }, 
+        length =  9
+    }, 
+    ["Bulleta"] = { 
+        charName = "BU",
+        standingDist = { startDist = 85, endDist = 91},
+        crouchingDist  = { startDist = 85 , endDist = 92 },
+        overlapRange = {startDist = 85, endDist = 91 }, 
+        length =  6
+    }, 
+    ["Demitri"] = { 
+        charName = "DE",
+        standingDist = { startDist = 85, endDist = 93},
+        crouchingDist  = { startDist = 85 , endDist = 94 },
+        overlapRange = {startDist = 85, endDist = 93 }, 
+        length =  8
+    }, 
+    ["Felicia"] = { 
+        charName = "FE",
+        standingDist = { startDist = 77, endDist = 92},
+        crouchingDist  = { startDist = 77 , endDist = 86 },
+        overlapRange = {startDist = 77, endDist = 86 }, 
+        length =  9
+    }, 
+    ["Jedah"] = { 
+        charName = "JE",
+        standingDist  = { startDist = 75, endDist = 88 },
+        crouchingDist = { startDist = 75, endDist = 85 },
+        overlapRange  = { startDist = 75, endDist = 85 }, 
+        length = 10
+    },
+    ["Lei-Lei"] = {  
+        charName = "LE",
+        standingDist  = { startDist = 79, endDist = 91 },
+        crouchingDist = { startDist = 79, endDist = 115},
+        overlapRange  = { startDist = 79, endDist = 91 }, 
+        length = 12
+    },
+    ["Sasquatch"] = {
+        charName = "SA",
+        standingDist  = { startDist = 69, endDist = 90 },
+        crouchingDist = { startDist = 69, endDist = 82 },
+        overlapRange  = { startDist = 69, endDist = 82 }, 
+        length = 13
+    },
+    ["Victor"] = {  
+        charName = "VI",
+        standingDist  = { startDist = 74, endDist = 85 },
+        crouchingDist = { startDist = 74, endDist = 95 },
+        overlapRange  = { startDist = 74, endDist = 85 },
+        length =  9
+    }, 
+    ["Zabel"] = { 
+        charName = "ZA",
+        standingDist  = { startDist = 77, endDist = 94 },
+        crouchingDist = { startDist = 77, endDist = 100},
+        overlapRange  = { startDist = 77, endDist = 94 },
+        length = 17
+    },
+    ["Gallon"] = {  
+        charName = "GA",
+        standingDist  = { startDist = nil, endDist = nil },
+        crouchingDist = { startDist = 77,  endDist = 98  },
+        overlapRange  = { startDist = nil, endDist = nil },
+        notes = "Crouch under: Frames are for BRICKS",
+        length = 17
+    },
+    ["Morrigan"] = {  
+        charName = "MO",
+        standingDist  = { startDist = nil,  endDist = nil },
+        crouchingDist = { startDist = nil,  endDist = nil  },
+        overlapRange  = { startDist = nil,  endDist = nil   },
+        notes = "MO crouches under Karame Dama UBK.",
+        length = 17
+    },
+    ["Lilith"] =  {
+        charName = "LI",
+        standingDist  = { startDist = nil, endDist = nil },
+        crouchingDist = { startDist = nil, endDist = nil},
+        overlapRange  = { startDist = nil, endDist = nil },
+        notes = "LI crouches under Karame Dama UBK.",
+        length = 17
+    },
+    ["Q-Bee"] = {  
+        charName = "QB",
+        standingDist  = { startDist = 85,  endDist = 109 },
+        crouchingDist = { startDist = 85,  endDist = 91  },
+        overlapRange  = { startDist = nil, endDist = nil }, 
+        notes = "Crouch pixels are for BRICKS, Standing pixels for Karame: when she recovers she has around ~3 frames going from standing > crouching that she is vulnerable to Karame UB",
+        length = 17
+    },
+}
+
+local function get_bishamon_ubk_ranges_by_char(base_addr)
+    local char_name = get_character(base_addr)
+    return bishamon_unblockable_distance_data[char_name]
+end
+
 local function get_moves_obj()
     local p1_all_moves = get_player_moves(0xFF8400)
     local p2_all_moves = get_player_moves(0xFF8800)
@@ -539,6 +661,9 @@ end
 charMovesModule = {
     ["get_player_movelists"] = function()
         return get_moves_obj()
+    end,
+    ["get_bishamon_ubk_ranges_by_char"] = function()
+        return get_bishamon_ubk_ranges_by_char
     end,
     ["registerBefore"] = function(run_dummy_input, macroLua_funcs)
         return get_moves_obj()

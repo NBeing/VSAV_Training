@@ -145,6 +145,7 @@ globals = {
 	set_last_data = function (fd) 
 		globals.last_fd = fd
 	end,
+	pushboxes = {},
 	gc_event = "p1_gc_none",
 	pb_event = "p1_pb_none",
 	controllerModule = nil,
@@ -193,7 +194,6 @@ input.registerhotkey(3, function()
 end)
 toggleloop = nil
 emu.registerstart(function()
-
 	util.load_training_data()
 	-- globals.frameSkipHandlerModule = frameskipHandlerModule.registerStart()
 	globals["options"] = configModule.registerBefore()
@@ -204,6 +204,8 @@ emu.registerstart(function()
 	globals.inpHistoryModule.reset_inp_history_scroll()
 	globals.menuModule = menuModule.registerStart()
 	globals.getCharacter = utilitiesModule.get_character
+	globals.get_bishamon_ubk_ranges_by_char = charMovesModule.get_bishamon_ubk_ranges_by_char()
+
 	player_objects = {
 		playerObject.make_player_object(1, 0xFF8400, "P1"),
 		playerObject.make_player_object(2, 0xFF8800, "P2")
@@ -250,6 +252,7 @@ emu.registerbefore(function()
 
 	globals["options"] 		 = configModule.registerBefore()
 	globals["game"]    		 = gameStateModule.registerBefore() 
+	globals["pushboxes"]     = cps2HitboxModule.getPushboxes()
 	globals["char_moves"]    = charMovesModule.registerBefore()
 	globals["dummy"]   		 = dummyStateModule.registerBefore().get_dummy_state()
 	-- globals["skip_frame"] 	 = frameskipHandlerModule.registerBefore()

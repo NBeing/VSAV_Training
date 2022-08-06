@@ -940,6 +940,7 @@ return {
         checkbox_menu_item("Show Dash Attack Cancel Trainer", training_settings, "display_dash_attack_cancel_trainer", false,"Shows the frames between starting a dash.\nand the start of an attack\nThis is printed under CATK in the gui."),
         checkbox_menu_item("Show Attack Dash Gap Trainer", training_settings, "display_attack_dash_gap_trainer", false,"Shows the frames between an attack recovering.\nand the start of a dash.\nThis is printed under DGAP in the gui."),
         checkbox_menu_item("Show Frame Trap Trainer", training_settings, "frame_trap_trainer", false,"Shows the frames gap between.\nhits or blocks on p2"),
+        checkbox_menu_item("Show Bishamon UBK Trainer", training_settings, "display_bishamon_ubk_trainer", false,"Overlays onto P2 whether you are in a crouch or standing\n unblockable distance for Karame Dama or Bricks"),
       }
     },
     {

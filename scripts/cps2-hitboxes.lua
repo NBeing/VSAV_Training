@@ -600,42 +600,6 @@ _p2_attacking = false
 local function do_tables_match( a, b )
     return table.concat(a) == table.concat(b)
 end
-local function draw_push_dist(pushes)
-	if config_globals and config_globals.options and not config_globals.options.show_x_distance then
-		return
-	end
-	if not pushes.p1 or not pushes.p2 then
-		return
-	end
-	local distance = 0
-	local on_left = 'p1'
-	if pushes.p1.right > pushes.p2.right then
-		on_left = 'p2'		
-	end 
-
-	local abs_top_bottom = math.abs(pushes.p2.val_y - pushes.p1.val_y)
-	local y_midpt
-	if (pushes.p2.val_y < pushes.p1.val_y) then
-		y_midpt = pushes.p2.val_y + abs_top_bottom
-	else
-		y_midpt = pushes.p1.val_y + abs_top_bottom
-	end 
-
-	if on_left == 'p1' then
-		-- gui.line(int x1, int y1, int x2, int y2 [, type color [, skipfirst]])
-		distance = pushes.p2.left - pushes.p1.right
-		-- gui.line(pushes.p1.right, pushes.p1.val_y, pushes.p2.left, pushes.p2.val_y )
-		gui.line(pushes.p1.right, 150, pushes.p2.left, 150 , "green")
-		-- gui.text((pushes.p1.right + (distance / 2)), y_midpt - 50,  "X Dist: "..distance)
-		gui.text((pushes.p1.right), 58,  "X Dist: "..distance)
-		
-	else
-		distance = pushes.p1.left - pushes.p2.right
-		gui.line(pushes.p2.right, 150, pushes.p1.left, 150 , "green")
-		gui.text((pushes.p2.right),  58,  "X Dist: "..distance)
-		
-	end
-end
 local function tablelength(T)
 	local count = 0
 	for _ in pairs(T) do count = count + 1 end
@@ -730,15 +694,18 @@ local render_hitboxes = function()
 	
 				end
 			end
-			draw_hitbox(obj[entry])
+			if config_globals.options.display_hitbox_default == true then
+				draw_hitbox(obj[entry])
+			end
 		end
 	end
 	-- draw_hurtbox_dist(hurtboxes,hitboxes)
-	draw_push_dist(pushes)
-
-	if globals.draw_axis then
-		for _, obj in ipairs(f) do
-			draw_axis(obj)
+	globals.pushboxes = pushes
+	if config_globals.options.display_hitbox_default == true then
+		if globals.draw_axis then
+			for _, obj in ipairs(f) do
+				draw_axis(obj)
+			end
 		end
 	end
 end
@@ -854,7 +821,6 @@ end
 
 cps2HitboxModule = {
     ["registerStart"] = function(_globals)
-		print("Setting config globals")
 		config_globals = _globals
 		whatgame()
 	end,
@@ -865,9 +831,10 @@ cps2HitboxModule = {
 		update_hitboxes()
 	end,
 	["guiRegister"] = function(display_hitbox_default, use_hb_config)
-		if display_hitbox_default == true then
-			render_hitboxes()
-		end
+		render_hitboxes()
+	end,
+	["getPushboxes"] = function()
+		return globals.pushboxes
 	end,
 	["registerBefore"] = function()
 	end

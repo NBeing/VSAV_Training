@@ -66,7 +66,7 @@ local default_training_settings = {
     display_short_hop_counter = false,
     display_dash_attack_cancel_trainer = false,
     display_attack_dash_gap_trainer = false,
-    frame_trap_trainer = false,
+    display_frame_trap_trainer = false,
     show_projectile_count_limiter = 0,
     display_bishamon_ubk_trainer = false,
   }

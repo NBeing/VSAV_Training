@@ -127,6 +127,8 @@ globals = {
 		p1_white_life = training_settings.p1_max_life,
 	},
 	skip_frame = false,
+	save_state = nil,
+	debounceStarted = nil,
 	macroLua = nil,
 	last_fd = "",
 	airdash_heights = {},
@@ -362,10 +364,9 @@ if savestate.registersave and savestate.registerload then --registersave/registe
 	end)
 	
 	savestate.registerload(function(slot)
-
 		globals.show_menu = false
+		globals.debounceStarted = nil
 		globals.controllerModule.enable_both_players()
-
 		globals["options"] = configModule.registerBefore()
 		globals["game"]    = gameStateModule.registerBefore() 
 		globals["dummy"]   = dummyStateModule.registerBefore().get_dummy_state()

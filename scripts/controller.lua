@@ -55,15 +55,14 @@ function enable_both_players( )
 	enable_player(2)
 end
 
-local debounceStarted = nil
 local function debounce(func, debounceTime)
-  if debounceStarted == nil then 
-    debounceStarted = globals.current_frame
+  if globals.debounceStarted == nil then 
+    globals.debounceStarted = globals.current_frame
     func()
     return
   end
-  if debounceStarted + debounceTime <  globals.current_frame then
-    debounceStarted = globals.current_frame
+  if globals.debounceStarted + debounceTime <=  globals.current_frame then
+    globals.debounceStarted = globals.current_frame
     func()
     return
   end
@@ -91,12 +90,30 @@ function handle_hotkeys()
 		if  _inputs["P1 Coin"] == nil and last_inputs["P1 Coin"] == false then 
 			globals.controllerModule.togglecontrolling()
 		end
-
 		if  (_inputs["Volume Down"] == nil and last_inputs["Volume Down"] == false ) then 
-			globals.macroLua.playcontrol()
+
+      if globals.macroLua.playing then
+        globals.macroLua.playcontrol()
+      else
+        if globals.options.use_recording_savestate == true then
+          savestate.load("current_recording")
+        end
+        globals.macroLua.playcontrol()
+      end
+    
 		end
 		if  _inputs["Volume Up"] == nil and last_inputs["Volume Up"] == false then 
-			globals.macroLua.reccontrol()
+      if globals.macroLua.recording then
+        globals.macroLua.reccontrol()
+      else
+        if globals.options.use_recording_savestate == true then
+          globals.save_state = savestate.create("current_recording")
+          savestate.save(globals.save_state)
+          globals.show_menu = false
+        end
+        globals.macroLua.reccontrol()
+
+      end
 		end
   end
   last_inputs = _inputs

@@ -61,42 +61,37 @@ local function draw_dash_length_trainer()
 		local copy_of_table = copytable(globals.dash_length_frames)
 		table.sort(copy_of_table, function (left, right) return left < right end)
 
-		local base_x
-		if globals.options.display_dash_interval_trainer == false then
-			if x_location < 41983616 then
-				base_x = 360
-			else
-				base_x = 10
-			end
-		end
+		local base_x = 0
+		local offset_x = 0
 		if globals.options.display_dash_interval_trainer == true then
-			if x_location < 41983616 then
-				base_x = 345
-			else
-				base_x = 45
-			end
+			offset_x = 30
 		end
-		local average = 0
-		
-		for _,item in pairs(globals.dash_length_frames) do average = average + item end
-		average = average / #globals.dash_length_frames
-		if tostring(average) == "-nan(ind)"  then average = 0 end
-		-- gui.text(30, base_airdash , "Time In Dash. Avg:".. math.floor(average))
+
+		if x_location < 41983616 then
+			base_x = 335
+		else
+			base_x = 10 + offset_x
+		end
+
+		if globals.options.display_dash_attack_cancel_trainer == true or globals.options.display_attack_dash_gap_trainer == true then
+			base_x = 335
+		end
+
+		gui.text(base_x, 50 , "Dash\nLength")
 		for i = #globals.dash_length_frames, 1, -1 do
 			local color = "#FFFFFF"
-			-- Best!
 			if globals.dash_length_frames[i] == copy_of_table[1] then color = "#00FF00" end
 			if globals.dash_length_frames[i] == copy_of_table[#copy_of_table] then
 				color = "#FF0000" 
 			end
 			if p1_char == "Sasquatch" then
 				if globals.dash_length_frames[i] < 20 then
-					gui.text(base_x, 60 + ((#globals.dash_length_frames - i) * 10), ":)", 'green')
+					gui.text(base_x, 80 + ((#globals.dash_length_frames - i) * 10), ":)", 'green')
 				else
-					gui.text(base_x, 60 + ((#globals.dash_length_frames - i) * 10), ":(", 'red')				
+					gui.text(base_x, 80 + ((#globals.dash_length_frames - i) * 10), ":(", 'red')				
 				end
 			else
-				gui.text(base_x, 60 + ((#globals.dash_length_frames - i) * 10), globals.dash_length_frames[i], color)
+				gui.text(base_x, 80 + ((#globals.dash_length_frames - i) * 10), globals.dash_length_frames[i], color)
 			end
 		end
 	end
@@ -109,28 +104,32 @@ local function draw_dash_trainer()
 		local copy_of_table = copytable(globals.time_between_dashes)
 		table.sort(copy_of_table, function (left, right) return left < right end)
 		
-
-		local average = 0
 		local x_location = memory.readdword(0xFF8410)
-		
-		for _,item in pairs(globals.time_between_dashes) do average = average + item end
-		average = average / #globals.time_between_dashes
-		if tostring(average) == "-nan(ind)"  then average = 0 end
-		if x_location < 41983616 then
-			gui.text(280, 50 , "Time Btw Dashes Avg: ".. math.floor(average))
-		else
-			gui.text(10, 50 , "Time Btw Dashes Avg: ".. math.floor(average))
+
+		local base_x = 0
+		offset_x = 0
+		if globals.options.display_dash_length_trainer == true then
+			offset_x = 30
 		end
+
+		if x_location < 41983616 then
+			base_x = 335 - offset_x
+		else
+			base_x = 10
+		end
+
+		if globals.options.display_dash_attack_cancel_trainer == true or globals.options.display_attack_dash_gap_trainer == true then
+			base_x = 305
+		end
+
+		gui.text(base_x, 50, "Time\nBTW\nDash")
+	
 		for i = #globals.time_between_dashes, 1, -1 do
 			local color = "#FFFFFF"
 			if globals.time_between_dashes[i] == copy_of_table[1] then color = "#00FF00" end
 			if globals.time_between_dashes[i] == copy_of_table[#copy_of_table] then color = "#FF0000" end
 			if globals.time_between_dashes[i] < 2 then color = "#FFD700" end
-			if x_location < 41983616 then
-				gui.text(310, 60 + ((#globals.time_between_dashes - i) * 10), globals.time_between_dashes[i], color)
-			else
-				gui.text(10, 60 + ((#globals.time_between_dashes - i) * 10), globals.time_between_dashes[i], color)
-			end
+			gui.text(base_x, 80 + ((#globals.time_between_dashes - i) * 10), globals.time_between_dashes[i], color)
 		end
 	end
 end
@@ -200,26 +199,32 @@ local function draw_dash_cancel_trainer()
 		table.sort(copy_of_table, function (left, right) return left < right end)
 
 		local x_location = memory.readdword(0xFF8410)
-		local offset_x = 0
-		if globals.options.display_attack_dash_gap_trainer == false then
-			offset_x = 20
+
+		local base_x = 0
+		offset_x = 0
+		if globals.options.display_attack_dash_gap_trainer == true then
+			offset_x = 30
 		end
+
 		if x_location < 41983616 then
-			gui.text(325 + offset_x, 50 , "C\nA\nT\nK")
+			base_x = 335 - offset_x
 		else
-			gui.text(10, 50 , "C\nA\nT\nK")
+			base_x = 10
 		end
+
+		if globals.options.display_dash_length_trainer == true or globals.options.display_dash_interval_trainer == true then
+			base_x = 10
+		end
+
+
+		gui.text(base_x, 50 , "Dash\nATK\nCNCL")
 		for i = #globals.time_between_dash_start_attack_start, 1, -1 do
 			local color = "#FFFFFF"
 			if globals.time_between_dash_start_attack_start[i] == copy_of_table[1] then color = "#00FF00" end
 			if globals.time_between_dash_start_attack_start[i] == copy_of_table[#copy_of_table] then
 				color = "#FF0000" 
 			end
-			if x_location < 41983616 then
-				gui.text(325 + offset_x, 85 + ((#globals.time_between_dash_start_attack_start - i) * 10), globals.time_between_dash_start_attack_start[i], color)
-			else
-				gui.text(10, 85 + ((#globals.time_between_dash_start_attack_start - i) * 10), globals.time_between_dash_start_attack_start[i], color)
-			end
+			gui.text(base_x, 85 + ((#globals.time_between_dash_start_attack_start - i) * 10), globals.time_between_dash_start_attack_start[i], color)
 		end
 	end
 end
@@ -232,44 +237,37 @@ local function draw_dash_link_trainer()
 		table.sort(copy_of_table, function (left, right) return left < right end)
 
 		local x_location = memory.readdword(0xFF8410)
-		local base_x
-		if globals.options.display_dash_attack_cancel_trainer == false then
-			if x_location < 41983616 then
-				base_x = 360
-			else
-				base_x = 10
-			end
-		end
+
+		local base_x = 0
+		offset_x = 0
 		if globals.options.display_dash_attack_cancel_trainer == true then
-			if x_location < 41983616 then
-				base_x = 345
-			else
-				base_x = 30
-			end
+			offset_x = 30
 		end
 
-		if globals.options.display_dash_attack_cancel_trainer == false then
-				gui.text(base_x, 50 , "D\nG\nA\nP")
-			else
-				gui.text(base_x, 50 , "D\nG\nA\nP")
-			end
+		if x_location < 41983616 then
+			base_x = 335
+		else
+			base_x = 10 + offset_x
+		end
+
+		if globals.options.display_dash_length_trainer == true or globals.options.display_dash_interval_trainer == true then
+			base_x = 40
+		end
+
+		gui.text(base_x, 50 , "Gap\nBTW\nATK\nDASH")
 		for i = #globals.time_between_attack_end_dash_start, 1, -1 do
 			local color = "#FFFFFF"
 			if globals.time_between_attack_end_dash_start[i] == copy_of_table[1] then color = "#00FF00" end
 			if globals.time_between_attack_end_dash_start[i] == copy_of_table[#copy_of_table] then
 				color = "#FF0000" 
 			end
-			if globals.options.display_dash_attack_cancel_trainer == false then
-				gui.text(base_x, 85 + ((#globals.time_between_attack_end_dash_start - i) * 10), globals.time_between_attack_end_dash_start[i], color)
-			else
-				gui.text(base_x, 85 + ((#globals.time_between_attack_end_dash_start - i) * 10), globals.time_between_attack_end_dash_start[i], color)
-			end
+			gui.text(base_x, 85 + ((#globals.time_between_attack_end_dash_start - i) * 10), globals.time_between_attack_end_dash_start[i], color)
 		end
 	end
 end
 -- This function checks the frame gaps between a character recovering from hit or block and the next hit or block
 local function frame_trap_trainer()
-	if globals.options.frame_trap_trainer == true then
+	if globals.options.display_frame_trap_trainer == true then
 
 		local copy_of_table = copytable(globals.frames_between_attacks)
 		table.sort(copy_of_table, function (left, right) return left < right end)
@@ -324,12 +322,10 @@ local function draw_push_dist()
 		
 	end
 end
-
 local function draw_bishamon_ubk_trainer()
 	local p1_char = globals.getCharacter(0xFF8400)
 	if globals.options.display_bishamon_ubk_trainer == true and p1_char == "Bishamon" then
 
-		print("P1 char", p1_char, p1_char == "Bishamon")
 		local bish_ubk_distance_object = globals.get_bishamon_ubk_ranges_by_char(0xFF8800)
 		local distance = globals.dummy.distance_between_players
 		local pushes = globals.pushboxes

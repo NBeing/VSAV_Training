@@ -153,7 +153,7 @@ function make_input_set(_value)
           local cur_dash_length_frames = util.tablelength(globals.dash_length_frames)
           if globals.last_dash_started ~= nil then
             local diff = globals.last_dash_ended - globals.last_dash_started
-            if cur_dash_length_frames == 10 then
+            if cur_dash_length_frames == 8 then
               table.remove(globals.dash_length_frames, 1)
               table.insert(globals.dash_length_frames, diff)
             else
@@ -175,7 +175,7 @@ function make_input_set(_value)
             globals.last_dash_ended = emu.framecount()
           end
           local diff = globals.last_dash_started - globals.last_dash_ended
-          if cur_time_between_dashes == 10 then
+          if cur_time_between_dashes == 8 then
             table.remove(globals.time_between_dashes,1)
             table.insert(globals.time_between_dashes, diff )
           else
@@ -183,12 +183,13 @@ function make_input_set(_value)
           end
           if current.p1_in_air then 
             local cur = util.tablelength(globals.airdash_heights)
-            if cur == 10 then
+            if cur == 8 then
               table.remove(globals.airdash_heights,1)
               table.insert(globals.airdash_heights, current.p1_y )
               -- globals.airdash_heights[cur  + 1] = current.p1_y
             else
-              table.insert(globals.airdash_heights, current.p1_y )            end
+              table.insert(globals.airdash_heights, current.p1_y )            
+            end
           end
         else
           player_objects[1].started_dashing  = false

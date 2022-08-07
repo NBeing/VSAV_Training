@@ -254,7 +254,7 @@ local function draw_dash_link_trainer()
 			base_x = 40
 		end
 
-		gui.text(base_x, 50 , "Gap\nBTW\nATK\nDASH")
+		gui.text(base_x, 50 , "Gap\nBTW\nATK\nDash")
 		for i = #globals.time_between_attack_end_dash_start, 1, -1 do
 			local color = "#FFFFFF"
 			if globals.time_between_attack_end_dash_start[i] == copy_of_table[1] then color = "#00FF00" end

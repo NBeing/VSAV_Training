@@ -554,13 +554,25 @@ local function get_distance_between_players()
     end
     return distance
 end
+local function get_hurtboxes(addr)
+    local boxes = {}
+    if not globals.hurtboxes then
+        return boxes
+    end
+    for k,hurtbox in pairs(globals.hurtboxes) do
+		if hurtbox.id_base == addr then
+            boxes[k] = hurtbox
+		end
+	end
+    return boxes
+end
 local config = {}
 local function get_dummy_state()
     config = {
         distance_between_players = get_distance_between_players(),
-        p1_char         = get_character(p1_base_addr),
-        p1_status_1     = parse_status_1(p1_base_addr),
-        p1_status_2     = parse_status_2(p1_base_addr),
+        p1_char             = get_character(p1_base_addr),
+        p1_status_1         = parse_status_1(p1_base_addr),
+        p1_status_2         = parse_status_2(p1_base_addr),
         p1_block_stun_timer = memory.readbyte(0xFF8558),
         p1_proxy_block      = memory.readbyte(0xFF8406) == 0x0C,
         p1_block_state      = memory.readbyte(0xFF8406) == 0x00,
@@ -579,27 +591,29 @@ local function get_dummy_state()
         p1_guarding         = memory.readbyte(0xFF8540) ~= 0,
         p1_pushback_timer   = memory.readword(0xFF8400 + 0x164),
         p1_is_crouching     = memory.readbyte(0xFF8400 + 0x121),
-        p2_char             = get_character(p2_base_addr),
-        p2_status_1         = parse_status_1(p2_base_addr),
-        p2_status_2         = parse_status_2(p2_base_addr),
-
-        p2_knocked_down = memory.readbyte(dummy_knocked_down_addr), -- our knocked down is actually guard stun
-        p2_facing       = get_p2_facing(),
-        p2_away_btn     = get_p2_away(),
-        p2_toward_btn   = get_p2_towards(),
-        p2_is_dashing   = memory.readbyte(0xFF8800 + 0x115),
-        p2_in_air       = memory.readbyte(0xFF8800 + 0x38),
-        p2_guarding     = memory.readbyte(0xFF8940) ~= 0,
-        p2_is_blocking_or_hit = memory.readbyte(0xFF8805) == 2,
-        p2_y            =  memory.readword(0xFF8800 + 0x14),
-        p2_pushback_timer   = memory.readword(0xFF8800 + 0x164),
-        p2_block_stun_timer = memory.readbyte(0xFF9558),
-        p2_proxy_block      = memory.readbyte(0xFF8806) == 0x0C,
-        p2_block_state      = memory.readbyte(0xFF8806) == 0x00,
-        p2_attack_flag      = memory.readbyte(0xFF8905) ~= 0x00,
-        p2_reversal         = memory.readbyte(0xFF8800 + 0x174),
-        p2_reversal_frame   = memory.readdword(0xFF8804) == 0x02020400,
-        p2_is_crouching     = memory.readbyte(0xFF8800 + 0x121),
+        
+        p2_hurtboxes            = get_hurtboxes(0xFF8800),
+        p2_char                 = get_character(p2_base_addr),
+        p2_status_1             = parse_status_1(p2_base_addr),
+        p2_status_2             = parse_status_2(p2_base_addr),
+        p2_throw_invuln         = memory.readbyte(0xFF8800 + 0x143), 	-- Throw Invulnerability Timer
+        p2_knocked_down         = memory.readbyte(dummy_knocked_down_addr), -- our knocked down is actually guard stun
+        p2_facing               = get_p2_facing(),
+        p2_away_btn             = get_p2_away(),
+        p2_toward_btn           = get_p2_towards(),
+        p2_is_dashing           = memory.readbyte(0xFF8800 + 0x115),
+        p2_in_air               = memory.readbyte(0xFF8800 + 0x38),
+        p2_guarding             = memory.readbyte(0xFF8940) ~= 0,
+        p2_is_blocking_or_hit   = memory.readbyte(0xFF8805) == 2,
+        p2_y                    = memory.readword(0xFF8800 + 0x14),
+        p2_pushback_timer       = memory.readword(0xFF8800 + 0x164),
+        p2_block_stun_timer     = memory.readbyte(0xFF9558),
+        p2_proxy_block          = memory.readbyte(0xFF8806) == 0x0C,
+        p2_block_state          = memory.readbyte(0xFF8806) == 0x00,
+        p2_attack_flag          = memory.readbyte(0xFF8905) ~= 0x00,
+        p2_reversal             = memory.readbyte(0xFF8800 + 0x174),
+        p2_reversal_frame       = memory.readdword(0xFF8804) == 0x02020400,
+        p2_is_crouching         = memory.readbyte(0xFF8800 + 0x121),
 
         enable_roll    = setShouldRoll(),
         guard_action   = get_guard_action(),

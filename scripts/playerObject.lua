@@ -109,9 +109,27 @@ function make_input_set(_value)
         player_objects[1].flip_input = current.p1_facing == "right" 
         player_objects[2].flip_input = current.p2_facing == "right" 
 
-        -- if current.p2_status_1 == "Hurt or Block" then 
-        --   print("hurt or block")
+        if tablelength(current.p2_hurtboxes) > 0 and tablelength(prev.p2_hurtboxes) == 0 then
+          player_objects[2].hurtboxes_appeared  = true
+          if memory.readbyte(0xFF8805) == 0x02 and memory.readbyte(0xFF8400+ 0x39) > 0 then
+            print("MEATIED ")
+          end
+        else
+          player_objects[2].hurtboxes_appeared  = false
+        end
+        -- if current.p2_throw_invuln > 0 and prev.p2_throw_invuln == 0 then 
+        --   player_objects[2].started_throw_invuln  = true
+        -- else
+        --   player_objects[2].started_throw_invuln = false
         -- end
+
+        -- if current.p2_throw_invuln > 0 and prev.p2_throw_invuln == 0 then 
+        --   player_objects[2].started_throw_invuln  = true
+        -- else
+        --   player_objects[2].started_throw_invuln = false
+        -- end
+
+
         if current.p2_guarding == true and prev.p2_guarding == false then 
           player_objects[2].started_guarding  = true
         else

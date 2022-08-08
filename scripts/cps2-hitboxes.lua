@@ -611,17 +611,10 @@ local function find_closest_hurtbox( hurtboxes, hitboxes )
 	local p1_facing = config_globals.dummy.p1_facing
 	local cur_distance = 9999999
 	local closest_hurtbox = nil
-	print("Got boxes...")
-	print(serialize(hitboxes))
 	for k,hitbox in pairs(hitboxes) do 
-		print("Hitbox right", hitbox.right)
 		local closest_hurtbox = nil
 		for k,hurtbox in pairs(hurtboxes) do
-			-- print("Iterating", v)
 			if hurtbox.player == 2 then
-				print("P2 hurtbox")
-				-- print(serialize(hurtbox))
-				print("hurtbox left", hurtbox.left)
 				if hurtbox.left < cur_distance then
 					cur_distance =  hurtbox.left  - hitbox.right 
 					closest_hurtbox = hurtbox
@@ -701,6 +694,9 @@ local render_hitboxes = function()
 	end
 	-- draw_hurtbox_dist(hurtboxes,hitboxes)
 	globals.pushboxes = pushes
+	globals.hurtboxes = hurtboxes
+	globals.hitboxes = hitboxes
+
 	if config_globals.options.display_hitbox_default == true then
 		if globals.draw_axis then
 			for _, obj in ipairs(f) do
@@ -836,6 +832,10 @@ cps2HitboxModule = {
 	["getPushboxes"] = function()
 		return globals.pushboxes
 	end,
+	["getHurtboxes"] = function()
+		return globals.hurtboxes
+	end,
+
 	["registerBefore"] = function()
 	end
 }

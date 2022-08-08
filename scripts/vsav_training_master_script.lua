@@ -53,7 +53,7 @@ local hudModule         = require "./scripts/hud"
 local timersModule      = require "./scripts/timers"
 local throwTechModule   = require "./scripts/throwTech"
 
--- local frameskipHandlerModule = require "./scripts/frameskipHandler"
+local frameskipHandlerModule = require "./scripts/frameskipHandler"
 
 if show_controls_message == true then
 	print("* Press Start open the training menu..")
@@ -148,6 +148,7 @@ globals = {
 		globals.last_fd = fd
 	end,
 	pushboxes = {},
+	hurtboxes = {},
 	gc_event = "p1_gc_none",
 	pb_event = "p1_pb_none",
 	controllerModule = nil,
@@ -197,7 +198,7 @@ end)
 toggleloop = nil
 emu.registerstart(function()
 	util.load_training_data()
-	-- globals.frameSkipHandlerModule = frameskipHandlerModule.registerStart()
+	globals.frameSkipHandlerModule = frameskipHandlerModule.registerStart()
 	globals["options"] = configModule.registerBefore()
 	globals.show_menu = false
 	globals.controllerModule = controllerModule.registerStart()
@@ -255,9 +256,10 @@ emu.registerbefore(function()
 	globals["options"] 		 = configModule.registerBefore()
 	globals["game"]    		 = gameStateModule.registerBefore() 
 	globals["pushboxes"]     = cps2HitboxModule.getPushboxes()
+	globals["hurtboxes"]	 = cps2HitboxModule.getHurtboxes()
 	globals["char_moves"]    = charMovesModule.registerBefore()
 	globals["dummy"]   		 = dummyStateModule.registerBefore().get_dummy_state()
-	-- globals["skip_frame"] 	 = frameskipHandlerModule.registerBefore()
+	globals["skip_frame"] 	 = frameskipHandlerModule.registerBefore()
 	globals["timers"] 		 = timersModule.registerBefore()
 	globals["current_frame"] = emu.framecount()
 	-- print("rev", globals.dummy.p2_reversal)
@@ -413,6 +415,10 @@ while true do
 		if globals.options.show_scrolling_input == true then
 			inpHistoryModule.guiRegister(globals._input)
 		end
+		gui.text(20, 120, memory.readbyte(0xFF8400 + 0x147), "purple")
+		-- gui.text(20,100, memory.readbyte(0xFF8000 + 0x118), "red")
+		-- gui.text(20,110, memory.readbyte(0xFF8000 + 0x81), "blue")
+
 		-- local frame_index = 0
 
 		-- local step_x = 50

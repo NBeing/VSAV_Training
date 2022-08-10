@@ -380,6 +380,12 @@ if savestate.registersave and savestate.registerload then --registersave/registe
 		globals.dmg_calc.white_life = 0
 		input_history[1] = {}
 		input_history[2] = {}
+		globals.last_dash_ended = nil
+		globals.last_dash_started = nil
+		globals.last_attack_started = nil
+		globals.last_attack_ended = nil
+		globals.p2_hit_or_block_begin = nil
+		globals.p2_hit_or_block_end = nil
 	end)
 	
 end

@@ -147,7 +147,7 @@ function make_input_set(_value)
           player_objects[1].stopped_dashing = false
         end
         
-        -- Table tracking framelength of dash
+ -- Table tracking framelength of dash
         if prev.p1_is_dashing and not current.p1_is_dashing then
           globals.last_dash_ended = emu.framecount()
           local cur_dash_length_frames = util.tablelength(globals.dash_length_frames)
@@ -175,19 +175,19 @@ function make_input_set(_value)
             globals.last_dash_ended = emu.framecount()
           end
           local diff = globals.last_dash_started - globals.last_dash_ended
-          if cur_time_between_dashes == 8 then
+          if cur_time_between_dashes == 8 and diff < 75 then
             table.remove(globals.time_between_dashes,1)
             table.insert(globals.time_between_dashes, diff )
-          else
-            table.insert(globals.time_between_dashes, diff)            
+          else if diff < 75 then
+            table.insert(globals.time_between_dashes, diff)   
+          end         
           end
           if current.p1_in_air then 
             local cur = util.tablelength(globals.airdash_heights)
             if cur == 8 then
               table.remove(globals.airdash_heights,1)
               table.insert(globals.airdash_heights, current.p1_y )
-              -- globals.airdash_heights[cur  + 1] = current.p1_y
-            else
+            else 
               table.insert(globals.airdash_heights, current.p1_y )            
             end
           end
@@ -201,11 +201,12 @@ function make_input_set(_value)
   
           if globals.last_dash_started ~= nil then
             local diff = globals.last_attack_started - globals.last_dash_started
-            if cur_time_between_dash_and_attack == 8 then
+            if cur_time_between_dash_and_attack == 8 and diff < 75 then
               table.remove(globals.time_between_dash_start_attack_start,1)
               table.insert(globals.time_between_dash_start_attack_start, diff )
-            else
-              table.insert(globals.time_between_dash_start_attack_start, diff)            
+            else if diff < 75 then
+              table.insert(globals.time_between_dash_start_attack_start, diff)
+            end         
             end
           end
         end
@@ -221,11 +222,12 @@ function make_input_set(_value)
             globals.last_attack_ended = emu.framecount()
           end
           local diff = globals.last_dash_started - globals.last_attack_ended
-          if cur_time_between_attack_and_dash == 8 then
+          if cur_time_between_attack_and_dash == 8 and diff < 75 then
             table.remove(globals.time_between_attack_end_dash_start,1)
             table.insert(globals.time_between_attack_end_dash_start, diff )
-          else
-            table.insert(globals.time_between_attack_end_dash_start, diff)            
+          else if diff < 75 then
+            table.insert(globals.time_between_attack_end_dash_start, diff)
+          end    
           end
         end
         -- tracks frame the dummy recovers from hit or block stun

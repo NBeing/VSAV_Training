@@ -1,0 +1,11 @@
+VerticalCharge Value is at PL1/PL2 + 0x33E & 0x34E
+A successful charge value is equal to or greater than a value of 0x3C
+That address is a WORD and there is address 0x33C & 0x34c that starts at at 
+value 0x3C and reduces the value until value 0x00, this is another check for the charge function.
+	
+I did find anotehr indication that a charge time is complete.
+Horizontal Charge State Address = 0xFF8740. 
+Where a "charging" value is 0x02 and a sucessful charge is value "0x04".
+
+Vertical Charge State Address = 0xFF8738 & 0xFF8748.
+Where a "charging" value is 0x02 and a sucessful charge is value "0x04".

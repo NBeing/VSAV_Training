@@ -1,19 +1,6 @@
 # Ignore everything
-*avi
-*config
-*fightcade
-*neocdiso
-*recordings
-*ROMs
-*support
-*ui
-*savestates
-*.exe
-*.dll
-*.zip
-*
-!*/scripts
-
+/scripts/macro
+/scripts/.vscode
 # But not these files...
 !.gitignore
 !run_vsav_training.bat

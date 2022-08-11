@@ -38,7 +38,8 @@ local p1_char_palette = 0x00
 gameStateModule = {
     ["registerBefore"] = function()
         globals.game_state = get_game_state()
-        if not globals.game_state.match_begun then
+        if globals.game_state.match_begun == false then
+            -- draw_css_overlay()
             -- Set infinite character select time
             -- memory.writebyte(0xFF8400 + 0x27, 60)
             -- memory.writebyte(0xFF8800 + 0x27, 60)

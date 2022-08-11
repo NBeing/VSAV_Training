@@ -785,6 +785,11 @@ end
 local function playcontrol(silent)
 	local slot = get_playback_file()
 	if not playing then
+		print("This one")
+		if recording and globals.options.enable_recording_while_playing == false then
+			return
+		end
+
 		if not parse(slot) or warning("Macro is zero frames long.", macrosize == 0) or dumpinputstream(dumpmode) then
 			return
 		end
@@ -809,7 +814,12 @@ local function playcontrol(silent)
 end
 
 local function reccontrol()
+	
 	if not recording then
+		print("here")
+		if playing and globals.options.enable_recording_while_playing == false then
+			return
+		end
 		recording = true
 		recframe = 0
 		recinputstream = {}

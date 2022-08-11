@@ -316,7 +316,7 @@ local function draw_push_dist()
 		gui.text((pushes.p1.right), 58,  "X Dist: "..distance)
 		
 	else
-		distance = config_globals.dummy.distance_between_players
+		distance = globals.dummy.distance_between_players
 		gui.line(pushes.p2.right, 150, pushes.p1.left, 150 , "green")
 		gui.text((pushes.p2.right),  58,  "X Dist: "..distance)
 		
@@ -381,6 +381,37 @@ local function draw_bishamon_ubk_trainer()
 		gui.text(midpt_x, midpt_y,  "NO UBK", "red")
 	end
 end
+local function draw_framecount()
+	if globals.options.draw_framecount then
+		gui.text(70,1, "Frame: "..emu.framecount(), "red")
+	end
+end
+local function toggle_super_meter()
+	if globals.options.hide_super_meter == true then
+		memory.writebyte(0xFFF015, 0x00)
+	else
+		memory.writebyte(0xFFF015, 0x20)
+	end
+end
+
+local function draw_meaty_trainer()
+	if globals.options.show_meaty_trainer then
+		if globals.meaty_trainer.last_meaty_succeeded then
+			print("got value last meaty succeeded")
+			-- gui.text(10,10, globals.meaty_trainer.last_meaty_succeeded)
+		end
+		if globals.meaty_trainer.last_meaty_succeeded then
+			print("got value last meaty succeeded")
+			-- gui.text(10,10, globals.meaty_trainer.last_meaty_succeeded)
+			-- gui.text(10,30, globals.meaty_trainer.last_p1_hurtbox)
+		end
+		if globals.meaty_trainer.last_p2_wakeup then
+			print("got value")
+			gui.text(10,20, globals.meaty_trainer.last_p2_wakeup)
+		end
+
+	end
+end
 local function draw_controlling()
 	if globals.controlling_p1 == true then 
 		gui.text( 1, 1, "Controlling: P1")
@@ -388,13 +419,25 @@ local function draw_controlling()
 		gui.text( 1, 1, "Controlling: P2")
 	end
 end
+-- CSS
+local function draw_css_overlay()
+	if globals.options.draw_help_info_on_css == true then
+		gui.box(8,8,300,42, "black")
+		gui.text(
+			10,10, 
+		"1) Pick P2 To Enter Training Mode. 2) P2 inputs must be set to something\n3) Set Volume Up and Down for Playback / Record in FBNeo Inputs\n4) Press Start to Open Menu 5)Press 4 to return to CSS at any time\n!! Hide this text in the future within the training mode menu !!")
+	end
+end
+-- END CSS
 local hudModule = {
     ["registerStart"] = function()
     end,
+	["guiRegisterCSS"] = function()
+		draw_css_overlay()
+	end,
     ["guiRegister"] = function()
 		draw_fd()
 		draw_pb_counter()
-		draw_controlling()
 		draw_airdash_trainer()
 		draw_dash_trainer()
 		draw_dash_length_trainer()
@@ -404,7 +447,11 @@ local hudModule = {
 		draw_dash_link_trainer()
 		frame_trap_trainer()
 		draw_push_dist()
+		draw_framecount()
+		toggle_super_meter()
+		draw_meaty_trainer()
 		if globals.options.display_recording_gui == true then
+			draw_controlling()
 			draw_rec()
 		end
     end

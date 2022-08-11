@@ -3309,13 +3309,13 @@ vsavScriptModule = {
 			movelist()
 		end 
 		charaspecfic()
-			if draw[2] then
-				for line in pairs(inp[2]) do
-					for index,row in pairs(inp[2][line]) do
-						display(margin[2] + (index-1)*effective_width, margin[3] + (line-1)*icon_size, row)
-					end
+		if draw[2] and globals.options.show_p2_inputs == true then
+			for line in pairs(inp[2]) do
+				for index,row in pairs(inp[2][line]) do
+					display(margin[2] + (index-1)*effective_width, margin[3] + (line-1)*icon_size, row)
 				end
 			end
+		end
 	end,
 	["runCheats"] = function()
 		p1life()

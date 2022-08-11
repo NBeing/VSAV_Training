@@ -25,100 +25,6 @@ function togglecontrolling()
 	if globals.controlling_p1 ~= true then controlling = "P2" end
 
 end
-function disable_player( player_num )
-	local player_addr = 0
-	if player_num == 1 then
-		player_addr = 0xFF8400
-	else
-		player_addr = 0xFF8800
-	end 
-
-	memory.writebyte(player_addr + 0x200, 0x01)
-	memory.writebyte(player_addr + 0x3B4, 0x01)
-end
-function enable_player( player_num )
-	local player_addr = 0
-	if player_num == 1 then
-		player_addr = 0xFF8400
-	else
-		player_addr = 0xFF8800
-	end 
-	memory.writebyte(player_addr + 0x200, 0x00)
-	memory.writebyte(player_addr + 0x3B4, 0x00)
-end
-function disable_both_players()
-	disable_player(1)
-	disable_player(2)
-end
-function enable_both_players( )
-	enable_player(1)
-	enable_player(2)
-end
-
-local function debounce(func, debounceTime)
-  if globals.debounceStarted == nil then 
-    globals.debounceStarted = globals.current_frame
-    func()
-    return
-  end
-  if globals.debounceStarted + debounceTime <=  globals.current_frame then
-    globals.debounceStarted = globals.current_frame
-    func()
-    return
-  end
-end
-
-local last_inputs = nil
-function handle_hotkeys()
-  local _inputs = joypad.getup()
-  local down = player_objects[1].input.down
-  if last_inputs ~= nil then
-    -- if  down["start"] == true and down["LP"] == true then 
-    if down["start"] == true then 
-			debounce(globals.menuModule.togglemenu,20)
-    end
-    -- if  down["start"] == true and down["MP"] == true then 
-		-- 	debounce(globals.menuModule.togglegraphmenu,10)
-    -- end
-    -- if  down["start"] == true and down["LK"] == true then 
-		-- 	debounce(globals.menuModule.dec_graph,5)
-    -- end
-    -- if  down["start"] == true and down["MK"] == true then 
-		-- 	debounce(globals.menuModule.inc_graph,5)
-		-- end
-
-		if  _inputs["P1 Coin"] == nil and last_inputs["P1 Coin"] == false then 
-			globals.controllerModule.togglecontrolling()
-		end
-		if  (_inputs["Volume Down"] == nil and last_inputs["Volume Down"] == false ) then 
-
-      if globals.macroLua.playing then
-        globals.macroLua.playcontrol()
-      else
-        if globals.options.use_recording_savestate == true then
-          savestate.load("current_recording")
-        end
-        globals.macroLua.playcontrol()
-      end
-    
-		end
-		if  _inputs["Volume Up"] == nil and last_inputs["Volume Up"] == false then 
-      if globals.macroLua.recording then
-        globals.macroLua.reccontrol()
-      else
-        if globals.options.use_recording_savestate == true then
-          globals.save_state = savestate.create("current_recording")
-          savestate.save(globals.save_state)
-          globals.show_menu = false
-        end
-        globals.macroLua.reccontrol()
-
-      end
-		end
-  end
-  last_inputs = _inputs
-  return _inputs
-end
 
 stick_gesture = {
   "none",
@@ -298,15 +204,6 @@ function process_pending_input_sequence(_player_obj, _input, delay)
   if _player_obj.pending_input_sequence == nil then
     return
   end
-
-
-  -- if is_menu_open then
-  --   return
-  -- end
-  -- if not is_in_match then
-  --   return
-  -- end
-
   -- Cancel all input
   _input[_player_obj.prefix.." Up"] = false
   _input[_player_obj.prefix.." Down"] = false
@@ -318,28 +215,6 @@ function process_pending_input_sequence(_player_obj, _input, delay)
   _input[_player_obj.prefix.." Weak Kick"] = false
   _input[_player_obj.prefix.." Medium Kick"] = false
   _input[_player_obj.prefix.." Strong Kick"] = false
-
-  -- Charge moves memory locations
-  -- P1
-  -- 0x020259D8 H/Urien V/Oro V/Chun H/Q V/Remy
-  -- 0x020259F4 (+1C) V/Urien H/Q H/Remy
-  -- 0x02025A10 (+38) H/Oro H/Remy
-  -- 0x02025A2C (+54) V/Urien V/Alex
-  -- 0x02025A48 (+70) H/Alex
-
-  -- P2
-  -- 0x02025FF8
-  -- 0x02026014
-  -- 0x02026030
-  -- 0x0202604C
-  -- 0x02026068
-  local _gauges_base = 0
-  if _player_obj.id == 1 then
-    _gauges_base = 0x020259D8
-  elseif _player_obj.id == 2 then
-    _gauges_base = 0x02025FF8
-  end
-  local _gauges_offsets = { 0x0, 0x1C, 0x38, 0x54, 0x70 }
 
   local _s = ""
   local _current_frame_input = _player_obj.pending_input_sequence.sequence[_player_obj.pending_input_sequence.current_frame]
@@ -365,46 +240,141 @@ function process_pending_input_sequence(_player_obj, _input, delay)
       _input_name = _input_name.."Medium Kick"
     elseif _current_frame_input[i] == "HK" then
       _input_name = _input_name.."Strong Kick"
-    -- elseif _current_frame_input[i] == "h_charge" then
-    --   if _player_obj.char_str == "urien" then
-    --     memory.writeword(_gauges_base + _gauges_offsets[1], 0xFFFF)
-    --   elseif _player_obj.char_str == "oro" then
-    --     memory.writeword(_gauges_base + _gauges_offsets[3], 0xFFFF)
-    --   elseif _player_obj.char_str == "chunli" then
-    --   elseif _player_obj.char_str == "q" then
-    --     memory.writeword(_gauges_base + _gauges_offsets[1], 0xFFFF)
-    --     memory.writeword(_gauges_base + _gauges_offsets[2], 0xFFFF)
-    --   elseif _player_obj.char_str == "remy" then
-    --     memory.writeword(_gauges_base + _gauges_offsets[2], 0xFFFF)
-    --     memory.writeword(_gauges_base + _gauges_offsets[3], 0xFFFF)
-    --   elseif _player_obj.char_str == "alex" then
-    --     memory.writeword(_gauges_base + _gauges_offsets[5], 0xFFFF)
-    --   end
-    -- elseif _current_frame_input[i] == "v_charge" then
-    --   if _player_obj.char_str == "urien" then
-    --     memory.writeword(_gauges_base + _gauges_offsets[2], 0xFFFF)
-    --     memory.writeword(_gauges_base + _gauges_offsets[4], 0xFFFF)
-    --   elseif _player_obj.char_str == "oro" then
-    --     memory.writeword(_gauges_base + _gauges_offsets[1], 0xFFFF)
-    --   elseif _player_obj.char_str == "chunli" then
-    --     memory.writeword(_gauges_base + _gauges_offsets[1], 0xFFFF)
-    --   elseif _player_obj.char_str == "q" then
-    --   elseif _player_obj.char_str == "remy" then
-    --     memory.writeword(_gauges_base + _gauges_offsets[1], 0xFFFF)
-    --   elseif _player_obj.char_str == "alex" then
-    --     memory.writeword(_gauges_base + _gauges_offsets[4], 0xFFFF)
-    --   end
     end
     _input[_input_name] = true
     _s = _s.._input_name
   end
 
-  --print(_s)
   _player_obj.pending_input_sequence.current_frame = _player_obj.pending_input_sequence.current_frame + 1
   if _player_obj.pending_input_sequence.current_frame > #_player_obj.pending_input_sequence.sequence then
     _player_obj.pending_input_sequence = nil
   end
 end
+-- Hotkeys Begin
+input.registerhotkey(5, function()
+	print("Debug", emu.framecount())
+	-- print("=======p1======")
+	-- globals.util.printRamAddresses(0xFF8400, 0xFF8400 + 0x400)
+	print("=======RESETTING======")
+	-- globals.util.printRamAddresses(0xFF8800, 0xFF8800 + 0x400)
+end)
+
+local function reset_ui_trainers()
+	globals.show_menu = false
+	globals.airdash_heights = {}
+	globals.time_between_dashes = {}
+	globals.dash_length_frames = {}
+	globals.short_hop_counter = {}
+	globals.time_between_dash_start_attack_start = {}
+	globals.time_between_attack_end_dash_start = {}
+	globals.frames_between_attacks = {}
+	last_fd = ""
+end 
+input.registerhotkey(4, function()
+	-- Return to char select
+	memory.writebyte(0xFF8005, 0x0C)
+    reset_ui_trainers()
+end)
+input.registerhotkey(3, function()
+	globals.macroLua.toggleloop()
+end)
+
+local function debounce(func, debounceTime)
+  if globals.debounceStarted == nil then 
+    globals.debounceStarted = globals.current_frame
+    func()
+    return
+  end
+  if globals.debounceStarted + debounceTime <=  globals.current_frame then
+    globals.debounceStarted = globals.current_frame
+    func()
+    return
+  end
+end
+
+local last_inputs = nil
+local function handle_hotkeys()
+  local _inputs = joypad.getup()
+  local down = player_objects[1].input.down
+  if last_inputs ~= nil then
+    -- if  down["start"] == true and down["LP"] == true then 
+    if down["start"] == true then 
+			debounce(globals.menuModule.togglemenu,20)
+    end
+    -- if  down["start"] == true and down["MP"] == true then 
+		-- 	debounce(globals.menuModule.togglegraphmenu,10)
+    -- end
+    -- if  down["start"] == true and down["LK"] == true then 
+		-- 	debounce(globals.menuModule.dec_graph,5)
+    -- end
+    -- if  down["start"] == true and down["MK"] == true then 
+		-- 	debounce(globals.menuModule.inc_graph,5)
+		-- end
+
+		if  _inputs["P1 Coin"] == nil and last_inputs["P1 Coin"] == false then 
+			globals.controllerModule.togglecontrolling()
+		end
+		if  (_inputs["Volume Down"] == nil and last_inputs["Volume Down"] == false ) then 
+
+      if globals.macroLua.playing then
+        globals.macroLua.playcontrol()
+      else
+        if globals.options.use_recording_savestate == true then
+          savestate.load("current_recording")
+        end
+        globals.macroLua.playcontrol()
+      end
+    
+		end
+		if  _inputs["Volume Up"] == nil and last_inputs["Volume Up"] == false then 
+      if globals.macroLua.recording then
+        globals.macroLua.reccontrol()
+      else
+        if globals.options.use_recording_savestate == true then
+          globals.save_state = savestate.create("current_recording")
+          savestate.save(globals.save_state)
+          globals.show_menu = false
+        end
+        globals.macroLua.reccontrol()
+
+      end
+		end
+  end
+  last_inputs = _inputs
+  return _inputs
+end
+function disable_player( player_num )
+	local player_addr = 0
+	if player_num == 1 then
+		player_addr = 0xFF8400
+	else
+		player_addr = 0xFF8800
+	end 
+
+	memory.writebyte(player_addr + 0x200, 0x01)
+	memory.writebyte(player_addr + 0x3B4, 0x01)
+end
+function enable_player( player_num )
+	local player_addr = 0
+	if player_num == 1 then
+		player_addr = 0xFF8400
+	else
+		player_addr = 0xFF8800
+	end 
+	memory.writebyte(player_addr + 0x200, 0x00)
+	memory.writebyte(player_addr + 0x3B4, 0x00)
+end
+function disable_both_players()
+	disable_player(1)
+	disable_player(2)
+end
+function enable_both_players( )
+	enable_player(1)
+	enable_player(2)
+end
+
+
+-- Hotkeys End
 controllerModule = {
   ["registerStart"] = function() 
     enable_both_players()

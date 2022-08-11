@@ -109,10 +109,13 @@ function make_input_set(_value)
         player_objects[1].flip_input = current.p1_facing == "right" 
         player_objects[2].flip_input = current.p2_facing == "right" 
 
-        if tablelength(current.p2_hurtboxes) > 0 and tablelength(prev.p2_hurtboxes) == 0 then
+        if tablelength(current.p2_hurtboxes) > 1 and tablelength(prev.p2_hurtboxes) == 0 then
           player_objects[2].hurtboxes_appeared  = true
-          if memory.readbyte(0xFF8805) == 0x02 and memory.readbyte(0xFF8400+ 0x39) > 0 then
-            print("MEATIED ")
+          globals.meaty.last_p2_wakeup = emu.framecount()
+          if memory.readbyte(0xFF8805) == 0x02 and memory.readbyte(0xFF8400 + 0x39) > 0 then
+            globals.meaty.last_meaty_succeeded = true
+          else
+            globals.meaty.last_meaty_succeeded = false
           end
         else
           player_objects[2].hurtboxes_appeared  = false

@@ -1,59 +1,36 @@
-for _,var in ipairs({playbackfile, use_last_recording,
-					path,playkey,recordkey,togglepausekey,toggleloopkey,longwait,longpress,longline,framemame, show_position,
-					 display_recording_gui,
-					 use_hb_config, hb_config_blank_screen, hb_config_draw_axis, hb_config_draw_pushboxes, hb_config_draw_throwable_boxes, hb_config_no_alpha,
-					 mo_enable_frame_data, debug, quiet_framedata, show_controls_message}) do
-	var = nil
-end
-
-function script_path()
-	local str = debug.getinfo(2, "S").source:sub(2)
-	return str:match("(.*[/\\])")
-end
-function deepcopy(orig)
-    local orig_type = type(orig)
-    local copy
-    if orig_type == 'table' then
-        copy = {}
-        for orig_key, orig_value in next, orig, nil do
-            copy[deepcopy(orig_key)] = deepcopy(orig_value)
-        end
-        setmetatable(copy, deepcopy(getmetatable(orig)))
-    else -- number, string, boolean, etc
-        copy = orig
-    end
-    return copy
-end
-copytable = deepcopy
+-- Utils
+serialize  	    				= require './scripts/ser'
+local util              		= require './scripts/utilities'
+-- MacroLua Deps
 dofile("macro-options.lua", "r") --load the globals
 dofile("macro-modules.lua", "r")
 
-serialize  	    = require './scripts/ser'
-local configModule      = require './scripts/config'
-training_settings_file  = "training_settings.json"
-training_settings       = configModule.default_training_settings
-local inpHistoryModule  = require"./scripts/inputHistory"
--- local inpDispModule     = require "./input-display"
-local frameDataModule   = require "./scripts/framedata"
-local rollingModule     = require "./scripts/rolling" 
-local vsavScriptModule  = require "./scripts/vsavscriptv2"
-local macroLuaModule    = require "./scripts/macro"
-local guardCancelModule = require "./scripts/guardCancel"
-local autoguardModule   = require "./scripts/autoguard"
-local gameStateModule   = require './scripts/gameState'
-local dummyStateModule  = require './scripts/dummyState'
-local neutralModule     = require './scripts/dummyNeutral' 
-local util              = require './scripts/utilities'
-local playerObject      = require './scripts/playerObject'
-local menuModule        = require './scripts/menu'
-local controllerModule  = require './scripts/controller'
-local cps2HitboxModule  = require "./scripts/cps2-hitboxes"
-local healthAndMeter    = require "./scripts/healthAndMeter"
-local hudModule         = require "./scripts/hud"
-local timersModule      = require "./scripts/timers"
-local throwTechModule   = require "./scripts/throwTech"
+-- Training Mode Menu
+local configModule      		= require './scripts/config'
+training_settings_file  		= "training_settings.json"
+training_settings       		= configModule.default_training_settings
 
-local frameskipHandlerModule = require "./scripts/frameskipHandler"
+-- Our Thangs
+local inpHistoryModule  		= require"./scripts/inputHistory"
+local frameDataModule   		= require "./scripts/framedata"
+local rollingModule     		= require "./scripts/rolling" 
+local vsavScriptModule  		= require "./scripts/vsavscriptv2"
+local macroLuaModule    		= require "./scripts/macro"
+local guardCancelModule 		= require "./scripts/guardCancel"
+local autoguardModule   		= require "./scripts/autoguard"
+local gameStateModule   		= require './scripts/gameState'
+local dummyStateModule  		= require './scripts/dummyState'
+local neutralModule     		= require './scripts/dummyNeutral' 
+local playerObject      		= require './scripts/playerObject'
+local menuModule        		= require './scripts/menu'
+local controllerModule  		= require './scripts/controller'
+local cps2HitboxModule  		= require "./scripts/cps2-hitboxes"
+local healthAndMeter    		= require "./scripts/healthAndMeter"
+local hudModule         		= require "./scripts/hud"
+local timersModule      		= require "./scripts/timers"
+local throwTechModule   		= require "./scripts/throwTech"
+local aestheticModule   		= require "./scripts/aesthetic"
+local frameskipHandlerModule    = require "./scripts/frameskipHandler"
 
 if show_controls_message == true then
 	print("* Press Start open the training menu..")
@@ -64,49 +41,6 @@ if show_controls_message == true then
 	print("* Press Alt + 4 to return to character select.")
 end
 
-local p1_addr = 0xFF8400
-local p2_addr = 0xFF8800
-last_dummy_config = {  }
-last_dummy_dict = {}
-local graph_data = nil
-function update_graph_data()
-	local keyset={}
-	local n=0
-	for k,v in pairs(last_dummy_config) do
-		n=n+1
-		if tonumber(k) ~= nil then
-			keyset[tonumber(k)]=v
-		end
-	end
-
-	local sorted = {}
-	for k, v in pairs(keyset) do
-		table.insert(sorted,{frame = k, state = v})
-	end
-
-	table.sort(sorted, function(a,b) 
-		return a["frame"] < b["frame"] 
-	end)
-	local min_items = 7
-	local chopped = {}
-	local chop_index = - min_items
-	for key, val in pairs(sorted) do
-		if 
-			(chop_index > globals.graph_data_index and chop_index < globals.graph_data_index + 7) 
-		then 
-			table.insert(chopped,{frame = val.frame, state = val.state})
-		end
-
-		chop_index = chop_index + 1
-
-	  end
-	  
-	graph_data = chopped
-end
-
-local init_clock = 0
-local fc = 0
-local prev_frames = {}
 
 globals = {
 	game_state      = nil,
@@ -144,11 +78,16 @@ globals = {
 	last_attack_ended = nil,
 	p2_hit_or_block_begin = nil,
 	p2_hit_or_block_end = nil,
-	set_last_data = function (fd) 
-		globals.last_fd = fd
-	end,
+	meaty_trainer = {
+		last_meaty_succeeded = true,
+		last_p2_wakeup = nil,
+		last_p1_hurtbox = nil,
+	},
 	pushboxes = {},
 	hurtboxes = {},
+	set_last_data = function (fd)
+		globals.last_fd = fd
+	end,
 	gc_event = "p1_gc_none",
 	pb_event = "p1_pb_none",
 	controllerModule = nil,
@@ -156,45 +95,14 @@ globals = {
 	util = nil,
 	menuModule = nil,
 	frameskipReady = false,
-	graph_data_index = 0,
-	graph_data_max = 8,
-	show_graph_menu = false,
-	update_graph_data = update_graph_data,
 	input_history = {P1 ={}, P2 = {}},
 	_input = {},
 	parsed_dummy_state = {},
-	graph_data_max = 100,
 	playing = false,
 	recording = false,
 }
 
-local gather_graph_data = false
-local was_gathering_graph_data = false
 
-input.registerhotkey(5, function()
-	print("Debug", emu.framecount())
-	-- print("=======p1======")
-	-- globals.util.printRamAddresses(0xFF8400, 0xFF8400 + 0x400)
-	print("=======RESETTING======")
-	-- globals.util.printRamAddresses(0xFF8800, 0xFF8800 + 0x400)
-end)
-
-input.registerhotkey(4, function()
-	-- Return to char select
-	globals.show_menu = false
-	memory.writebyte(0xFF8005, 0x0C)
-	globals.airdash_heights = {}
-	globals.time_between_dashes = {}
-	globals.dash_length_frames = {}
-	globals.short_hop_counter = {}
-	globals.time_between_dash_start_attack_start = {}
-	globals.time_between_attack_end_dash_start = {}
-	globals.frames_between_attacks = {}
-	last_fd = ""
-end)
-input.registerhotkey(3, function()
-	globals.macroLua.toggleloop()
-end)
 toggleloop = nil
 emu.registerstart(function()
 	util.load_training_data()
@@ -224,37 +132,16 @@ end)
 
 local last 
 emu.registerbefore(function()
-	-- print("currently selected", memory.readbyte(0xFF8400 + 0x382))
-	-- print("unknown mirror",memory.readbyte(0xFF6198))
-	-- print("have selected character", memory.readbyte(0xFF8400 + 0x3BD))
-	-- memory.writebyte(0xFF8400 + 0x3BD, 0x02)
+	aestheticModule.registerBefore()
+	globals["game"]    		 = gameStateModule.registerBefore() 
 
-	-- print("P1 guard", memory.readbyte(0xFF8400 + 0x1AB))
-	-- if memory.readbyte(0xFF8400 + 0x1AB) > 0 then
-	-- 	print("P1 blockin")
-	-- 	memory.writebyte(0xFF8400 + 0x170, 0x06)
-	-- end
-	-- fc = fc + 1
-    -- if fc % 60 == 0 then 
-    --     local cur_clock = os.clock()
-    --     print("ending at", cur_clock)
-    --     print("It takes this amount of time to run 60 frame", cur_clock - init_clock )
-    --     table.insert(prev_frames, 1, {cur_clock - init_clock})
-    --     fc = 0
-    --     init_clock = cur_clock
-    -- end
-    -- if tablelength(prev_frames) == 6 then
-    --     print(serialize(prev_frames))
-	-- end
-	gameStateModule.registerBefore()
 	if globals.game_state.match_begun == false then
 		return
 	end
-
+	
 	charMovesModule.registerBefore()
-
+	
 	globals["options"] 		 = configModule.registerBefore()
-	globals["game"]    		 = gameStateModule.registerBefore() 
 	globals["pushboxes"]     = cps2HitboxModule.getPushboxes()
 	globals["hurtboxes"]	 = cps2HitboxModule.getHurtboxes()
 	globals["char_moves"]    = charMovesModule.registerBefore()
@@ -262,9 +149,8 @@ emu.registerbefore(function()
 	globals["skip_frame"] 	 = frameskipHandlerModule.registerBefore()
 	globals["timers"] 		 = timersModule.registerBefore()
 	globals["current_frame"] = emu.framecount()
-	-- print("rev", globals.dummy.p2_reversal)
-
-	globals.util.disable_taunts()
+	
+	globals.util.disable_taunts() -- For our start menu to work w/o taunting
 	healthAndMeter.registerBefore()
 	cps2HitboxModule.registerBefore()
 	rollingModule.roll()
@@ -275,30 +161,6 @@ emu.registerbefore(function()
 	globals.macroLua  = macroLuaModule.registerBefore()
 	globals.macroLua.setloop()
 
-	-- if globals.macroLua and (globals.macroLua.playing == true or globals.macroLua.recording == true) then
-	-- 	if was_gathering_graph_data == false then
-	-- 		last_dummy_config = {}
-	-- 	end
-	-- 	gather_graph_data = true
-	-- 	was_gathering_graph_data = true
-	-- else 
-	-- 	gather_graph_data = false
-	-- 	was_gathering_graph_data = false
-	-- end
-
-	if 
-		globals and
-		globals.current_frame and 
-		-- gather_graph_data and
-		last_dummy_config 
-	then
-		last_dummy_config[globals.current_frame] = globals.parsed_dummy_state
-		last_dummy_dict[globals.current_frame] = globals["dummy"]
-		if util.tablelength(last_dummy_config) > globals.graph_data_max then
-			last_dummy_dict[globals.current_frame - globals.graph_data_max]  = nil 
-			last_dummy_config[globals.current_frame - globals.graph_data_max] = nil
-		end
-	end
 
 	playerObject.read_player_vars(player_objects[1], player_objects[2])
 	-- playerObject.read_player_vars(player_objects[2])
@@ -316,26 +178,9 @@ emu.registerbefore(function()
 	globals.controllerModule.process_pending_input_sequence(player_objects[1], globals._input)
 	globals.controllerModule.process_pending_input_sequence(player_objects[2], globals._input)
 
-
-	-- local p2_horizontal_charge = memory.readword(0xFF8740 + 0x400)
-	-- local p2_horizontal_charge_1 = memory.readbyte(0xFF8800 + 0x316)
-	-- local p2_horizontal_charge_2 = memory.writebyte(0xFF8800 + 0x33E, 0x3C)
-
-	-- print(p2_horizontal_charge, p2_horizontal_charge_1,p2_horizontal_charge_2)
 	joypad.set(globals._input)
 
 	inpHistoryModule.registerBefore(globals._input)
-	-- VerticalCharge Value is at PL1/PL2 + 0x33E & 0x34E
-	-- A successful charge value is equal to or greater than a value of 0x3C
-	-- That address is a WORD and there is address 0x33C & 0x34c that starts at at 
-	-- value 0x3C and reduces the value until value 0x00, this is another check for the charge function.
-	
-	-- I did find anotehr indication that a charge time is complete.
-	-- Horizontal Charge State Address = 0xFF8740. 
-	-- Where a "charging" value is 0x02 and a sucessful charge is value "0x04".
-
-	-- Vertical Charge State Address = 0xFF8738 & 0xFF8748.
-	-- Where a "charging" value is 0x02 and a sucessful charge is value "0x04".
 
 end)
 
@@ -344,14 +189,6 @@ emu.registerafter(function() --recording is done after the frame, not before, to
 	if globals.game_state.match_begun == false or globals == nil or globals.options == nil then
 		return
 	end
-	-- if memory.readdword(0xFF8804) == 0x02020400 then
-	-- 	-- print("reversal frame registered after frame was drawn", emu.framecount())		
-	-- 	-- local current = last_dummy_dict[globals.current_frame]
-	-- 	-- current.p2_reversal_frame = true
-	-- 	memory.writebyte(0xFF8902, 0x00)
-	-- 	memory.writebyte(0xFF8906, 0x02)
-	-- end
-
 	vsavScriptModule.registerAfter()
 	cps2HitboxModule.registerAfter()
 	frameDataModule.registerAfter(globals.options.mo_enable_frame_data)
@@ -394,16 +231,13 @@ end)
 --[[ Handle pausing in the while true loop. ]]--
 while true do
 	gui.register(function()
-		-- if memory.readdword(0xFF8804) == 0x02020400 then
-		-- 	print("reversal frame registered during gui lifecycle hook")
-		-- end
-	
 		if globals == nil or globals.options == nil then
 			gui.clearuncommitted()
 			return
 		end
 		if globals.game_state and globals.game_state.match_begun == false then
 			gui.clearuncommitted()
+			hudModule.guiRegisterCSS()
 			return
 		end
 		hudModule.guiRegister()
@@ -415,81 +249,6 @@ while true do
 		if globals.options.show_scrolling_input == true then
 			inpHistoryModule.guiRegister(globals._input)
 		end
-		gui.text(20, 120, memory.readbyte(0xFF8400 + 0x147), "purple")
-		-- gui.text(20,100, memory.readbyte(0xFF8000 + 0x118), "red")
-		-- gui.text(20,110, memory.readbyte(0xFF8000 + 0x81), "blue")
-
-		-- local frame_index = 0
-
-		-- local step_x = 50
-		-- local step_y = 10
-		-- local init_x = 2
-		-- local init_y = 2
-		-- local current_x = 0
-		-- local current_y = 0 
-		-- if 
-		-- 	graph_data ~= nil 
-		-- 	and globals.show_graph_menu == true 
-		-- 	and globals.input_history 
-		-- 	and globals.input_history.P2 
-		-- then
-		-- 	gui.box(0,0,emu.screenwidth(), emu.screenheight(),"black")
-		-- 	update_graph_data()
-		-- 	local added_space = 0
-
-		-- 	for k, v in ipairs(graph_data) do
-		-- 		if frame_index == 0 then
-
-		-- 			local index_row = 0 
-
-		-- 			for _k, _v in pairs(v["state"]) do
-		-- 				local __x = init_x
-		-- 				local __y = init_y + 12 +  10 + ( step_y * index_row )
-		-- 				if type(_v.value) ~= "function" then
-		-- 					if tostring(_v.name) == "p2_input" then
-		-- 						added_space = 8
-		-- 					end
-		-- 					gui.text(__x,__y + added_space, _v.name)
-		-- 					index_row = index_row + 1
-		-- 				end
-		-- 			end
-		-- 		end
-		-- 		local _x = init_x + 70 + (step_x * frame_index)
-		-- 		local _y = init_y
-
-		-- 		gui.text(_x,_y,v["frame"])
-		-- 		if globals.input_history.P1 and globals.input_history.P1[v.frame] then
-		-- 			globals.inpHistoryModule.draw_input_history_entry(globals.input_history.P1[v.frame], _x,_y + 8, 0)
-		-- 		end
-		-- 		local index_row = 0 
-
-		-- 		added_space = 0
-		-- 		if util.tablelength(v.state) then 
-		-- 			for key, val in pairs(v["state"]) do
-		-- 			local __y = init_y + 12 + 10 + ( step_y * index_row )
-
-		-- 			if type(val.value) ~= "function" then
-
-		-- 				if tostring(val.name) == "p2_input" then
-		-- 					if globals.input_history.P2 and globals.input_history.P2[v.frame] then
-		-- 						globals.inpHistoryModule.draw_input_history_entry(globals.input_history.P2[v.frame], _x,__y+5, 0)
-		-- 					end
-		-- 					added_space = 10
-		-- 					index_row = index_row + 1
-		-- 				else 
-		-- 					local color =  util.string_to_color(tostring(val.name)..tostring(val.value))
-		-- 					gui.rect(_x - 1,__y + added_space, _x + step_x - 1, __y + step_y+ added_space, color)
-		-- 					gui.text(_x + 2,__y + 2+ added_space, tostring(val.value), color)
-		-- 					index_row = index_row + 1
-		-- 				end
-		-- 			end
-		-- 		end
-		-- 	end
-		-- 		frame_index = frame_index+1
-		-- 		current_x = _x
-		-- 		current_y = _y
-		-- 	end
-		-- end	
 	end)
 
 	macroLuaModule.gameLoop()

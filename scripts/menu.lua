@@ -720,7 +720,22 @@ anak_projectile = {
   "Lillith Soul Flash",
   "Jedah Dio Sega"
 }
-
+stages = {
+  "None",
+  "Feast of the Damned",
+  "Concrete Cave",
+  "Tower of Arrogance",
+  "Red Thirst",
+  "Deserted Cheateu",
+  "Abaraya",
+  "Vanity Paradise",
+  "War Agony",
+  "Forever Torment",
+  "Green Scream",
+  "Iron Horse Iron Terror",
+  "Fetus of God ",
+  }
+  
 -- This is for button or stick
 local function check_for_counter_attack_disabled()
   return training_settings.guard_action ~= 6 and
@@ -849,8 +864,9 @@ return {
         entries = {
           checkbox_menu_item("Use Character Specific Slots", training_settings, 1, "use_character_specific_slots", "Setting this to true uses recording/playback slots for p2's character\nOtherwise non character specific slots are used"),
           list_menu_item("Recording Slot", training_settings, "recording_slot", recording_slot,1,"Choose a playback/recording slot\nWill be overriden by random playback"),
+          checkbox_menu_item("Enable Recording While Playing", training_settings, "enable_recording_while_playing", false, "Allows you to record while a recording is already playing back"),
           checkbox_menu_item("Looped Playback", training_settings, "looped_playback", 0, "The playback slot will be played back when the current recording ends\nThis works with random playback slots enabled below\nas well as with guard actions"),
-          checkbox_menu_item("Use Savestate Upon Recording", training_settings, "use_recording_savestate", 0, "BETA! EXPERIMENTAL! (But works!)\nCreates a savestate when you hit record, and loads it before playback.\nUse this for timing sensitive training. VERY USEFUL!!!!"),
+          checkbox_menu_item("Use Savestate Upon Recording", training_settings, "use_recording_savestate", 0, "BETA! EXPERIMENTAL! (But works!)\nCreates a savestate when you hit record, and loads it before playback.\nUse this for timing sensitive training. VERY USEFUL!!!!\nDefinitely breaks recording while playing back"),
           checkbox_menu_item("Use Random Recording Slot", training_settings, "random_playback", 0, "This can be used in two ways:\n 1) Random playback file on reversal\n 2) Using looped playback mode a random playback file will be \n    played back when the current recording ends"),
           enable_slot_1_menu_item,
           enable_slot_2_menu_item,
@@ -871,7 +887,7 @@ return {
         }
       },
     {
-        name = "Player",
+        name = "Dummy",
         entries = {
             list_menu_item("Pose", training_settings, "dummy_neutral", dummy_neutral,1,"The dummy will hold this direction."),
             list_menu_item("Wakeup", training_settings, "roll_direction", roll_direction,1, "Determines which direction the dummy will roll on knockdown"),
@@ -917,21 +933,23 @@ return {
         }
     },
     {
-      name = "Display",
+      name = "Displays",
       entries = {
-        -- checkbox_menu_item("Use Custom Palettes *at your own risk*", training_settings, "enable_custom_palette", "Shows Health and Meter values"),
-        -- integer_menu_item("P1 Char Palette", training_settings, "p1_char_palette", 0, 255, false, 0,0,"Scroll through these on char select to see if you like one\nMany do not look good"),
-        -- integer_menu_item("P2 Char Palette", training_settings, "p2_char_palette", 0, 255, false, 0,0,"Scroll through these on char select to see if you like one\nMany do not look good"),
-
+        checkbox_menu_item("Show Scrolling Input", training_settings, "show_scrolling_input",1, "Display the Scrolling Input Viewer"),
         integer_menu_item("Scroll input viewer", training_settings, "inp_history_scroll", 0, 80, false, 0,0,"Allows you to scroll through past items in the input viewer."),
+        checkbox_menu_item("Show P2 Input", training_settings, "show_p2_inputs", true, "Display P2 Inputs on the Right"),
         checkbox_menu_item("HUD", training_settings, "display_hud", "Shows Health and Meter values"),
         checkbox_menu_item("Movelist", training_settings, "display_movelist", 1,"Shows a character specific move list"),
         checkbox_menu_item("Frame Data", training_settings, "mo_enable_frame_data",0, "Shows a breakdown of frame data. \nKeep in mind that this is subject to turbo 3 frameskip\nIn addition FBNEO is usually about a frame or two off :(\nIf you are interested, the MAME-RR version is accurate."),
         checkbox_menu_item("Recording GUI", training_settings, "display_recording_gui",1, "Shows the current recording staet"),
         checkbox_menu_item("Display Hitboxes", training_settings, "display_hitbox_default",1, "Display hitboxes for P1 and P2"),
-        checkbox_menu_item("Show Pushblock Counter", training_settings, "display_pb_counter",1, "This option tracks how many PB buttons were registered during the pushblock window"),
         checkbox_menu_item("Show Damage Calc", training_settings, "show_damage_calc",1, "This shows a damage calculation.\nDamage calculations are recalculated on hit"),
-        checkbox_menu_item("Show Scrolling Input", training_settings, "show_scrolling_input",1, "Display the Scrolling Input Viewer"),
+      }
+    },
+    {
+      name = "Trainers",
+      entries ={
+        checkbox_menu_item("Show Pushblock Counter", training_settings, "display_pb_counter",1, "This option tracks how many PB buttons were registered during the pushblock window"),
         checkbox_menu_item("Show GC Trainer", training_settings, "show_gc_trainer", 1,"This option shows the GC window in the input viewer.\nThe Green GC shows when the window begins,\nand Red when it is performed or ends."),
         checkbox_menu_item("Show Pushbox Distance", training_settings, "show_x_distance", 1,"Gives a numerical / visual representation of the distances between characters"),
         checkbox_menu_item("Show IAD Trainer", training_settings, "display_airdash_trainer", 0,"This option shows the HEIGHT of your last few aidashes.\nGreen is best! Red is Worst!"),
@@ -942,10 +960,23 @@ return {
         checkbox_menu_item("Show Attack Dash Gap Trainer", training_settings, "display_attack_dash_gap_trainer", false,"Shows the frames between an attack recovering.\nand the start of a dash.\nThis is printed under DGAP in the gui."),
         checkbox_menu_item("Show Frame Trap Trainer", training_settings, "display_frame_trap_trainer", false,"Shows the frames gap between.\nhits or blocks on p2"),
         checkbox_menu_item("Show Bishamon UBK Trainer", training_settings, "display_bishamon_ubk_trainer", false,"Overlays onto P2 whether you are in a crouch or standing\n unblockable distance for Karame Dama or Bricks"),
+        checkbox_menu_item("Show Meaty Trainer", training_settings, "show_meaty_trainer", false,"Use on wakeup, shows if you were early or late"),
+        }
+      },
+      {
+        name = "Aesthetic",
+        entries = {
+          checkbox_menu_item("Show Help at CSS", training_settings, "draw_help_info_on_css", "Shows Help on CSS"),
+          -- checkbox_menu_item("Use Custom Palettes *at your own risk*", training_settings, "enable_custom_palette", "Shows Health and Meter values"),
+          -- integer_menu_item("P1 Char Palette", training_settings, "p1_char_palette", 0, 255, false, 0,0,"Scroll through these on char select to see if you like one\nMany do not look good"),
+          -- integer_menu_item("P2 Char Palette", training_settings, "p2_char_palette", 0, 255, false, 0,0,"Scroll through these on char select to see if you like one\nMany do not look good"),
+          list_menu_item("Select Stage ( at your own risk )", training_settings, "stage", stages,1,"Choose it!\nThen press hotkey 4 to go back to CSS.\nWill break current stage palette\nRestart training mode if everything goes FUBAR"),
+          checkbox_menu_item("Hide Super Meter", training_settings, "hide_super_meter", false,"Hides the Super Meter"),
+          checkbox_menu_item("Hide All VSAV HUD ( at your own risk )", training_settings, "hide_all_ui", false, "Hides UI, will break graphics on CSS and other places!\nRestart training mode if everything goes FUBAR")
       }
     },
     {
-      name = "Timers/Testing",
+      name = "Timers/Test",
       entries = {
         checkbox_menu_item("Show Invuln Timer", training_settings, "show_invuln_timer", false,""),
         checkbox_menu_item("Show Mash Timer", training_settings, "show_mash_timer", false,""),
@@ -1142,13 +1173,13 @@ menuModule = {
           -- screen size 383,223
           local _gui_box_bg_color = 0x293139FF
           local _gui_box_outline_color = 0x840000FF
-          local _menu_box_left = 23
-          local _menu_box_top = 15
-          local _menu_box_right = 360
-          local _menu_box_bottom = 195
+          local _menu_box_left = 10
+          local _menu_box_top = 10
+          local _menu_box_right = 380
+          local _menu_box_bottom = 200
           gui.box(_menu_box_left, _menu_box_top, _menu_box_right, _menu_box_bottom, _gui_box_bg_color, _gui_box_outline_color)
       
-          local _bar_x = _menu_box_left + 10
+          local _bar_x = _menu_box_left + 5
           local _bar_y = _menu_box_top + 6
           local _base_offset = 0
           for i = 1, #menu do

@@ -10,7 +10,6 @@ local default_training_settings = {
     dummy_neutral = 1,
     guard = 1,
     counter_attack = 1,
-	show_hitboxes = 1,
     counter_attack_random_upback = 1,
     enable_slot_3 = false,
     display_movelist = false,
@@ -59,6 +58,8 @@ local default_training_settings = {
     show_throw_invuln_timer = 0,
     show_mash_timer = 0,
     show_invuln_timer = 0,
+    stage = 0,
+    hide_super_meter = 1,
     display_airdash_trainer = 0,
     show_x_distance = 0,
     display_dash_interval_trainer = false,
@@ -70,6 +71,11 @@ local default_training_settings = {
     show_projectile_count_limiter = 0,
     display_bishamon_ubk_trainer = false,
     use_recording_savestate = false,
+    hide_all_ui = false,
+    enable_recording_while_playing = false,
+    draw_help_info_on_css = true,
+    show_p2_inputs = true,
+    show_meaty_trainer = false,
   }
   
 

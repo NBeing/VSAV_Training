@@ -273,6 +273,22 @@ local function get_character(base_addr)
     elseif char_id == 0x12 	then return "Dark Gallon"
     elseif char_id == 0x18 	then return "Oboro" end
 end
+
+function deepcopy(orig)
+    local orig_type = type(orig)
+    local copy
+    if orig_type == 'table' then
+        copy = {}
+        for orig_key, orig_value in next, orig, nil do
+            copy[deepcopy(orig_key)] = deepcopy(orig_value)
+        end
+        setmetatable(copy, deepcopy(getmetatable(orig)))
+    else -- number, string, boolean, etc
+        copy = orig
+    end
+    return copy
+end
+copytable = deepcopy
 utilitiesModule = {
     ["save_training_data"]         = save_training_data,
     ["load_training_data"]         = load_training_data,

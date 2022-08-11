@@ -29,6 +29,20 @@ What is described in the video guide:
 3) In the `run_vsav_training.command` document you created, copy and paste the contents of the file `run_vsav_training.command`
 5) double click on the `run_vsav_training.command`
 
+## Rom Patch installion
+
+1) Extract the `vsavj` folder from `vsavj-rom-patches.zip` to `...\Fightcade\emulator\fbneo\support\ips`
+2) Launch the training mode with the .bat file
+3) Press `F6` or click the `Game` dropdown on the top bar then press `Load Game...`
+4) Select `Vampire Savior - the lord of vampire (970519 Japan)` and in the bottom right corner select `IPS Manager`
+5) Check the box for the patch you want and press `OK`
+6) Check the `Apply Patch` button above the `IPS Manager` button you selected
+7) Click `Play`
+8) Once the game reloads you will be playing on the patched version
+9) Close the emulator and relaunch to return to the normal version
+
+Video Guide here https://www.youtube.com/watch?v=vrJVet1kywA
+
 ### Debugging Installation Issues
 
   1) If you encounter `gd.dll` issue, reinstall Fightcade 2. `gd.dll` is part of Fightcade 2 and not my training mode. It seems to break on update occasionally.
@@ -36,7 +50,7 @@ What is described in the video guide:
   3) If you are having weird input issues make sure p2 controls are bound!
   4) If the .bat script does not work it may be because your path has spaces or is too long. I cannot control this, this is part of FC2 FBneo lua. See step 3 for more info above.
   5) Reach out to me on the Vampire Savior Discord's #development channel! I will usually respond on the same day.
- 
+  
 
 ## Hotkeys
     Press Start open the training menu.

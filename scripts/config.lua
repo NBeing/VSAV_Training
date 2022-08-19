@@ -70,6 +70,7 @@ local default_training_settings = {
     show_projectile_count_limiter = 0,
     display_bishamon_ubk_trainer = false,
     use_recording_savestate = false,
+    show_hb_info = false,
   }
   
 

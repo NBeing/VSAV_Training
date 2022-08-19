@@ -340,6 +340,11 @@ define_box = {
 		if box.type == "push" then
 			obj.val_y, obj.rad_y = box.val_y, box.rad_y
 		end
+		if obj.base == 0xFF8400 then
+			box.player = 1
+		elseif obj.base == 0xFF8800 then
+			box.player = 2
+		end
 
 		box.val_x  = (box.pos_x or obj.pos_x) + box.val_x * obj.flip_x
 		box.val_y  = (box.pos_y or obj.pos_y) - box.val_y
@@ -572,14 +577,37 @@ end
 
 
 --------------------------------------------------------------------------------
+local base_hb_display_p1_x = 5
+local base_hb_display_p1_y = 32
+local base_hb_display_p2_x = 300
+local base_hb_display_p2_y = 32
+
 -- draw the hitboxes
-local draw_hitbox = function(hb)
+local draw_hitbox = function(hb, entry)
 	if not hb or any_true({
 		not globals.draw_pushboxes and hb.type == "push",
 		not globals.draw_throwable_boxes and hb.type == "throwable",
 	}) then return
 	end
-
+	if config_globals.options.show_hb_info == true then
+		if hb.player == 1 then
+			gui.text(hb.left + 2, hb.top + 2,entry - 1)
+			gui.text(
+				base_hb_display_p1_x, 
+				base_hb_display_p1_y + (8 * entry), 
+				"Num: "..(entry - 1).." W : "..(hb.right - hb.left).." H "..(hb.bottom - hb.top),
+				boxes[hb.type].outline
+			)
+		elseif hb.player == 2 then
+			gui.text(hb.left + 2, hb.top + 2,entry)
+			gui.text(
+				base_hb_display_p2_x, base_hb_display_p2_y + (8 * entry),
+				"Num: "..(entry - 1 ).." H "..(hb.bottom - hb.top).." W : "..(hb.right - hb.left),
+				boxes[hb.type].outline
+			)
+		end
+	end
+	
 	if globals.draw_mini_axis then
 		gui.drawline(hb.val_x, hb.val_y-globals.mini_axis_size, hb.val_x, hb.val_y+globals.mini_axis_size, boxes[hb.type].outline)
 		gui.drawline(hb.val_x-globals.mini_axis_size, hb.val_y, hb.val_x+globals.mini_axis_size, hb.val_y, boxes[hb.type].outline)
@@ -695,7 +723,7 @@ local render_hitboxes = function()
 				end
 			end
 			if config_globals.options.display_hitbox_default == true then
-				draw_hitbox(obj[entry])
+				draw_hitbox(obj[entry], entry)
 			end
 		end
 	end

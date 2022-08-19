@@ -953,6 +953,8 @@ return {
         checkbox_menu_item("Show Curse Timer", training_settings, "show_curse_timer", false,""),
         checkbox_menu_item("Show Push Block Timer", training_settings, "show_pb_timer", false,""),
         checkbox_menu_item("Show Push Block Push Back Timer", training_settings, "show_pb_pushback_timer", false,""), 
+        checkbox_menu_item("Show Hitbox Info", training_settings, "show_hb_info", false,""), 
+
         checkbox_menu_item("Testing: PB Delayed Pushback Bug ", training_settings, "show_move_strength", false,""),
         checkbox_menu_item("Testing: Projectile Count Limiter ", training_settings, "show_projectile_count_limiter", false,""), 
 

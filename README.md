@@ -31,17 +31,17 @@ What is described in the video guide:
 
 ## Rom Patch installion
 
-1) Extract the `vsavj` folder from `vsavj-rom-patches.zip` to `...\Fightcade\emulator\fbneo\support\ips`
-2) Launch the training mode with the .bat file
-3) Press `F6` or click the `Game` dropdown on the top bar then press `Load Game...`
-4) Select `Vampire Savior - the lord of vampire (970519 Japan)` and in the bottom right corner select `IPS Manager`
-5) Check the box for the patch you want and press `OK`
-6) Check the `Apply Patch` button above the `IPS Manager` button you selected
-7) Click `Play`
-8) Once the game reloads you will be playing on the patched version
-9) Close the emulator and relaunch to return to the normal version
+1) Place the 'support' folder in your `...\Fightcade\emulator\fbneo`
+3) Launch the training mode with the .bat file
+4) Press `F6` or click the `Game` dropdown on the top bar then press `Load Game...`
+5) Select `Vampire Savior - the lord of vampire (970519 Japan)` and in the bottom right corner select `IPS Manager`
+6) Check the box for the patch you want and press `OK`
+7) Check the `Apply Patch` button above the `IPS Manager` button you selected
+8) Click `Play`
+9) Once the game reloads you will be playing on the patched version
+10) Close the emulator and relaunch to return to the normal version
 
-Video Guide here https://www.youtube.com/watch?v=vrJVet1kywA
+Video Guide here https://youtu.be/HwyTAnbSw_I
 
 ### Debugging Installation Issues
 

@@ -3013,38 +3013,38 @@ function ate(special)
 return text
 end
 
-function charaspecfic()
+-- function charaspecfic()
 --Anak swallowed projectile.
-if memory.readbyte(0xff8782) == 0x06 then
-gui.text(34,190,"Ate Projectile: " .. ate())
+-- if memory.readbyte(0xff8782) == 0x06 then
+-- gui.text(34,190,"Ate Projectile: " .. ate())
 
 --Aulbath's Direct Scissors display and check.
-elseif memory.readbyte(0xFF8782) == 0x09 and memory.readbyte(0xff87ae) < 0x02 then
-gui.text(306,64,"Direct Scissors",fontcolor1,fontcolor2)
-		if memory.readbyte(0xFF8731) == 0x00 then
-		gui.text(320,72,"2,2 + PP",fontcolor1,fontcolor2)
-		
-		if memory.readword(0xFF8505) == 0x010C and memory.readbyte(0xFF8734) > 0 then
-		gui.text(320,72,"2,2 + PP",0x00FF00FF)
-		end	
-		
-		elseif memory.readbyte(0xFF8731) == 0x02 then
-		gui.text(320,72,"2",0x00FF00FF)
-		gui.text(324,72,",2 + PP",fontcolor1,fontcolor2)
-		
-		elseif memory.readbyte(0xFF8731) == 0x04 then
-		gui.text(320,72,"2,2",0x00FF00FF)
-		gui.text(332,72," + PP",fontcolor1,fontcolor2)
-		
-		end
+-- elseif memory.readbyte(0xFF8782) == 0x09 and memory.readbyte(0xff87ae) < 0x02 then
+-- gui.text(306,64,"Direct Scissors",fontcolor1,fontcolor2)
+-- 		if memory.readbyte(0xFF8731) == 0x00 then
+-- 		gui.text(320,72,"2,2 + PP",fontcolor1,fontcolor2)
+-- 		
+-- 		if memory.readword(0xFF8505) == 0x010C and memory.readbyte(0xFF8734) > 0 then
+-- 		gui.text(320,72,"2,2 + PP",0x00FF00FF)
+-- 		end	
+-- 		
+-- 		elseif memory.readbyte(0xFF8731) == 0x02 then
+-- 		gui.text(320,72,"2",0x00FF00FF)
+-- 		gui.text(324,72,",2 + PP",fontcolor1,fontcolor2)
+-- 		
+-- 		elseif memory.readbyte(0xFF8731) == 0x04 then
+-- 		gui.text(320,72,"2,2",0x00FF00FF)
+-- 		gui.text(332,72," + PP",fontcolor1,fontcolor2)
+-- 		
+-- 		end
 	
 --Lei Lei projectile, There is nothing at the moment.
 --elseif memory.readbyte(0xff8782) == 0x0D then
 --gui.text(34,190,"Projectile")
 
 
-end
-end
+-- end
+-- end
 
 ------------------------------------------------------------------
 --Distance Difference

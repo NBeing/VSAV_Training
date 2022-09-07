@@ -25,9 +25,10 @@ What is described in the video guide:
 ##  MacOS installation
 
 1) Place the `scripts` folder in `/Applications/FightCade2.app/Contents/MacOS/emulator/fbneo/`
-2) Create a text document in your `/Applications/FightCade2.app/Contents/MacOS/emulator/fbneo/` titled `run_vsav_training.command`
-3) In the `run_vsav_training.command` document you created, copy and paste the contents of the file `run_vsav_training.command`
-5) double click on the `run_vsav_training.command`
+2) Place the `run_vsav_training_macos.sh` file in `/Applications/FightCade2.app/Contents/MacOS/emulator/fbneo/`
+3) Right Click the `run_vsav_training_macos.sh` and highlight the "Open With" Menu, then select `Terminal.app`.
+4) Allow Terminal.app to open `run_vsav_training_macos.sh`.
+5) Create an alias* anywhere you'd like to launch into the training mode directly. *(drag & drop the `run_vsav_training_macos.sh` file while holding the Command & Option keys).
 
 ## Rom Patch installion
 

@@ -3308,7 +3308,8 @@ vsavScriptModule = {
 		if globals.options.display_movelist == true then
 			movelist()
 		end 
-		charaspecfic()
+		if globals.options.display_hud == true then
+			charaspecfic()
 			if draw[2] then
 				for line in pairs(inp[2]) do
 					for index,row in pairs(inp[2][line]) do
@@ -3316,6 +3317,7 @@ vsavScriptModule = {
 					end
 				end
 			end
+		end
 	end,
 	["runCheats"] = function()
 		p1life()

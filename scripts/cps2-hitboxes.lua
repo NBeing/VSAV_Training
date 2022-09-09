@@ -802,13 +802,13 @@ local whatgame = function()
 				end
 				for _, bp in ipairs(game.breakpoints or {}) do
 					local pc = bp[emu.romname()] or bp[shortname] + game.clones[emu.romname()]
-					memory.registerexec(pc, bp.func)
+					-- memory.registerexec(pc, bp.func)
 					table.insert(globals.breakpoints, pc)
 				end
 				for _, wp in ipairs(game.watchpoints or {}) do
 					for p = 1, game.number.players do
 						local addr = game.address.player + (p-1) * game.offset.player_space + wp.offset
-						memory.registerwrite(addr, wp.size, wp.func)
+						-- memory.registerwrite(addr, wp.size, wp.func)
 						table.insert(globals.watchpoints, addr)
 					end
 				end

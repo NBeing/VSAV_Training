@@ -135,8 +135,6 @@ globals = {
 	time_between_dashes = {},
 	dash_length_frames = {},
 	short_hop_counter = {},
-	total_pb_attempt_counter = {},
-	successful_pb_counter = {},
 	time_between_dash_start_attack_start = {},
 	time_between_attack_end_dash_start = {},
 	frames_between_attacks = {},
@@ -275,10 +273,6 @@ emu.registerbefore(function()
 	globals.macroLua  = macroLuaModule.registerBefore()
 	globals.macroLua.setloop()
 
-	if globals.options.display_pb_stats == false then
-		globals.total_pb_attempt_counter = {}
-		globals.successful_pb_counter = {}
-	end
 	-- if globals.macroLua and (globals.macroLua.playing == true or globals.macroLua.recording == true) then
 	-- 	if was_gathering_graph_data == false then
 	-- 		last_dummy_config = {}
@@ -425,7 +419,6 @@ while true do
 		if globals.options.show_scrolling_input == true then
 			inpHistoryModule.guiRegister(globals._input)
 		end
-
 		-- local frame_index = 0
 
 		-- local step_x = 50

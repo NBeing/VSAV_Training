@@ -11,97 +11,97 @@ local proximity_guard_status = proximity_guard_value == 10
 
 local p1_block_stun_timer = 0xFF8558
 local p1_proxy_block      = 0xFF8406 == 0x0C
-local p1_block_state      = 0xFF8406 == 0x00
-local p1_attack_flag      = 0xFF8505 ~= 0x00
-
-local p2_block_stun_timer = 0xFF9558 
-local p2_proxy_block      = 0xFF8806 == 0x0C
-local p2_block_state      = 0xFF8806 == 0x00
-local p2_attack_flag      = 0xFF8905 ~= 0x00
-
-function get_gc_button()
-
-    GC_type_config = globals.options.gc_button
-    gc_button_type = 'none'
-
-    if GC_type_config == 0x2 then
-        gc_button_type = 'LP'
-	elseif GC_type_config == 0x3 then
-		gc_button_type = 'LK'
-	elseif GC_type_config == 0x4 then
-		gc_button_type = 'MP+HP'
-	elseif GC_type_config == 0x5 then
-        gc_button_type = 'MK+HK'
-	end
-
-	return gc_button_type
-end
-
-local function get_p2_facing()
-	p2_facing_val  = memory.readbyte(p2_facing_addr)
-
-	if p2_facing_val == 1 then
-		return "right"
-	end
-	if p2_facing_val == 0 then
-		return "left"
-	end
-end
-
-local function get_p1_facing()
-	p1_facing_val  = memory.readbyte(p1_facing_addr)
-
-	if p1_facing_val == 1 then
-		return "right"
-	end
-	if p1_facing_val == 0 then
-		return "left"
-	end
-end
-
-local function get_p1_towards()
-	facing = get_p1_facing()
-	p1_towards = nil
-
-	if facing == "right" then
-		p1_towards = "P1 Right"
-	else
-		p1_towards = "P1 Left"
-	end
-	return p1_towards
-end
-
-local function get_p1_away()
-	facing = get_p1_facing()
-	p1_away = nil
-	if facing == "right" then
-		p1_away = "P1 Left"
-	else
-		p1_away = "P1 Right"
-	end
-	return p1_away
-end
-
-local function get_p2_towards()
-	facing = get_p2_facing()
-	p2_towards = nil
-
-	if facing == "right" then
-		p2_towards = "P2 Right"
-	else
-		p2_towards = "P2 Left"
-	end
-	return p2_towards
-end
-
-local function get_p2_away()
-	facing = get_p2_facing()
-	p2_away = nil
-	if facing == "right" then
-		p2_away = "P2 Left"
-	else
-		p2_away = "P2 Right"
-	end
+local p1_block_state      = 0xFF8406 == 0x00 
+local p1_attack_flag      = 0xFF8505 ~= 0x00 
+ 
+local p2_block_stun_timer = 0xFF9558  
+local p2_proxy_block      = 0xFF8806 == 0x0C 
+local p2_block_state      = 0xFF8806 == 0x00 
+local p2_attack_flag      = 0xFF8905 ~= 0x00 
+ 
+function get_gc_button() 
+ 
+    GC_type_config = globals.options.gc_button 
+    gc_button_type = 'none' 
+ 
+    if GC_type_config == 0x2 then 
+        gc_button_type = 'LP' 
+	elseif GC_type_config == 0x3 then 
+		gc_button_type = 'LK' 
+	elseif GC_type_config == 0x4 then 
+		gc_button_type = 'MP+HP' 
+	elseif GC_type_config == 0x5 then 
+        gc_button_type = 'MK+HK' 
+	end 
+ 
+	return gc_button_type 
+end 
+ 
+local function get_p2_facing() 
+	p2_facing_val  = memory.readbyte(p2_facing_addr) 
+ 
+	if p2_facing_val == 1 then 
+		return "right" 
+	end 
+	if p2_facing_val == 0 then 
+		return "left" 
+	end 
+end 
+ 
+local function get_p1_facing() 
+	p1_facing_val  = memory.readbyte(p1_facing_addr) 
+ 
+	if p1_facing_val == 1 then 
+		return "right" 
+	end 
+	if p1_facing_val == 0 then 
+		return "left" 
+	end 
+end 
+ 
+local function get_p1_towards() 
+	facing = get_p1_facing() 
+	p1_towards = nil 
+ 
+	if facing == "right" then 
+		p1_towards = "P1 Right" 
+	else 
+		p1_towards = "P1 Left" 
+	end 
+	return p1_towards 
+end 
+ 
+local function get_p1_away() 
+	facing = get_p1_facing() 
+	p1_away = nil 
+	if facing == "right" then 
+		p1_away = "P1 Left" 
+	else 
+		p1_away = "P1 Right" 
+	end 
+	return p1_away 
+end 
+ 
+local function get_p2_towards() 
+	facing = get_p2_facing() 
+	p2_towards = nil 
+ 
+	if facing == "right" then 
+		p2_towards = "P2 Right" 
+	else 
+		p2_towards = "P2 Left" 
+	end 
+	return p2_towards 
+end 
+ 
+local function get_p2_away() 
+	facing = get_p2_facing() 
+	p2_away = nil 
+	if facing == "right" then 
+		p2_away = "P2 Left" 
+	else 
+		p2_away = "P2 Right" 
+	end 
 	return p2_away
 end
 
@@ -577,8 +577,10 @@ local function get_dummy_state()
         p1_in_air           = memory.readbyte(0xFF8400 + 0x38) ~= 0,
         p1_y                = memory.readword(0xFF8400 + 0x14),
         p1_guarding         = memory.readbyte(0xFF8540) ~= 0,
+        p1_is_blocking_or_hit = memory.readbyte(0xFF8405) == 2,
         p1_pushback_timer   = memory.readword(0xFF8400 + 0x164),
         p1_is_crouching     = memory.readbyte(0xFF8400 + 0x121),
+        p1_tech_hit         = memory.readword(0xFF8800 + 0x1B0) ~= 0,
         p2_char             = get_character(p2_base_addr),
         p2_status_1         = parse_status_1(p2_base_addr),
         p2_status_2         = parse_status_2(p2_base_addr),

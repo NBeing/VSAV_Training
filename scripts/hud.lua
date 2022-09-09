@@ -32,6 +32,7 @@ local function draw_rec()
 		gui.text( mid_width, mid_height, "Slot "..slot..": Paused")
 	end 
 end
+
 local last_tech_success = false
 
 local function draw_pb_counter()
@@ -162,6 +163,22 @@ local function draw_short_hop_counter()
 		end
 	end
 end
+-- This function show stats for pushblocking
+local function draw_pb_stats()
+	if globals.options.display_pb_stats == true then
+		local pb_count = 0
+		local total_count = 0
+
+		gui.text( 172, 54, "Total: ".. util.tablelength(globals.total_pb_attempt_counter))
+		gui.text( 172, 63, "Pass: " .. util.tablelength(globals.successful_pb_counter), "#00FF00")
+		gui.text( 210, 63, "% ", "#00FF00")
+		if util.tablelength(globals.successful_pb_counter) > 0 then
+			gui.text( 210, 63, "%" .. string.format("%02d", util.tablelength(globals.successful_pb_counter) / util.tablelength(globals.total_pb_attempt_counter) * 100), "#00FF00")
+		end
+		gui.text( 172, 73, "Fail: " .. util.tablelength(globals.total_pb_attempt_counter) - util.tablelength(globals.successful_pb_counter), "#FF0000")
+	end
+end
+
 local function draw_airdash_trainer()
 	if globals.options.display_airdash_trainer == true then
 		local p1_char = util.get_character(0xFF8400)
@@ -404,6 +421,7 @@ local hudModule = {
 		draw_dash_link_trainer()
 		frame_trap_trainer()
 		draw_push_dist()
+		draw_pb_stats()
 		if globals.options.display_recording_gui == true then
 			draw_rec()
 		end

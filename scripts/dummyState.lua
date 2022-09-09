@@ -579,6 +579,7 @@ local function get_dummy_state()
         p1_guarding         = memory.readbyte(0xFF8540) ~= 0,
         p1_pushback_timer   = memory.readword(0xFF8400 + 0x164),
         p1_is_crouching     = memory.readbyte(0xFF8400 + 0x121),
+        p1_tech_hit         = memory.readword(0xFF8800 + 0x1B0) ~= 0,
         p2_char             = get_character(p2_base_addr),
         p2_status_1         = parse_status_1(p2_base_addr),
         p2_status_2         = parse_status_2(p2_base_addr),

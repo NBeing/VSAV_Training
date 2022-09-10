@@ -15,7 +15,7 @@ function make_input_set(_value)
       coin = _value
     }
   end
-  
+
   function make_player_object(_id, _base, _prefix)
     return {
       id = _id,
@@ -166,8 +166,10 @@ function make_input_set(_value)
             table.insert(globals.successful_pb_counter, 1)
           end  
         end
+
+
         
- -- Table tracking framelength of dash
+        -- Table tracking framelength of dash
         if prev.p1_is_dashing and not current.p1_is_dashing then
           globals.last_dash_ended = emu.framecount()
           local cur_dash_length_frames = util.tablelength(globals.dash_length_frames)

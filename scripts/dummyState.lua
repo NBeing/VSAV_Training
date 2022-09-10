@@ -14,7 +14,7 @@ local p1_proxy_block      = 0xFF8406 == 0x0C
 local p1_block_state      = 0xFF8406 == 0x00
 local p1_attack_flag      = 0xFF8505 ~= 0x00
 
-local p2_block_stun_timer = 0xFF9558 
+local p2_block_stun_timer = 0xFF9558
 local p2_proxy_block      = 0xFF8806 == 0x0C
 local p2_block_state      = 0xFF8806 == 0x00
 local p2_attack_flag      = 0xFF8905 ~= 0x00
@@ -577,6 +577,7 @@ local function get_dummy_state()
         p1_in_air           = memory.readbyte(0xFF8400 + 0x38) ~= 0,
         p1_y                = memory.readword(0xFF8400 + 0x14),
         p1_guarding         = memory.readbyte(0xFF8540) ~= 0,
+        p1_is_blocking_or_hit = memory.readbyte(0xFF8405) == 2,
         p1_pushback_timer   = memory.readword(0xFF8400 + 0x164),
         p1_is_crouching     = memory.readbyte(0xFF8400 + 0x121),
         p1_tech_hit         = memory.readword(0xFF8800 + 0x1B0) ~= 0,

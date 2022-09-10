@@ -32,6 +32,7 @@ local function draw_rec()
 		gui.text( mid_width, mid_height, "Slot "..slot..": Paused")
 	end 
 end
+
 local last_tech_success = false
 
 local function draw_pb_counter()
@@ -162,13 +163,9 @@ local function draw_short_hop_counter()
 		end
 	end
 end
-
 -- This function show stats for pushblocking
 local function draw_pb_stats()
 	if globals.options.display_pb_stats == true then
-		local pb_count = 0
-		local total_count = 0
-
 		gui.text( 172, 54, "Total: ".. util.tablelength(globals.total_pb_attempt_counter))
 		gui.text( 172, 63, "Pass: " .. util.tablelength(globals.successful_pb_counter), "#00FF00")
 		gui.text( 210, 63, "% ", "#00FF00")

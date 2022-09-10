@@ -279,7 +279,6 @@ emu.registerbefore(function()
 		globals.total_pb_attempt_counter = {}
 		globals.successful_pb_counter = {}
 	end
-
 	-- if globals.macroLua and (globals.macroLua.playing == true or globals.macroLua.recording == true) then
 	-- 	if was_gathering_graph_data == false then
 	-- 		last_dummy_config = {}
@@ -426,6 +425,7 @@ while true do
 		if globals.options.show_scrolling_input == true then
 			inpHistoryModule.guiRegister(globals._input)
 		end
+
 		-- local frame_index = 0
 
 		-- local step_x = 50

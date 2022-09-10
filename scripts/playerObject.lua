@@ -15,7 +15,7 @@ function make_input_set(_value)
       coin = _value
     }
   end
-  
+
   function make_player_object(_id, _base, _prefix)
     return {
       id = _id,
@@ -146,8 +146,30 @@ function make_input_set(_value)
         else
           player_objects[1].stopped_dashing = false
         end
+
+        if current.p1_is_blocking_or_hit and not prev.p1_is_blocking_or_hit then
+          local cur_total_pb_attempt_counter = util.tablelength(globals.total_pb_attempt_counter)
+          if cur_total_pb_attempt_counter == 1000 then
+            table.remove(globals.total_pb_attempt_counter, 1)
+            table.insert(globals.total_pb_attempt_counter, 1)
+          else
+            table.insert(globals.total_pb_attempt_counter, 1)
+          end  
+        end
+
+        if current.p1_tech_hit and not prev.p1_tech_hit then
+          local cur_successful_pb_counter = util.tablelength(globals.successful_pb_counter)
+          if cur_sucussful_pb_counter == 1000 then
+            table.remove(globals.successful_pb_counter, 1)
+            table.insert(globals.successful_pb_counter, 1)
+          else
+            table.insert(globals.successful_pb_counter, 1)
+          end  
+        end
+
+
         
- -- Table tracking framelength of dash
+        -- Table tracking framelength of dash
         if prev.p1_is_dashing and not current.p1_is_dashing then
           globals.last_dash_ended = emu.framecount()
           local cur_dash_length_frames = util.tablelength(globals.dash_length_frames)

@@ -956,16 +956,30 @@ macroLuaModule = {
 					end
 				end
 			end
-			if frame > macrosize then
-				playing = false
-				inputstream = nil
-				pausenow = pauseafterplay
-				if wait.duration then
-					wait.duration = wait.duration + wait.increment
-					if wait.duration < 0 then wait.duration = 0 end
+			if globals.options.looped_playback == false then
+				if frame > macrosize then
+					playing = false
+					inputstream = nil
+					pausenow = pauseafterplay
+					if wait.duration then
+						wait.duration = wait.duration + wait.increment
+						if wait.duration < 0 then wait.duration = 0 end
+						playcontrol(true)
+					elseif loopmode then
+						playcontrol(true)
+					else
+						print("Macro finished playing.") print()
+					end
+				end
+			end
+			if globals.options.looped_playback == true then
+				if frame > macrosize then
+					playing = false
+					inputstream = nil
+					pausenow = pauseafterplay
+					savestate.load("current_recording")
 					playcontrol(true)
-				elseif loopmode then
-					playcontrol(true)
+					print(macrosize)
 				else
 					print("Macro finished playing.") print()
 				end

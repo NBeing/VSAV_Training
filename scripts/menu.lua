@@ -943,6 +943,7 @@ return {
         checkbox_menu_item("Show Frame Trap Trainer", training_settings, "display_frame_trap_trainer", false,"Shows the frames gap between.\nhits or blocks on p2"),
         checkbox_menu_item("Show Bishamon UBK Trainer", training_settings, "display_bishamon_ubk_trainer", false,"Overlays onto P2 whether you are in a crouch or standing\n unblockable distance for Karame Dama or Bricks"),
         checkbox_menu_item("Show PB Stats", training_settings, "display_pb_stats", false,"Displays your succeeded, failed and total attempts at pushblocking.\n Turning this feature off and on will reset the data to 0"),
+        checkbox_menu_item("Show Jump In Trainer", training_settings, "display_jump_in_trainer", false,"Displays the frame differnce between p2 getting hit and your character landing"),
       }
     },
     {

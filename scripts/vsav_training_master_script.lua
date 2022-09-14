@@ -140,12 +140,15 @@ globals = {
 	time_between_dash_start_attack_start = {},
 	time_between_attack_end_dash_start = {},
 	frames_between_attacks = {},
+	jump_in_frames = {},
 	last_dash_ended = nil,
 	last_dash_started = nil,
 	last_attack_started = nil,
 	last_attack_ended = nil,
 	p2_hit_or_block_begin = nil,
 	p2_hit_or_block_end = nil,
+	jump_in_attack_start = nil,
+	jump_in_attack_end = nil,
 	set_last_data = function (fd) 
 		globals.last_fd = fd
 	end,
@@ -191,6 +194,9 @@ input.registerhotkey(4, function()
 	globals.time_between_dash_start_attack_start = {}
 	globals.time_between_attack_end_dash_start = {}
 	globals.frames_between_attacks = {}
+	globals.jump_in_frames = {}
+	globals.total_pb_attempt_counter = {}
+	globals.successful_pb_counter = {}
 	last_fd = ""
 end)
 input.registerhotkey(3, function()

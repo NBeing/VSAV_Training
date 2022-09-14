@@ -134,6 +134,22 @@ local function draw_dash_trainer()
 		end
 	end
 end
+
+local function draw_jump_in_trainer()
+	if globals.options.display_jump_in_trainer == true then
+		gui.text(42, 195, "Jump In Frames: ")
+		local copy_of_table = copytable(globals.jump_in_frames)
+		table.sort(copy_of_table, function (left, right) return left < right end)
+		for i = #globals.jump_in_frames, 1, -1 do
+			local color = "#FFFFFF"
+			if globals.jump_in_frames[i] == copy_of_table[1] then color = "#00FF00" end
+			if globals.jump_in_frames[i] == copy_of_table[#copy_of_table] then
+				color = "#FF0000" 
+			end
+			gui.text(105 + ((#globals.jump_in_frames - i) * 14), 195, globals.jump_in_frames[i], color)
+		end
+	end
+end
 -- this function creates a counter that tracks how many short hops you can successfully do in a row
 local function draw_short_hop_counter()
 	if globals.options.display_short_hop_counter == true then
@@ -419,6 +435,7 @@ local hudModule = {
 		frame_trap_trainer()
 		draw_push_dist()
 		draw_pb_stats()
+		draw_jump_in_trainer()
 		if globals.options.display_recording_gui == true then
 			draw_rec()
 		end

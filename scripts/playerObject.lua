@@ -167,8 +167,6 @@ function make_input_set(_value)
         end
 
         if current.p1_is_blocking_or_hit and not prev.p1_is_blocking_or_hit then
-          print(prev.p2_is_attacking)
-          print(current.p2_is_blocking_or_hit)
           local cur_total_pb_attempt_counter = util.tablelength(globals.total_pb_attempt_counter)
           if cur_total_pb_attempt_counter == 1000 then
             table.remove(globals.total_pb_attempt_counter, 1)

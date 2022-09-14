@@ -979,9 +979,6 @@ macroLuaModule = {
 					pausenow = pauseafterplay
 					savestate.load("current_recording")
 					playcontrol(true)
-					print(macrosize)
-				else
-					print("Macro finished playing.") print()
 				end
 			end
 		end

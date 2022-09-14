@@ -593,6 +593,7 @@ local function get_dummy_state()
         p2_in_air       = memory.readbyte(0xFF8800 + 0x38),
         p2_guarding     = memory.readbyte(0xFF8940) ~= 0,
         p2_is_blocking_or_hit = memory.readbyte(0xFF8805) == 2,
+        p2_is_attacking     = memory.readbyte(0xFF8800 + 0x105) ~= 0,
         p2_y            =  memory.readword(0xFF8800 + 0x14),
         p2_pushback_timer   = memory.readword(0xFF8800 + 0x164),
         p2_block_stun_timer = memory.readbyte(0xFF9558),

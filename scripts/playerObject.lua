@@ -146,8 +146,29 @@ function make_input_set(_value)
         else
           player_objects[1].stopped_dashing = false
         end
+        
+        if not prev.p2_is_blocking_or_hit and current.p2_is_blocking_or_hit and current.p1_in_air then
+         globals.jump_in_attack_start = emu.framecount()
+        end
+
+        if not current.p1_in_air and prev.p1_in_air then
+          globals.jump_in_attack_end = emu.framecount()
+          local cur_jump_in_frames = util.tablelength(globals.jump_in_frames)
+          if globals.jump_in_attack_end ~= nil and globals.jump_in_attack_start ~= nil then
+            local diff = globals.jump_in_attack_end - globals.jump_in_attack_start
+            if cur_jump_in_frames == 8 and diff < 30 then 
+              table.remove(globals.jump_in_frames, 1)
+              table.insert(globals.jump_in_frames, diff)
+            else if diff < 30 then
+              table.insert(globals.jump_in_frames, diff)
+            end
+            end
+          end
+        end
 
         if current.p1_is_blocking_or_hit and not prev.p1_is_blocking_or_hit then
+          print(prev.p2_is_attacking)
+          print(current.p2_is_blocking_or_hit)
           local cur_total_pb_attempt_counter = util.tablelength(globals.total_pb_attempt_counter)
           if cur_total_pb_attempt_counter == 1000 then
             table.remove(globals.total_pb_attempt_counter, 1)

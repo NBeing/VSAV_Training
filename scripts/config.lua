@@ -71,6 +71,7 @@ local default_training_settings = {
     display_bishamon_ubk_trainer = false,
     use_recording_savestate = false,
     display_pb_stats = false,
+    display_jump_in_trainer = false
   }
   
 

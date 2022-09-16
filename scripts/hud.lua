@@ -346,7 +346,7 @@ local function draw_push_dist()
 		gui.text((pushes.p1.right), 58,  "X Dist: "..distance)
 		
 	else
-		distance = config_globals.dummy.distance_between_players
+		--distance = config_globals.dummy.distance_between_players
 		gui.line(pushes.p2.right, 150, pushes.p1.left, 150 , "green")
 		gui.text((pushes.p2.right),  58,  "X Dist: "..distance)
 		

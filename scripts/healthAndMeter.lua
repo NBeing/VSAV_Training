@@ -42,6 +42,7 @@ local healthAndMeter = {
         then
             gui.text( 23, 87, "Red Dmg  : "..globals.dmg_calc.p2_red_life)
             gui.text( 23, 95, "White Dmg: "..globals.dmg_calc.p2_white_life)
+            gui.text( 23, 103, "Total Dmg: "..globals.dmg_calc.p2_red_life + globals.dmg_calc.p2_white_life)
         end
         
         if p2_is_hurt == true then

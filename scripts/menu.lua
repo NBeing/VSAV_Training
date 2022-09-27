@@ -900,7 +900,7 @@ return {
               "Specify an input to be performed after the dummy hurt, block, or wakeup.\nFor notes on timing please read the notes for 'True Reversal'",
               "Specify an action to be performed after the dummy blocks.\nFor notes on timing please read the notes for 'True Reversal'",
               "A recording will be played after the opponent finishes guarding.\nThe recording played can be set in the 'Recording' tab.\nThis can be specified or random\nFor notes on timing please read the notes for 'True Reversal'",
-              "Specify a character specific special move.\nto be performed after the dummy is finished blocking",
+              "USE AT YOUR OWN RISK (OFTEN CRASHES)\nSpecify a character specific special move.\nto be performed after the dummy is finished blocking",
               "Play recording after pushblock",
               
             }, "Use this to set up various counter attacks."),

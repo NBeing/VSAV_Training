@@ -520,7 +520,54 @@ local function parse(macro)
 	frame = 0
 	return frame
 end
+local function get_playback_file( with_slot_num)
+	local slot = globals.dummy.recording_slot
+	if globals.options.random_playback == true then
+		local use_char_specific_slot = globals.options.use_character_specific_slots
+		local prepend_to_path = ""
+		if use_char_specific_slot then 
+			prepend_to_path = globals.dummy.p2_char
+		end
+		local slots = {
+			["1"] = {enabled = globals.options.enable_slot_1, filename = prepend_to_path.."/".."slot_1.mis", num = 1},
+			["2"] = {enabled = globals.options.enable_slot_2, filename = prepend_to_path.."/".."slot_2.mis", num = 2},
+			["3"] = {enabled = globals.options.enable_slot_3, filename = prepend_to_path.."/".."slot_3.mis", num = 3},
+			["4"] = {enabled = globals.options.enable_slot_4, filename = prepend_to_path.."/".."slot_4.mis", num = 4},
+			["5"] = {enabled = globals.options.enable_slot_5, filename = prepend_to_path.."/".."slot_5.mis", num = 5}
+		}
+		local numItems = 0
+		local enabled_slots = {}
+		for k,v in pairs(slots) do
+			if v.enabled == true then
+				enabled_slots[numItems] = {filename = v.filename, num = v.num }
+				numItems = numItems + 1
+			end
+		end
+		if numItems == 0 then
+			emu.message("No slots selected for random playback")
+			return globals.dummy.p2_char.."/"..globals.dummy.recording_slot 
+		end
+		local seed = math.random(0, numItems - 1)
+		slot = enabled_slots[seed]
+		if with_slot_num == false then
+			return slot.filename
+		else
+			return {
+				["slot"] = slot.filename,
+				["num"] = slot.num,
 
+			}
+		end
+		return slot
+	else 
+		local use_char_specific_slot = globals.options.use_character_specific_slots
+		local prepend_to_path = ""
+		if use_char_specific_slot then 
+			prepend_to_path = globals.dummy.p2_char
+		end
+		return prepend_to_path.."/"..slot
+	end
+end
 ----------------------------------------------------------------------------------------------------
 --[[ Set up the recording variables and functions. ]]--
 
@@ -640,7 +687,7 @@ local function finalize(t)
 	if use_char_specific_slot then 
 		prepend_to_path = globals.dummy.p2_char
 	end
-	filename = prepend_to_path.."/"..globals.dummy.recording_slot 
+	filename = prepend_to_path.."/"..globals.dummy.recording_slot
 
 	local file = io.output(path:gsub("\\", "/") .. filename)
 	file:write(text) --Write to file.
@@ -743,47 +790,16 @@ end
 function start_macro_playback()
 		playing = true
 end
-local function get_playback_file()
-	local slot = globals.dummy.recording_slot
-	if globals.options.random_playback == true then
-		local use_char_specific_slot = globals.options.use_character_specific_slots
-		local prepend_to_path = ""
-		if use_char_specific_slot then 
-			prepend_to_path = globals.dummy.p2_char
-		end
-		local slots = {
-			["1"] = {enabled = globals.options.enable_slot_1, filename = prepend_to_path.."/".."slot_1.mis"},
-			["2"] = {enabled = globals.options.enable_slot_2, filename = prepend_to_path.."/".."slot_2.mis"},
-			["3"] = {enabled = globals.options.enable_slot_3, filename = prepend_to_path.."/".."slot_3.mis"},
-			["4"] = {enabled = globals.options.enable_slot_4, filename = prepend_to_path.."/".."slot_4.mis"},
-			["5"] = {enabled = globals.options.enable_slot_5, filename = prepend_to_path.."/".."slot_5.mis"}
-		}
-		local numItems = 0
-		local enabled_slots = {}
-		for k,v in pairs(slots) do
-			if v.enabled == true then
-				enabled_slots[numItems] = v.filename
-				numItems = numItems + 1
-			end
-		end
-		if numItems == 0 then
-			emu.message("No slots selected for random playback")
-			return globals.dummy.p2_char.."/"..globals.dummy.recording_slot 
-		end
-		local seed = math.random(0, numItems - 1)
-		slot = enabled_slots[seed]
-		return slot
-	else 
-		local use_char_specific_slot = globals.options.use_character_specific_slots
-		local prepend_to_path = ""
-		if use_char_specific_slot then 
-			prepend_to_path = globals.dummy.p2_char
-		end
-		return prepend_to_path.."/"..slot
-	end
-end
+
 local function playcontrol(silent)
-	local slot = get_playback_file()
+	local slot
+	if globals.options.random_playback then 
+		slot = get_playback_file(true)
+		globals.options.recording_slot = slot.num + 1
+		slot = slot.slot
+	else
+		slot = get_playback_file()
+	end
 	if not playing then
 		if not parse(slot) or warning("Macro is zero frames long.", macrosize == 0) or dumpinputstream(dumpmode) then
 			return

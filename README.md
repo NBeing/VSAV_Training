@@ -17,7 +17,12 @@ What is described in the video guide:
   3) IMPORTANT: The path where you installed fightcade 2 should not have a space in it: e.g. 
   Bad: `C:/fightcade 2/` Good: `C:/fightcade2`. Try to make sure the path is also not too deep.
   4) Double click `run_vsav_training.bat`
-  
+  5) Set up hotkeys in fbneo input  Input --> Map Game Inputs (Can map to controller):
+    a) Lua Hotkey 1 - Opens training menu
+    b) Lua Hotkey 4 - Return to CSS
+    c) Volume Up - Record Dummy 
+    d) Volume Down - Playback Dummy
+
 ##  Linux Installation
   1) Place  `run_vsav_training.sh` and `scripts` in your `...\Fightcade\emulator\fbneo`
   3) Run `./run_vsav_training.sh` in the terminal
@@ -53,7 +58,7 @@ Video Guide here https://youtu.be/HwyTAnbSw_I
   
 
 ## Hotkeys
-    Press Start open the training menu.
+    Press Lua Hotkey 1 to open the training menu.
     Press Coin to swap controls to dummy
     Press Volume Down to play back recording. (found in 'map game inputs')
     Press Volume Up to record dummy. (found in 'map game inputs')

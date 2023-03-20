@@ -202,6 +202,9 @@ end)
 input.registerhotkey(3, function()
 	globals.macroLua.toggleloop()
 end)
+input.registerhotkey(1, function()
+	globals.menuModule.togglemenu()
+end)
 toggleloop = nil
 emu.registerstart(function()
 	util.load_training_data()
@@ -420,6 +423,9 @@ while true do
 		end
 		if globals.game_state and globals.game_state.match_begun == false then
 			gui.clearuncommitted()
+			gui.text(0,0, 
+			"Open Input --> Map Game Inputs --> Lua Hotkey 1 and set it for the menu button\nSet Volume Up to record dummy    Volume Down for playback \nLua Hotkey 4 to return to CSS at any time"
+		)
 			return
 		end
 		hudModule.guiRegister()

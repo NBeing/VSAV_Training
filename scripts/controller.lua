@@ -74,9 +74,9 @@ function handle_hotkeys()
   local down = player_objects[1].input.down
   if last_inputs ~= nil then
     -- if  down["start"] == true and down["LP"] == true then 
-    if down["start"] == true then 
-			debounce(globals.menuModule.togglemenu,20)
-    end
+    -- if down["start"] == true then 
+		-- 	debounce(globals.menuModule.togglemenu,20)
+    -- end
     -- if  down["start"] == true and down["MP"] == true then 
 		-- 	debounce(globals.menuModule.togglegraphmenu,10)
     -- end

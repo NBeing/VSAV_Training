@@ -171,7 +171,7 @@ globals = {
 	graph_data_max = 100,
 	playing = false,
 	recording = false,
-  desired_stage = nil,
+	desired_stage = nil,
 }
 
 local gather_graph_data = false
@@ -227,7 +227,7 @@ emu.registerstart(function()
 	}
 	P1 = player_objects[1]
 	P2 = player_objects[2]
-  stageSelectModule.registerStart()
+	stageSelectModule.registerStart()
 	frameDataModule.registerStart(globals.options.mo_enable_frame_data, quiet_framedata)
 	cps2HitboxModule.registerStart(globals)
 	macroLuaModule.registerStart()
@@ -357,10 +357,10 @@ end)
 
 emu.registerafter(function() --recording is done after the frame, not before, to catch input from playing macros
 	if globals.game_state.match_begun == false then
-    if globals == nil or globals.options == nil then
-      return
-    end
-    stageSelectModule.registerAfter()
+		if globals == nil or globals.options == nil then
+			return
+		end
+		stageSelectModule.registerAfter()
 		return
 	end
 	-- if memory.readdword(0xFF8804) == 0x02020400 then
@@ -429,9 +429,9 @@ while true do
 		end
 		if globals.game_state and globals.game_state.match_begun == false then
 			gui.clearuncommitted()
-      if globals.desired_stage ~= nil then
-        gui.text(5, emu.screenheight() - 40, "Selected stage: " .. stageData.get_stage_name(globals.desired_stage))
-      end
+			if globals.desired_stage ~= nil then
+				gui.text(5, emu.screenheight() - 40, "Selected stage: " .. stageData.get_stage_name(globals.desired_stage))
+			end
 			gui.text(0,0, 
 			"Open Input --> Map Game Inputs --> Lua Hotkey 1 and set it for the menu button\nSet Volume Up to record dummy    Volume Down for playback \nLua Hotkey 4 to return to CSS at any time"
 		)

@@ -67,4 +67,4 @@ Video Guide here https://youtu.be/HwyTAnbSw_I
 
 ## Features
     In this version all features should be documented with description text within the training mode itself.
-    Just press start and look through the menus.
+    Just press Lua Hotkey 1 and look through the menus.

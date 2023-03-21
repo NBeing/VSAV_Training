@@ -26,8 +26,8 @@ CHAR_IDS = {
 local function resolve_char_id_to_stage_value(char_id)
 	if     char_id == CHAR_IDS["Bulleta"]   then return stageData["STAGE_VALUES"].WarAgony
 	elseif char_id == CHAR_IDS["Demitri"]   then return stageData["STAGE_VALUES"].FeastOfTheDamned
-	elseif char_id == CHAR_IDS["Gallon"] 	  then return stageData["STAGE_VALUES"].ConcreteCave
-	elseif char_id == CHAR_IDS["Victor"] 	  then return stageData["STAGE_VALUES"].ForeverTorment
+	elseif char_id == CHAR_IDS["Gallon"]    then return stageData["STAGE_VALUES"].ConcreteCave
+	elseif char_id == CHAR_IDS["Victor"]    then return stageData["STAGE_VALUES"].ForeverTorment
 	elseif char_id == CHAR_IDS["Zabel"]     then return stageData["STAGE_VALUES"].IronHorseIronTerror
 	elseif char_id == CHAR_IDS["Morrigan"] 	then return stageData["STAGE_VALUES"].DesertedChateau
 	elseif char_id == CHAR_IDS["Anakaris"] 	then return stageData["STAGE_VALUES"].RedThirst

@@ -59,7 +59,8 @@ Video Guide here https://youtu.be/HwyTAnbSw_I
 
 ## Hotkeys
     Press Lua Hotkey 1 to open the training menu.
-    Press Coin to swap controls to dummy
+    Press Coin while hovering over a character in character select to select a stage
+    Press Coin while in a match to swap controls to dummy
     Press Volume Down to play back recording. (found in 'map game inputs')
     Press Volume Up to record dummy. (found in 'map game inputs')
     Press Alt + 3 to toggle looping playback.

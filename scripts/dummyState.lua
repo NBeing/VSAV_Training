@@ -522,6 +522,29 @@ local function get_anak_projectile()
         memory.writeword(0xFF8400 + 0xAA, 0x4000)
     end
 end
+
+local function resolve_puppet_show_from_config(config_value)
+	if     config_value == 1 then return 0x00
+	elseif config_value == 2 then return 0x0A
+	elseif config_value == 3 then return 0x13
+	elseif config_value == 4 then return 0x1D
+	elseif config_value == 5 then return 0x1E
+	elseif config_value == 6 then return 0x1F
+	else                          return 0x00
+	end
+end
+
+local function set_lilith_gloomy_puppet_show()
+	local is_lilith = globals.getCharacter(0xFF8400) == "Lilith"
+	local selected_gps = globals.options.lilith_gps
+	if not is_lilith or selected_gps == 0 then
+		memory.registerexec(0x4F4F2, nil)
+		return
+	end
+	memory.registerexec(0x4F4F2, function()
+		memory.setregister("m68000.d1", resolve_puppet_show_from_config(selected_gps))
+	end)
+end
   
 local function get_distance_between_players()
 

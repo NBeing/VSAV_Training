@@ -279,7 +279,7 @@ emu.registerbefore(function()
 	globals.util.disable_taunts()
 	healthAndMeter.registerBefore()
 	cps2HitboxModule.registerBefore()
-  vsavTestMenuModule.registerBefore(globals.options.game_speed)
+	vsavTestMenuModule.registerBefore(globals.options.game_speed)
 	rollingModule.roll()
 
 	globals.controllerModule.handle_hotkeys()

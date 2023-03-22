@@ -28,31 +28,32 @@ copytable = deepcopy
 dofile("macro-options.lua", "r") --load the globals
 dofile("macro-modules.lua", "r")
 
-serialize  	    = require './scripts/ser'
-local configModule      = require './scripts/config'
-training_settings_file  = "training_settings.json"
-training_settings       = configModule.default_training_settings
-local inpHistoryModule  = require"./scripts/inputHistory"
--- local inpDispModule     = require "./input-display"
-local frameDataModule   = require "./scripts/framedata"
-local rollingModule     = require "./scripts/rolling" 
-local vsavScriptModule  = require "./scripts/vsavscriptv2"
-local macroLuaModule    = require "./scripts/macro"
-local guardCancelModule = require "./scripts/guardCancel"
-local autoguardModule   = require "./scripts/autoguard"
-local gameStateModule   = require './scripts/gameState'
-local dummyStateModule  = require './scripts/dummyState'
-local neutralModule     = require './scripts/dummyNeutral' 
-local util              = require './scripts/utilities'
-local playerObject      = require './scripts/playerObject'
-local menuModule        = require './scripts/menu'
-local controllerModule  = require './scripts/controller'
-local cps2HitboxModule  = require "./scripts/cps2-hitboxes"
-local healthAndMeter    = require "./scripts/healthAndMeter"
-local hudModule         = require "./scripts/hud"
-local timersModule      = require "./scripts/timers"
-local throwTechModule   = require "./scripts/throwTech"
-local stageSelectModule = require "./scripts/stage-select"
+serialize  	             = require './scripts/ser'
+local configModule       = require './scripts/config'
+training_settings_file   = "training_settings.json"
+training_settings        = configModule.default_training_settings
+local inpHistoryModule   = require"./scripts/inputHistory"
+-- local inpDispModule      = require "./input-display"
+local frameDataModule    = require "./scripts/framedata"
+local rollingModule      = require "./scripts/rolling" 
+local vsavScriptModule   = require "./scripts/vsavscriptv2"
+local macroLuaModule     = require "./scripts/macro"
+local guardCancelModule  = require "./scripts/guardCancel"
+local autoguardModule    = require "./scripts/autoguard"
+local gameStateModule    = require './scripts/gameState'
+local dummyStateModule   = require './scripts/dummyState'
+local neutralModule      = require './scripts/dummyNeutral' 
+local util               = require './scripts/utilities'
+local playerObject       = require './scripts/playerObject'
+local menuModule         = require './scripts/menu'
+local controllerModule   = require './scripts/controller'
+local cps2HitboxModule   = require "./scripts/cps2-hitboxes"
+local healthAndMeter     = require "./scripts/healthAndMeter"
+local hudModule          = require "./scripts/hud"
+local timersModule       = require "./scripts/timers"
+local throwTechModule    = require "./scripts/throwTech"
+local stageSelectModule  = require "./scripts/stage-select"
+local vsavTestMenuModule = require "./scripts/vsav-test-menu"
 
 -- local frameskipHandlerModule = require "./scripts/frameskipHandler"
 
@@ -278,6 +279,7 @@ emu.registerbefore(function()
 	globals.util.disable_taunts()
 	healthAndMeter.registerBefore()
 	cps2HitboxModule.registerBefore()
+  vsavTestMenuModule.registerBefore(globals.options.game_speed)
 	rollingModule.roll()
 
 	globals.controllerModule.handle_hotkeys()

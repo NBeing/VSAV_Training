@@ -28,7 +28,7 @@ copytable = deepcopy
 dofile("macro-options.lua", "r") --load the globals
 dofile("macro-modules.lua", "r")
 
-serialize  	             = require './scripts/ser'
+serialize                = require './scripts/ser'
 local configModule       = require './scripts/config'
 training_settings_file   = "training_settings.json"
 training_settings        = configModule.default_training_settings

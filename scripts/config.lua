@@ -73,6 +73,7 @@ local default_training_settings = {
     display_jump_in_trainer = false,
     game_speed = 3,
     bgm_on = true,
+    lilith_gps = 0,
   }
   
 

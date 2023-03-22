@@ -949,6 +949,7 @@ return {
     {
       name = "Timers/Testing",
       entries = {
+        integer_menu_item("Game Speed", training_settings, "game_speed", 0, 3, false, 3, 0, "Change the game speed\n0 = normal, 1-3 = turbo 1-3"),
         checkbox_menu_item("Show Invuln Timer", training_settings, "show_invuln_timer", false,""),
         checkbox_menu_item("Show Mash Timer", training_settings, "show_mash_timer", false,""),
         checkbox_menu_item("Show Throw Invulnerability Timer", training_settings, "show_throw_invuln_timer", false,""),
@@ -957,7 +958,6 @@ return {
         checkbox_menu_item("Show Push Block Push Back Timer", training_settings, "show_pb_pushback_timer", false,""), 
         checkbox_menu_item("Testing: PB Delayed Pushback Bug ", training_settings, "show_move_strength", false,""),
         checkbox_menu_item("Testing: Projectile Count Limiter ", training_settings, "show_projectile_count_limiter", false,""), 
-
       }
     }
 }

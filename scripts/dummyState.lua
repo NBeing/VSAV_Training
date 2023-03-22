@@ -653,6 +653,7 @@ dummyStateModule = {
         globals.parsed_dummy_state = parsed_dummy_state()
         get_anak_projectile()
         set_lei_lei_stun_item()
+								set_lilith_gloomy_puppet_show()
         return {
             get_dummy_state = get_dummy_state,
             -- parsed_dummy_state = parsed_dummy_state

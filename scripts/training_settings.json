@@ -87,5 +87,6 @@
   "show_throw_invuln_timer":false,
   "graph_data_index":1,
   "p1_max_life":288,
-  "enable_slot_3":true
+  "enable_slot_3":true,
+  "lilith_gps":0
 }

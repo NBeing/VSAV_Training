@@ -18,7 +18,7 @@ AUTO_GUARD_SELECT_OFFSET = 0xBB
 local current_speed = nil
 
 local function get_frameskip_value(game_speed)
-	if game_speed == 3 then return 0x08
+	if     game_speed == 3 then return 0x08
 	elseif game_speed == 2 then return 0x07
 	elseif game_speed == 1 then return 0x06
 	else return 0x00

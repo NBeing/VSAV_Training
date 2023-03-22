@@ -947,8 +947,9 @@ return {
       }
     },
     {
-      name = "Timers/Testing",
+      name = "Etc",
       entries = {
+        checkbox_menu_item("BGM On", training_settings, "bgm_on", true,"Return to CSS if toggling or bgm will be kinda low(lua hotkey 4)"),
         integer_menu_item("Game Speed", training_settings, "game_speed", 0, 3, false, 3, 0, "Change the game speed\n0 = normal, 1-3 = turbo 1-3"),
         checkbox_menu_item("Show Invuln Timer", training_settings, "show_invuln_timer", false,""),
         checkbox_menu_item("Show Mash Timer", training_settings, "show_mash_timer", false,""),

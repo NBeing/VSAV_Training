@@ -10,7 +10,6 @@ local default_training_settings = {
     dummy_neutral = 1,
     guard = 1,
     counter_attack = 1,
-	show_hitboxes = 1,
     counter_attack_random_upback = 1,
     enable_slot_3 = false,
     display_movelist = false,
@@ -73,6 +72,7 @@ local default_training_settings = {
     display_pb_stats = false,
     display_jump_in_trainer = false,
     game_speed = 3,
+    bgm_on = true,
   }
   
 

@@ -54,6 +54,7 @@ local timersModule       = require "./scripts/timers"
 local throwTechModule    = require "./scripts/throwTech"
 local stageSelectModule  = require "./scripts/stage-select"
 local vsavTestMenuModule = require "./scripts/vsav-test-menu"
+local soundModule        = require "./scripts/sound"
 
 -- local frameskipHandlerModule = require "./scripts/frameskipHandler"
 
@@ -237,6 +238,7 @@ end)
 
 local last 
 emu.registerbefore(function()
+
 	-- print("currently selected", memory.readbyte(0xFF8400 + 0x382))
 	-- print("unknown mirror",memory.readbyte(0xFF6198))
 	-- print("have selected character", memory.readbyte(0xFF8400 + 0x3BD))
@@ -263,7 +265,7 @@ emu.registerbefore(function()
 	if globals.game_state.match_begun == false then
 		return
 	end
-
+	soundModule.registerBefore()
 	charMovesModule.registerBefore()
 
 	globals["options"] 		 = configModule.registerBefore()

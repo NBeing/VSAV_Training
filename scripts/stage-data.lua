@@ -1,5 +1,4 @@
-STAGE_WRITE_FUNC_ADDR = 0xAEFA
-CURRENT_STAGE_ADDR    = 0xFF8101
+CURRENT_STAGE_ADDR = 0xFF8101
 
 STAGE_VALUES = {
 	FeastOfTheDamned    = 0x00,
@@ -41,7 +40,6 @@ stagesModule = {
 	["get_stage_name"] = get_stage_name,
 	["get_current_stage"] = get_current_stage,
 	["CURRENT_STAGE_ADDR"] = CURRENT_STAGE_ADDR,
-	["STAGE_WRITE_FUNC_ADDR"] = STAGE_WRITE_FUNC_ADDR,
-	["STAGE_VALUES"] = STAGE_VALUES
+	["STAGE_VALUES"] = STAGE_VALUES,
 }
 return stagesModule

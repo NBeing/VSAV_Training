@@ -53,6 +53,7 @@ local hudModule          = require "./scripts/hud"
 local timersModule       = require "./scripts/timers"
 local throwTechModule    = require "./scripts/throwTech"
 local stageSelectModule  = require "./scripts/stage-select"
+local stageDataModule    = require "./scripts/stage-data"
 local vsavTestMenuModule = require "./scripts/vsav-test-menu"
 local soundModule        = require "./scripts/sound"
 
@@ -434,7 +435,7 @@ while true do
 		if globals.game_state and globals.game_state.match_begun == false then
 			gui.clearuncommitted()
 			if globals.desired_stage ~= nil then
-				gui.text(5, emu.screenheight() - 40, "Selected stage: " .. stageData.get_stage_name(globals.desired_stage))
+				gui.text(5, emu.screenheight() - 40, "Selected stage: " .. stageDataModule.get_stage_name(globals.desired_stage))
 			end
 			gui.text(0,0, 
 			"Open Input --> Map Game Inputs --> Lua Hotkey 1 and set it for the menu button\nSet Volume Up to record dummy    Volume Down for playback \nLua Hotkey 4 to return to CSS at any time"

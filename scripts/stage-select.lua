@@ -48,7 +48,7 @@ end
 
 local function override_stage_write()
 	if globals.desired_stage ~= nil then
-    memory.setregister("m68000.d0", globals.desired_stage)
+		memory.setregister("m68000.d0", globals.desired_stage)
 	end
 end
 
@@ -57,13 +57,13 @@ local function registerStart()
 end
 
 local function registerAfter()
-  if not globals.game_state.match_begun then
-    local inputs = joypad.getup()
-    if last_inputs ~= nil and inputs["P1 Coin"] == nil and last_inputs["P1 Coin"] == false then
-      globals.desired_stage = resolve_char_id_to_stage_value(memory.readbyte(P1_CHAR_SEL_CURS_ADDR))
-    end
-    last_inputs = inputs
-  end
+	if not globals.game_state.match_begun then
+		local inputs = joypad.getup()
+		if last_inputs ~= nil and inputs["P1 Coin"] == nil and last_inputs["P1 Coin"] == false then
+			globals.desired_stage = resolve_char_id_to_stage_value(memory.readbyte(P1_CHAR_SEL_CURS_ADDR))
+		end
+		last_inputs = inputs
+	end
 end
 
 stageSelectModule = {

@@ -46,14 +46,12 @@ local function resolve_char_id_to_stage_value(char_id)
 	end
 end
 
-local function override_stage_write()
-	if globals.desired_stage ~= nil then
-		memory.setregister("m68000.d0", globals.desired_stage)
-	end
-end
-
 local function registerStart()
-	memory.registerexec(STAGE_WRITE_FUNC_MEMCPY_ADDR, override_stage_write)
+	memory.registerexec(STAGE_WRITE_FUNC_MEMCPY_ADDR, function()
+		if globals.desired_stage ~= nil then
+			memory.setregister("m68000.d0", globals.desired_stage)
+		end
+	end)
 end
 
 local function registerAfter()

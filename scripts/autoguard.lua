@@ -46,7 +46,8 @@ function dummy_guard(cur_keys,player_objects)
 	local p2_x_pos = memory.readword(0xFF8800 + 0x10)
     local p1_proj  = memory.readword(0xFF8400 + 0x149)
     local p2_proj  = memory.readword(0xFF8800 + 0x149)
-
+    local p1_supers_that_activate_proxy_block_check =  memory.readbyte(0xFF8554) ~= 0x00 
+    local p1_initiating_proj = memory.readbyte(0xFF84AC) ~= 0
     local close_enough      = math.abs(p1_x_pos - p2_x_pos) < 0x100
     -- local should_block      = false
 
@@ -60,7 +61,7 @@ function dummy_guard(cur_keys,player_objects)
         proj        = p2_proj
      end
 
-    if proj ~= 0 then 
+    if proj ~= 0 or p1_initiating_proj or p1_supers_that_activate_proxy_block_check then 
         cur_keys[ away_btn ] = true
 		return cur_keys
     end

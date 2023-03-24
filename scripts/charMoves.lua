@@ -570,7 +570,7 @@ local bishamon_unblockable_distance_data = {
     ["Lei-Lei"] = {  
         charName = "LE",
         standingDist  = { startDist = 79, endDist = 91 },
-        crouchingDist = { startDist = 79, endDist = 115},
+        crouchingDist = { startDist = 79, endDist = 91},
         overlapRange  = { startDist = 79, endDist = 91 }, 
         length = 12
     },

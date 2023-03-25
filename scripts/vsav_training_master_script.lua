@@ -176,7 +176,7 @@ globals = {
 	playing = false,
 	recording = false,
 	desired_stage = nil,
-  frameskipService = require "./scripts/frameskip-service",
+	frameskipService = require "./scripts/frameskip-service",
 }
 
 local gather_graph_data = false
@@ -214,7 +214,7 @@ input.registerhotkey(1, function()
 end)
 toggleloop = nil
 emu.registerstart(function()
-  globals.frameskipService.registerStart()
+ 	globals.frameskipService.registerStart()
 	util.load_training_data()
 	-- globals.frameSkipHandlerModule = frameskipHandlerModule.registerStart()
 	globals["options"] = configModule.registerBefore()

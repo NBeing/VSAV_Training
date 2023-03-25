@@ -32,6 +32,7 @@ serialize                = require './scripts/ser'
 local configModule       = require './scripts/config'
 training_settings_file   = "training_settings.json"
 training_settings        = configModule.default_training_settings
+Rx                       = require "./scripts/rx-lua/rx"
 local inpHistoryModule   = require"./scripts/inputHistory"
 -- local inpDispModule      = require "./input-display"
 local frameDataModule    = require "./scripts/framedata"
@@ -175,6 +176,7 @@ globals = {
 	playing = false,
 	recording = false,
 	desired_stage = nil,
+	frameskipService = require "./scripts/frameskip-service",
 }
 
 local gather_graph_data = false
@@ -212,6 +214,7 @@ input.registerhotkey(1, function()
 end)
 toggleloop = nil
 emu.registerstart(function()
+ 	globals.frameskipService.registerStart()
 	util.load_training_data()
 	-- globals.frameSkipHandlerModule = frameskipHandlerModule.registerStart()
 	globals["options"] = configModule.registerBefore()

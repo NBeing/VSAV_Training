@@ -1,4 +1,5 @@
 local global_settings_register_a5    = "m68000.a5"
+local register_d1                    = "m68000.d1"
 local global_settings_base_addr      = 0xFF8000
 local logical_frame_counter_offset   = 0x81
 local animation_frame_counter_offset = 0xB4
@@ -70,7 +71,7 @@ local frameskipServiceModule = {
     end)
     current_frame_frameskip_data_observable = Rx.Observable.create(function(observer)
       memory.registerexec(frameskip_next_frame_read_addr, function()
-        local frameskip_index = memory.getregister("m68000.d1")
+        local frameskip_index = memory.getregister(register_d1)
         local global_settings_addr = memory.getregister(global_settings_register_a5)
         local calculated_frameskip_index = bitwise_and(memory.readbyte(global_settings_base_addr + logical_frame_counter_offset), mod_32_bitmask)
         local frameskip_value = memory.readbyte(global_settings_addr + frameskip_flag_offset)

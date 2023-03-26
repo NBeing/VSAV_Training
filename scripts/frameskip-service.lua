@@ -59,9 +59,7 @@ local function is_nth_bit_set(value, n)
 end
 
 local frameskip_pattern_observable
-
 local current_frame_frameskip_data_observable
-
 local frameskipServiceModule = {
   ["registerStart"] = function()
     frameskip_pattern_observable = Rx.Observable.create(function(observer)

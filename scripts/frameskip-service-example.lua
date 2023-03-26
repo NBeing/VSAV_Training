@@ -35,14 +35,16 @@ frameskip_observable = globals.frameskipService.get_framskip_pattern()
     print(data)
   end)
 
--- Let's say you want to know if the next frame will be skipped (DOES NOT WORK
--- TODAY, but for the sake of example), but don't really care when it won't be.
--- You want to filter the values of the get_next_frame_skipped observable:
-frameskip_observable = globals.frameskipService.get_next_frame_skipped()
-  -- only emits if value is `true`
-  :filter(function(frameSkipped) return frameSkipped == true end)
-  :subscribe(function(frameSkipped)
-    print(frameSkipped)
+-- Let's say you want to know if the next frame will be skipped or if the last
+-- frame was skipped. Then you want to filter the values of the 
+-- get_current_frame_frameskip_data_observable:
+frameskip_observable = globals.frameskipService.get_current_frame_frameskip_data()
+  -- will only emit if a frame was skipped or is about to be skipped
+  :filter(function(frame_skip_data)
+    return frame_skip_data.last_frame_was_skipped or frame_skip_data.next_frame_will_be_skipped
+  end)
+  :subscribe(function(frame_skip_data)
+    print(frame_skip_data)
   end)
 
 -- There are many other things you can do with observable data streams,

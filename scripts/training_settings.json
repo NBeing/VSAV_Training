@@ -88,5 +88,6 @@
   "graph_data_index":1,
   "p1_max_life":288,
   "enable_slot_3":true,
-  "lilith_gps":0
+  "lilith_gps":0,
+  "min_pb_inputs":1
 }

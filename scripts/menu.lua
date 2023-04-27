@@ -883,6 +883,7 @@ return {
 												lilith_gps_menu_item,
             lei_lei_stun_menu_item,
             checkbox_menu_item("Tech Throws", training_settings, "p2_throw_tech",0,"The dummy will tech throws at this %."),
+            list_menu_item("Minimum PB Inputs", training_settings, "min_pb_inputs", { "Normal", "4", "5", "6" }, 1, "Set the minimum number of inputs required to get a tech hit (pushblock).\nNormal = 3 inputs, as is normal");
             list_menu_item("Guard", training_settings, "guard", guard,1, "Autoguard will block everything, including unblockable setups.\nBlock will make the dummy tap back for one frame to put them in proxy block.\nCurrently does not work with all moves."),
             -- integer_menu_item("# Guard Frames", training_settings, "p2_refill_timer", 0, 20, false, 0, nil, "This timer controls when the life meter will be refilled.\nOccurs this many seconds after being hit"),
 

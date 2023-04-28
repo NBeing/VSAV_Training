@@ -178,7 +178,7 @@ function make_input_set(_value)
 
         if current.p1_tech_hit and not prev.p1_tech_hit then
           local cur_successful_pb_counter = util.tablelength(globals.successful_pb_counter)
-          if cur_sucussful_pb_counter == 1000 then
+          if cur_successful_pb_counter == 1000 then
             table.remove(globals.successful_pb_counter, 1)
             table.insert(globals.successful_pb_counter, 1)
           else

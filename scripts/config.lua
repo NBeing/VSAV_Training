@@ -74,6 +74,7 @@ local default_training_settings = {
     game_speed = 3,
     bgm_on = true,
     lilith_gps = 0,
+    min_pb_inputs = 1,
   }
   
 

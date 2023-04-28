@@ -440,6 +440,19 @@ local function get_p2_reversal_strength(player)
     end
 end
 
+local function set_min_pb_inputs()
+  local fn = nil
+  local min_inputs = globals.options.min_pb_inputs + 2
+  if min_inputs > 3 then
+    fn = function()
+      if memory.getregister("m68000.d0") < min_inputs then
+        memory.setregister("m68000.d0", 0x00000000)
+      end
+    end
+  end
+  memory.registerexec(0x2760E, fn)
+end
+
 local function set_lei_lei_stun_item()
     local current = globals.options.lei_lei_stun_item
     if globals and globals.getCharacter(0xFF8400) ~= "Lei-Lei" then 
@@ -654,6 +667,7 @@ dummyStateModule = {
         get_anak_projectile()
         set_lei_lei_stun_item()
         set_lilith_gloomy_puppet_show()
+        set_min_pb_inputs()
         return {
             get_dummy_state = get_dummy_state,
             -- parsed_dummy_state = parsed_dummy_state

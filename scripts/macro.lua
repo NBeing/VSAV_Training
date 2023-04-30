@@ -993,7 +993,9 @@ macroLuaModule = {
 					playing = false
 					inputstream = nil
 					pausenow = pauseafterplay
-					savestate.load("current_recording")
+					if globals.options.use_recording_savestate == true then
+						savestate.load("current_recording")
+					end
 					playcontrol(true)
 				end
 			end

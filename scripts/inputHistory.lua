@@ -1,3 +1,4 @@
+DUMMY_NEDGE_DISPLAY_OPTION = true
 local p1_inp_disp_x = 125
 local p1_inp_disp_y = 28
 local p2_inp_disp_x = 225
@@ -525,6 +526,36 @@ function draw_input_history_entry(_entry, _x, _y, color, step)
   gui.image(_x + 23, _y + 5, _img_HK)
 end
 
+function remove_nedge_events(_history)
+	if #_history < 2 then return _history end
+	local cleaned_history = {}
+	local last_direction = nil
+	local last_buttons = {nil, nil, nil, nil, nil, nil}
+	for _i = 1, #_history, 1 do
+		-- check if history entry is an input event or game state evnt
+		-- -- for game state event, just append, do not change
+		local current_entry = _history[_i]
+		if current_entry.type then
+			-- game state event, append and ignore
+			table.insert(cleaned_history, current_entry)
+		else
+			-- input event, update last and remove if only neg edge
+			local nedge_event = current_entry.direction == last_direction
+		        for i = 1,6 do
+				if current_entry.buttons[i] and not last_buttons[i] and last_buttons[i] ~= nil then
+					nedge_event=false
+	                	end
+				last_buttons[i] = current_entry.buttons[i]
+			end
+			last_direction = current_entry.direction
+			if nedge_event == false then
+				table.insert(cleaned_history, current_entry)
+			end
+	        end
+	end
+	return cleaned_history
+end
+
 function draw_input_history(_history, _x, _y, _is_left)
   local _step_y = 18
 
@@ -799,7 +830,9 @@ local inpHistoryModule = {
 		local input_underlay_x = 0
 		local input_underlay_y = emu.screenheight() - 21
 		gui.box(input_underlay_x, input_underlay_y, emu.screenwidth(), input_underlay_y + 25 ,"#00000099", "#00000055")
-        draw_input_history(input_history[1], emu.screenwidth() - 15 + globals.options.inp_history_scroll, input_underlay_y + 2, true) 
+	history_draw_candidate = input_history[1]
+	if DUMMY_NEDGE_DISPLAY_OPTION then history_draw_candidate = remove_nedge_events(input_history[1]) end
+        draw_input_history(history_draw_candidate, emu.screenwidth() - 15 + globals.options.inp_history_scroll, input_underlay_y + 2, true)
         history_draw()
     end
 }

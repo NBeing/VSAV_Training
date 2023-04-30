@@ -538,6 +538,12 @@ function remove_nedge_events(_history)
 		if current_entry.type then
 			-- game state event, append and ignore
 			table.insert(cleaned_history, current_entry)
+		elseif (current_entry.gc_event ~= "p1_gc_none") or (
+			current_entry.pb_event ~= "p1_pb_none") then
+			table.insert(cleaned_history, current_entry)
+			-- if gc/pb occurs, display even if no new button presses
+			last_direction = current_entry.direction
+			for i = 1,6 do last_buttons[i] = current_entry.buttons[i] end
 		else
 			-- input event, update last and remove if only neg edge
 			local nedge_event = current_entry.direction == last_direction

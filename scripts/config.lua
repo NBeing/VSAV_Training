@@ -75,6 +75,7 @@ local default_training_settings = {
     bgm_on = true,
     lilith_gps = 0,
     min_pb_inputs = 1,
+    skip_nedge_displays = false,
   }
   
 

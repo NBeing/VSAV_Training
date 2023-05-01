@@ -90,4 +90,5 @@
   "enable_slot_3":true,
   "lilith_gps":0,
   "min_pb_inputs":1
+  "skip_nedge_displays":false
 }

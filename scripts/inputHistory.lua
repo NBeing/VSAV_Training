@@ -1,4 +1,3 @@
-DUMMY_NEDGE_DISPLAY_OPTION = true
 local p1_inp_disp_x = 125
 local p1_inp_disp_y = 28
 local p2_inp_disp_x = 225
@@ -836,8 +835,11 @@ local inpHistoryModule = {
 		local input_underlay_x = 0
 		local input_underlay_y = emu.screenheight() - 21
 		gui.box(input_underlay_x, input_underlay_y, emu.screenwidth(), input_underlay_y + 25 ,"#00000099", "#00000055")
+
 	history_draw_candidate = input_history[1]
-	if DUMMY_NEDGE_DISPLAY_OPTION then history_draw_candidate = remove_nedge_events(input_history[1]) end
+	if globals.options.skip_nedge_displays then
+		history_draw_candidate = remove_nedge_events(input_history[1])
+	end
         draw_input_history(history_draw_candidate, emu.screenwidth() - 15 + globals.options.inp_history_scroll, input_underlay_y + 2, true)
         history_draw()
     end

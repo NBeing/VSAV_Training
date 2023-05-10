@@ -224,12 +224,7 @@ end
 local function draw_dash_cancel_trainer()
 	if globals.options.display_dash_attack_cancel_trainer == true then
 		local p1_char = util.get_character(0xFF8400)
-
-		local copy_of_table = copytable(globals.time_between_dash_start_attack_start)
-		table.sort(copy_of_table, function (left, right) return left < right end)
-
 		local x_location = memory.readdword(0xFF8410)
-
 		local base_x = 0
 		offset_x = 0
 		if globals.options.display_attack_dash_gap_trainer == true then
@@ -241,21 +236,55 @@ local function draw_dash_cancel_trainer()
 		else
 			base_x = 10
 		end
-
 		if globals.options.display_dash_length_trainer == true or globals.options.display_dash_interval_trainer == true then
 			base_x = 10
 		end
 
+        local da_len = globals.player_state_service.
+            p1_derived_events.dash_attack_lengths
 
-		gui.text(base_x, 50 , "Dash\nATK\nCNCL")
-		for i = #globals.time_between_dash_start_attack_start, 1, -1 do
+		gui.text(base_x, 50 , "Dash\nATK")
+        for i, event in ipairs(da_len) do
 			local color = "#FFFFFF"
-			if globals.time_between_dash_start_attack_start[i] == copy_of_table[1] then color = "#00FF00" end
-			if globals.time_between_dash_start_attack_start[i] == copy_of_table[#copy_of_table] then
-				color = "#FF0000" 
-			end
-			gui.text(base_x, 85 + ((#globals.time_between_dash_start_attack_start - i) * 10), globals.time_between_dash_start_attack_start[i], color)
-		end
+            local printable = string.format("%dF %dT", event["frame_diff"],
+                event["tick_diff"])
+            -- perfect dashes (fastest consistent dash)
+            -- character-dependent timing from
+            -- https://darkstalkers-web-fc2-com.translate.goog/savior/system-s/dash-s/dash-s.html?_x_tr_sch=http&_x_tr_sl=ja&_x_tr_tl=en&_x_tr_hl=en&_x_tr_pto=wapp
+            -- tested to be accurate for forward dashes
+            -- if your backdash has different data, it's not supported
+            -- except leilei, where *only* backdash is supported
+            if (p1_char == "Sasquatch")
+                and event["frame_diff"] == 2 then color = "#00FF00"
+            end
+            if (p1_char == "Bulleta"
+                or p1_char == "Anakaris"
+                or p1_char == "Lilith"
+                or p1_char == "Victor"
+                or p1_char == "Lei-Lei")
+                and event["frame_diff"] == 4 then color = "#00FF00"
+            end
+            if (p1_char == "Bishamon"
+                or p1_char == "Q-Bee"
+                or p1_char == "Aulbath")
+                and event["frame_diff"] == 5 then color = "#00FF00"
+            end
+            if (p1_char == "Felicia" or
+                p1_char == "Gallon")
+                and event["frame_diff"] == 6 then color = "#00FF00"
+            end
+            if (p1_char == "Jedah"
+                or p1_char == "Morrigan")
+                and event["frame_diff"] == 9 then color = "#00FF00"
+            end
+            -- Zabel dashing sets the attack flag
+            -- So attack delta is always 0, disable feature for him.
+            if (p1_char ~= "Zabel"
+                and p1_char ~="Demitri") then
+                gui.text(base_x, 85 + ((#da_len - i) * 10),
+                    printable, color)
+            end
+        end
 	end
 end
 -- This function tracks the gap between attack ending and dash starting

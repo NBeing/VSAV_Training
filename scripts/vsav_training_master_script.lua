@@ -58,7 +58,12 @@ local stageDataModule    = require "./scripts/stage-data"
 local vsavTestMenuModule = require "./scripts/vsav-test-menu"
 local soundModule        = require "./scripts/sound"
 
--- local frameskipHandlerModule = require "./scripts/frameskipHandler"
+-- this module provides clocks and game data from memory
+-- data and clock signals are provided every tick
+local rawStateServiceModule = require "./scripts/rawStateService"
+-- this module has business logic for processing raw state data
+-- + converting it into global tables for use by GUI components
+local playerStateServiceModule = require "./scripts/playerStateService"
 
 if show_controls_message == true then
 	print("* Press Start open the training menu..")
@@ -177,13 +182,20 @@ globals = {
 	recording = false,
 	desired_stage = nil,
 	frameskipService = require "./scripts/frameskip-service",
+	history_service_p1 = inpHistoryModule.get_history_p1(),
+	history_service_p2 = inpHistoryModule.get_history_p2(),
+    -- dummy_state_service can be read/subbed by anyone
+	dummy_state_service = dummyStateModule.dummy_state_service(),
+    -- this should only get called in 1 script for consistent timing
+	dummy_state_service_updater = dummyStateModule.dummy_state_service_updater,
+    truth = rawStateServiceModule,
+    player_state_service = playerStateServiceModule,
 }
 
 local gather_graph_data = false
 local was_gathering_graph_data = false
 
 input.registerhotkey(5, function()
-	print("Debug", emu.framecount())
 	-- print("=======p1======")
 	-- globals.util.printRamAddresses(0xFF8400, 0xFF8400 + 0x400)
 	print("=======RESETTING======")
@@ -215,6 +227,8 @@ end)
 toggleloop = nil
 emu.registerstart(function()
  	globals.frameskipService.registerStart()
+	rawStateServiceModule.registerStart()
+    playerStateServiceModule.registerStart()
 	util.load_training_data()
 	-- globals.frameSkipHandlerModule = frameskipHandlerModule.registerStart()
 	globals["options"] = configModule.registerBefore()
@@ -291,6 +305,7 @@ emu.registerbefore(function()
 	globals.controllerModule.handle_hotkeys()
 
 	globals._input = controllerModule.registerBefore()
+
 	globals.macroLua  = macroLuaModule.registerBefore()
 	globals.macroLua.setloop()
 
@@ -318,7 +333,7 @@ emu.registerbefore(function()
 		last_dummy_config[globals.current_frame] = globals.parsed_dummy_state
 		last_dummy_dict[globals.current_frame] = globals["dummy"]
 		if util.tablelength(last_dummy_config) > globals.graph_data_max then
-			last_dummy_dict[globals.current_frame - globals.graph_data_max]  = nil 
+			last_dummy_dict[globals.current_frame - globals.graph_data_max]  = nil
 			last_dummy_config[globals.current_frame - globals.graph_data_max] = nil
 		end
 	end
@@ -383,7 +398,6 @@ emu.registerafter(function() --recording is done after the frame, not before, to
 	cps2HitboxModule.registerAfter()
 	frameDataModule.registerAfter(globals.options.mo_enable_frame_data)
 	macroLuaModule.registerAfter()
-
 end)
 
 if savestate.registersave and savestate.registerload then --registersave/registerload are unavailable in some emus
@@ -454,6 +468,7 @@ while true do
 		if globals.options.show_scrolling_input == true then
 			inpHistoryModule.guiRegister(globals._input)
 		end
+		-- dummyStateModule.guiRegister() -- debug
 
 		-- local frame_index = 0
 

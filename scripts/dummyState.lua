@@ -1,5 +1,6 @@
-local p1_base_addr            = 0xFF8400
-local p1_base_addr            = 0xFF8800
+-- remember 100 most recent states
+local dummy_state_producer = Rx.ReplaySubject.create(100)
+local animation_8bit_counter_addr = 0xFF80B4
 
 local dummy_knocked_down_addr = 0xFF8805
 local p2_facing_addr          = 0xFF880B
@@ -339,29 +340,6 @@ local function get_character(base_addr)
 end
 local function parsed_dummy_state()
     return {
-        p1_status_1         = parse_status_1(p1_base_addr),
-        p1_status_2         = parse_status_2(p1_base_addr),
-        p1_facing           = get_p1_facing(),
-        p1_guarding         = memory.readbyte(0xFF8540) ~= 0,
-        p1_knocked_down     = memory.readbyte(dummy_knocked_down_addr - 0x400), -- our knocked down is actually guard stun
-        p1_block_stun_timer = memory.readbyte(0xFF8558),
-        p1_proxy_block      = memory.readbyte(0xFF8406) == 0x0C,
-        p1_block_state      = memory.readbyte(0xFF8406) == 0x00,
-        p1_attack_flag      = memory.readbyte(0xFF8505) ~= 0x00,
-
-        p2_status_1         = parse_status_1(p2_base_addr),
-        p2_status_2         = parse_status_2(p2_base_addr),
-        p2_facing           = get_p2_facing(),
-        p2_guarding         = memory.readbyte(0xFF8940) ~= 0,
-        p2_knocked_down     = memory.readbyte(dummy_knocked_down_addr), -- our knocked down is actually guard stun
-        p2_block_stun_timer = memory.readbyte(0xFF9558),
-        p2_proxy_block      = memory.readbyte(0xFF8806) == 0x0C,
-        p2_block_state      = memory.readbyte(0xFF8806) == 0x00,
-        p2_attack_flag      = memory.readbyte(0xFF8905) ~= 0x00,        
-    }
-end
-local function parsed_dummy_state()
-    return {
         { name = "p1_status_1",         value = parse_status_1(p1_base_addr)},
         { name = "p1_status_2",         value = parse_status_2(p1_base_addr)},
         { name = "p1_facing",           value = get_p1_facing()},
@@ -615,7 +593,7 @@ local function get_dummy_state()
         p1_guarding         = memory.readbyte(0xFF8540) ~= 0,
         p1_is_blocking_or_hit = memory.readbyte(0xFF8405) == 2,
         p1_pushback_timer   = memory.readword(0xFF8400 + 0x164),
-        p1_is_crouching     = memory.readbyte(0xFF8400 + 0x121),
+        p1_is_crouching     = memory.readbyte(0xFF8400 + 0x121) ~= 0,
         p1_tech_hit         = memory.readword(0xFF8800 + 0x1B0) ~= 0,
         p2_char             = get_character(p2_base_addr),
         p2_status_1         = parse_status_1(p2_base_addr),
@@ -670,8 +648,17 @@ dummyStateModule = {
         set_min_pb_inputs()
         return {
             get_dummy_state = get_dummy_state,
-            -- parsed_dummy_state = parsed_dummy_state
         }
-    end
+    end,
+    ["dummy_state_service_updater"] = function(cycle, frame, tick)
+        local state = get_dummy_state()
+        state["cycle"] = cycle
+        state["frame"] = frame
+        state["tick"] = tick
+    	dummy_state_producer(state)
+    end,
+    ["dummy_state_service"] = function()
+	    return dummy_state_producer
+    end,
 }
 return dummyStateModule

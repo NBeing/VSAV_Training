@@ -68,8 +68,8 @@ local function write_dash_attack_length()
         if #derived_events.dash_attack_lengths > BUFFER_LEN then
             table.remove(derived_events.dash_attack_lengths, 1)
         end
-        print("DEBUG:", record, atk_input_frame, dash_input_frame,
-            atk_input_tick, dash_input_tick)
+        --print("DA DEBUG:", record, atk_input_frame, dash_input_frame,
+        --    atk_input_tick, dash_input_tick)
     end
 end
 table.insert(p1_event_postprocessors, write_dash_attack_length)

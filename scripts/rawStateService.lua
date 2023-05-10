@@ -113,7 +113,7 @@ local function print_deltas()
 
         local timestamp = string.format("cycle %d; frame %d (tick %d):",
             cycle, frame, tick)
-		print(timestamp, k, state_description, emu.framecount())
+		print(timestamp, k, state_description)
 	    end
     end
 end
@@ -143,7 +143,7 @@ local rawStateServiceModule = {
 	local dir = input_data.direction
 	local btns = format_btns(input_data.buttons)
 	print(string.format("cycle %d; frame %d (tick %d): %d %s",
-		cycle, frame, tick, dir, btns), emu.framecount())
+		cycle, frame, tick, dir, btns))
       end)
 
 --    local history_sub_p2 = globals.history_service_p2:subscribe(print)

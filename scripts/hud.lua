@@ -5,6 +5,7 @@ local function draw_fd()
 		gui.text( mid_width, mid_height, globals.last_fd)
 	end
 end
+
 local function draw_rec()
     if globals == nil 
         or globals.macroLua == nil
@@ -53,30 +54,40 @@ local function draw_pb_counter()
 		globals.timers.p1_pushblock_counter = 0
 	end
 end
+
+local screen_midpoint = 41983616
+
+local function base_x_calc(x_offset_left, x_offset_right, trainer_1, trainer_2, trainer_3, other_trainer_offset)
+	local base_x = 0
+	local offset_x = 0
+	local x_location = memory.readdword(0xFF8410)
+
+	if trainer_1 == true then
+		offset_x = default_x_offset
+	end
+
+	if x_location < screen_midpoint then
+		base_x = 335 - x_offset_right
+	else
+		base_x = 10 + x_offset_left
+	end
+
+	if  trainer_2 == true or trainer_3 == true then
+		base_x = other_trainer_offset
+	end
+
+	return base_x
+end
+
 -- This function shows you the length of dashes in frames, and for sasquatch tells you if you got a short or long hop
 local function draw_dash_length_trainer()
 	if globals.options.display_dash_length_trainer == true then
 		local p1_char = util.get_character(0xFF8400)
-		local x_location = memory.readdword(0xFF8410)
-
 		local copy_of_table = copytable(globals.dash_length_frames)
+
 		table.sort(copy_of_table, function (left, right) return left < right end)
 
-		local base_x = 0
-		local offset_x = 0
-		if globals.options.display_dash_interval_trainer == true then
-			offset_x = 30
-		end
-
-		if x_location < 41983616 then
-			base_x = 335
-		else
-			base_x = 10 + offset_x
-		end
-
-		if globals.options.display_dash_attack_cancel_trainer == true or globals.options.display_attack_dash_gap_trainer == true then
-			base_x = 335
-		end
+		local base_x = base_x_calc(30, 0, globals.options.display_dash_interval_trainer, globals.options.display_dash_attack_cancel_trainer, globals.options.display_attack_dash_gap_trainer, 335)
 
 		gui.text(base_x, 50 , "Dash\nLength")
 		for i = #globals.dash_length_frames, 1, -1 do
@@ -97,6 +108,7 @@ local function draw_dash_length_trainer()
 		end
 	end
 end
+
 -- This function tells you how many frames between each hop, with fewer frames between hops being more optimal
 local function draw_dash_trainer()
 	if globals.options.display_dash_interval_trainer == true then
@@ -104,24 +116,8 @@ local function draw_dash_trainer()
 
 		local copy_of_table = copytable(globals.time_between_dashes)
 		table.sort(copy_of_table, function (left, right) return left < right end)
-		
-		local x_location = memory.readdword(0xFF8410)
 
-		local base_x = 0
-		offset_x = 0
-		if globals.options.display_dash_length_trainer == true then
-			offset_x = 30
-		end
-
-		if x_location < 41983616 then
-			base_x = 335 - offset_x
-		else
-			base_x = 10
-		end
-
-		if globals.options.display_dash_attack_cancel_trainer == true or globals.options.display_attack_dash_gap_trainer == true then
-			base_x = 305
-		end
+		local base_x = base_x_calc(0, 30, globals.options.display_dash_length_trainer, globals.options.display_dash_attack_cancel_trainer, globals.options.display_attack_dash_gap_trainer, 305)
 
 		gui.text(base_x, 50, "Time\nBTW\nDash")
 	
@@ -150,6 +146,7 @@ local function draw_jump_in_trainer()
 		end
 	end
 end
+
 -- this function creates a counter that tracks how many short hops you can successfully do in a row
 local function draw_short_hop_counter()
 	if globals.options.display_short_hop_counter == true then
@@ -179,6 +176,7 @@ local function draw_short_hop_counter()
 		end
 	end
 end
+
 -- This function show stats for pushblocking
 local function draw_pb_stats()
 	if globals.options.display_pb_stats == true then
@@ -220,25 +218,13 @@ local function draw_airdash_trainer()
 		end
 	end
 end
+
 -- This function tracks time between dash startup and cancleing dash with attack
 local function draw_dash_cancel_trainer()
 	if globals.options.display_dash_attack_cancel_trainer == true then
 		local p1_char = util.get_character(0xFF8400)
-		local x_location = memory.readdword(0xFF8410)
-		local base_x = 0
-		offset_x = 0
-		if globals.options.display_attack_dash_gap_trainer == true then
-			offset_x = 30
-		end
 
-		if x_location < 41983616 then
-			base_x = 335 - offset_x
-		else
-			base_x = 10
-		end
-		if globals.options.display_dash_length_trainer == true or globals.options.display_dash_interval_trainer == true then
-			base_x = 10
-		end
+		local base_x = base_x_calc(0, 30, globals.options.display_attack_dash_gap_trainer, globals.options.display_dash_length_trainer, globals.options.display_dash_interval_trainer, 10)
 
         local da_len = globals.player_state_service.
             p1_derived_events.dash_attack_lengths
@@ -287,6 +273,7 @@ local function draw_dash_cancel_trainer()
         end
 	end
 end
+
 -- This function tracks the gap between attack ending and dash starting
 local function draw_dash_link_trainer()
 	if globals.options.display_attack_dash_gap_trainer == true then
@@ -295,23 +282,7 @@ local function draw_dash_link_trainer()
 		local copy_of_table = copytable(globals.time_between_attack_end_dash_start)
 		table.sort(copy_of_table, function (left, right) return left < right end)
 
-		local x_location = memory.readdword(0xFF8410)
-
-		local base_x = 0
-		offset_x = 0
-		if globals.options.display_dash_attack_cancel_trainer == true then
-			offset_x = 30
-		end
-
-		if x_location < 41983616 then
-			base_x = 335
-		else
-			base_x = 10 + offset_x
-		end
-
-		if globals.options.display_dash_length_trainer == true or globals.options.display_dash_interval_trainer == true then
-			base_x = 40
-		end
+		local base_x = base_x_calc(30, 0, globals.options.display_dash_attack_cancel_trainer, globals.options.display_dash_length_trainer, globals.options.display_dash_interval_trainer, 40)
 
 		gui.text(base_x, 50 , "Gap\nBTW\nATK\nDash")
 		for i = #globals.time_between_attack_end_dash_start, 1, -1 do
@@ -324,6 +295,7 @@ local function draw_dash_link_trainer()
 		end
 	end
 end
+
 -- This function checks the frame gaps between a character recovering from hit or block and the next hit or block
 local function frame_trap_trainer()
 	if globals.options.display_frame_trap_trainer == true then
@@ -334,7 +306,7 @@ local function frame_trap_trainer()
 		local average = 0
 		local x_location = memory.readdword(0xFF8410)
 
-		if x_location < 41983616 then
+		if x_location < screen_midpoint then
 			gui.text(310, 50 , "Frame Gap")
 		else
 			gui.text(10, 50 , "Frame Gap")
@@ -345,7 +317,7 @@ local function frame_trap_trainer()
 			if globals.frames_between_attacks[i] == copy_of_table[#copy_of_table] then
 				color = "#FF0000" 
 			end
-			if x_location < 41983616 then
+			if x_location < screen_midpoint then
 				gui.text(310, 60 + ((#globals.frames_between_attacks - i) * 10), globals.frames_between_attacks[i], color)
 			else
 				gui.text(10, 60 + ((#globals.frames_between_attacks - i) * 10), globals.frames_between_attacks[i], color)
@@ -353,6 +325,7 @@ local function frame_trap_trainer()
 		end
 	end
 end
+
 local function draw_push_dist()
 	if globals and globals.options and not globals.options.show_x_distance or not globals.pushboxes then
 		return
@@ -381,6 +354,7 @@ local function draw_push_dist()
 		
 	end
 end
+
 local function draw_bishamon_ubk_trainer()
 	local p1_char = globals.getCharacter(0xFF8400)
 	if globals.options.display_bishamon_ubk_trainer == true and p1_char == "Bishamon" then
@@ -440,6 +414,7 @@ local function draw_bishamon_ubk_trainer()
 		gui.text(midpt_x, midpt_y,  "NO UBK", "red")
 	end
 end
+
 local function draw_controlling()
 	if globals.controlling_p1 == true then 
 		gui.text( 1, 1, "Controlling: P1")
@@ -447,6 +422,7 @@ local function draw_controlling()
 		gui.text( 1, 1, "Controlling: P2")
 	end
 end
+
 local hudModule = {
     ["registerStart"] = function()
     end,
@@ -470,4 +446,5 @@ local hudModule = {
 		end
     end
 }
+
 return hudModule

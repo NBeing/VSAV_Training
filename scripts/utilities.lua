@@ -252,6 +252,10 @@ function tablelength(T)
 	for _ in pairs(T) do count = count + 1 end
 	return count
 end
+function round(num, numDecimalPlaces)
+	local mult = 10^(numDecimalPlaces or 0)
+	return math.floor(num * mult + 0.5) / mult
+  end
 local function get_character(base_addr)
     local char_id = memory.readbyte(base_addr + 0x382)
     if     char_id == 0x00  then return "Bulleta"
@@ -278,6 +282,7 @@ utilitiesModule = {
     ["load_training_data"]         = load_training_data,
     ["do_tables_match"]            = do_tables_match,
     ["to_hex"]                     = to_hex,
+	["round"]                      = round,
     ["read_object_from_json_file"] = read_object_from_json_file,
 	["write_object_to_json_file"]  = write_object_to_json_file,
 	["string_to_color"]			   =  string_to_color,

@@ -327,7 +327,7 @@ local function frame_trap_trainer()
 end
 
 local function draw_push_dist()
-	if globals and globals.options and not globals.options.show_x_distance or not globals.pushboxes then
+	if (globals and globals.options and globals.options.show_x_distance == 1) or not globals.pushboxes then
 		return
 	end
 	local distance = globals.dummy.distance_between_players
@@ -344,14 +344,54 @@ local function draw_push_dist()
 	end 
 	
 	if on_left == 'p1' then
-		gui.line(pushes.p1.right, 150, pushes.p2.left, 150 , "green")
-		gui.text((pushes.p1.right), 58,  "X Dist: "..distance)
-		
+
+
+		if globals.options.show_x_distance == 3 and pushes and pushes.p1 and pushes.p2 then
+			local p1_x = pushes.p1.left + (pushes.p1.right  - pushes.p1.left) / 2
+			local p1_y = pushes.p1.top  + (pushes.p1.bottom - pushes.p1.top)  / 2
+			local p2_x = pushes.p2.left + (pushes.p2.right  - pushes.p2.left) / 2
+			local p2_y = pushes.p2.top  + (pushes.p2.bottom - pushes.p2.top)  / 2
+			local x_dist = p2_x - p1_x
+			local y_dist = p2_y - p1_y
+			local tri_dist = math.sqrt((x_dist^2) + (y_dist^2))
+			gui.text(p1_x, 66,  "X Dist: "..(x_dist))
+			gui.text(p1_x, 73,  "Y Dist: "..(y_dist))
+			gui.text(p1_x, 81,  "Tri Dist: "..(util.round(tri_dist,2)))
+			gui.line(
+				p1_x,
+				p1_y,
+				p2_x,
+				p2_y,
+				"green"
+			)
+		else
+			gui.line(pushes.p1.right, 150, pushes.p2.left, 150 , "green")
+			gui.text((pushes.p1.right), 58,  "X Dist: "..distance)
+		end
 	else
-		--distance = config_globals.dummy.distance_between_players
-		gui.line(pushes.p2.right, 150, pushes.p1.left, 150 , "green")
-		gui.text((pushes.p2.right),  58,  "X Dist: "..distance)
 		
+		if globals.options.show_x_distance == 3 and pushes and pushes.p1 and pushes.p2 then
+			local p1_x = pushes.p1.right + (pushes.p1.left   - pushes.p1.right) / 2
+			local p1_y = pushes.p1.top   + (pushes.p1.bottom - pushes.p1.top)   / 2
+			local p2_x = pushes.p2.right + (pushes.p2.left   - pushes.p2.right) / 2
+			local p2_y = pushes.p2.top   + (pushes.p2.bottom - pushes.p2.top)   / 2
+			local x_dist = p1_x - p2_x
+			local y_dist = p2_y - p1_y
+			local tri_dist = math.sqrt((x_dist^2) + (y_dist^2))
+			gui.text(p1_x - 50, 66,  "X Dist: "..(x_dist))
+			gui.text(p1_x - 50, 73,  "Y Dist: "..(y_dist))
+			gui.text(p1_x - 50, 81,  "Tri Dist: "..(util.round(tri_dist,2)))
+			gui.line(
+				p1_x,
+				p1_y,
+				p2_x,
+				p2_y,
+				"green"
+			)
+		else
+			gui.line(pushes.p2.right, 150, pushes.p1.left, 150 , "green")
+			gui.text((pushes.p2.right),  58,  "X Dist: "..distance)
+		end
 	end
 end
 

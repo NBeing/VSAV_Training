@@ -87,6 +87,7 @@
   "p1_reversal_strength":1,
   "p1_reversal_list":4,
   "show_invuln_timer":false,
+  "show_pursuit_indicator":false,
   "inp_history_scroll":0,
   "show_throw_invuln_timer":false,
   "graph_data_index":1,

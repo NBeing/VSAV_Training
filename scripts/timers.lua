@@ -112,8 +112,8 @@ end
 
 local function draw_pursuit_timer(player, coords)
   local player_can_pursuit = false
-  if player == 1 then player_can_pursuit = globals.dummy.p1_can_pursuit
-  else player_can_pursuit = globals.dummy.p2_can_pursuit end
+  if player == 1 then player_can_pursuit = globals.dummy.p1_can_pursuit and not globals.dummy.p1_in_air
+  else player_can_pursuit = globals.dummy.p2_can_pursuit and not globals.dummy.p2_in_air end
 
   if player_can_pursuit then
     gui.text((coords.base.x - 23), coords.base.y - 112, "Pursuit OK", 0x00FF00FF)

@@ -8,6 +8,7 @@ local default_training_settings = {
     guard_action = 1,
     pb_type = 1,
     dummy_neutral = 1,
+    display_pushbox_axis = false,
     guard = 1,
     counter_attack = 1,
     counter_attack_random_upback = 1,
@@ -59,7 +60,7 @@ local default_training_settings = {
     show_mash_timer = 0,
     show_invuln_timer = 0,
     display_airdash_trainer = 0,
-    show_x_distance = 0,
+    show_x_distance = 1,
     display_dash_interval_trainer = false,
     display_dash_length_trainer = false,
     display_short_hop_counter = false,
@@ -75,6 +76,7 @@ local default_training_settings = {
     bgm_on = true,
     lilith_gps = 0,
     min_pb_inputs = 1,
+    skip_nedge_displays = false,
   }
   
 

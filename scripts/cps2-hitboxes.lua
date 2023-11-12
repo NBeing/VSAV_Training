@@ -702,7 +702,7 @@ local render_hitboxes = function()
 	-- draw_hurtbox_dist(hurtboxes,hitboxes)
 	globals.pushboxes = pushes
 	if config_globals.options.display_hitbox_default == true then
-		if globals.draw_axis then
+		if config_globals.options.display_pushbox_axis then
 			for _, obj in ipairs(f) do
 				draw_axis(obj)
 			end

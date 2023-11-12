@@ -939,7 +939,9 @@ return {
         checkbox_menu_item("Show Damage Calc", training_settings, "show_damage_calc",1, "This shows a damage calculation.\nDamage calculations are recalculated on hit"),
         checkbox_menu_item("Show Scrolling Input", training_settings, "show_scrolling_input",1, "Display the Scrolling Input Viewer"),
         checkbox_menu_item("Show GC Trainer", training_settings, "show_gc_trainer", 1,"This option shows the GC window in the input viewer.\nThe Green GC shows when the window begins,\nand Red when it is performed or ends."),
-        checkbox_menu_item("Show Pushbox Distance", training_settings, "show_x_distance", 1,"Gives a numerical / visual representation of the distances between characters"),
+        -- checkbox_menu_item("Show Pushbox Distance", training_settings, "show_x_distance", 1,"Gives a numerical / visual representation of the distances between characters"),
+        list_menu_item("Show Pushbox Distance", training_settings, "show_x_distance", { "Off", "X Only", "X,Y,Triangle"},1,"Gives a numerical / visual representation of the distances between characters"),
+
         checkbox_menu_item("Show IAD Trainer", training_settings, "display_airdash_trainer", 0,"This option shows the HEIGHT of your last few aidashes.\nGreen is best! Red is Worst!"),
         checkbox_menu_item("Show Dashes Interval", training_settings, "display_dash_interval_trainer", 0,"Shows how long many frames between dashes\nGreen is best! Red is Worst!"),
         checkbox_menu_item("Show Dash Time", training_settings, "display_dash_length_trainer", 0,"Shows how many frames you dashed for.\nIf Sas then Smileys describe short hop success.\nGreen is best! Red is Worst!"),
@@ -950,6 +952,7 @@ return {
         checkbox_menu_item("Show Bishamon UBK Trainer", training_settings, "display_bishamon_ubk_trainer", false,"Overlays onto P2 whether you are in a crouch or standing\n unblockable distance for Karame Dama or Bricks"),
         checkbox_menu_item("Show PB Stats", training_settings, "display_pb_stats", false,"Displays your succeeded, failed and total attempts at pushblocking.\n Turning this feature off and on will reset the data to 0"),
         checkbox_menu_item("Show Jump In Trainer", training_settings, "display_jump_in_trainer", false,"Displays the frame differnce between p2 getting hit and your character landing"),
+	checkbox_menu_item("Hide negative edge inputs", training_settings, "skip_nedge_displays", false, "Reduce clutter in the input history by hiding button releases.")
       }
     },
     {
@@ -957,6 +960,7 @@ return {
       entries = {
         checkbox_menu_item("BGM On", training_settings, "bgm_on", true,"Return to CSS if toggling or bgm will be kinda low(lua hotkey 4)"),
         integer_menu_item("Game Speed", training_settings, "game_speed", 0, 3, false, 3, 0, "Change the game speed\n0 = normal, 1-3 = turbo 1-3"),
+        checkbox_menu_item("Display Pushbox X Center", training_settings, "display_pushbox_axis",1, "Display the x center of the pushbox"),
         checkbox_menu_item("Show Invuln Timer", training_settings, "show_invuln_timer", false,""),
         checkbox_menu_item("Show Mash Timer", training_settings, "show_mash_timer", false,""),
         checkbox_menu_item("Show Throw Invulnerability Timer", training_settings, "show_throw_invuln_timer", false,""),

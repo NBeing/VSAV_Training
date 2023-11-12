@@ -32,6 +32,23 @@ input_history = {
     {},
     {}
 }
+
+-- create as a subject so we can push values directly
+-- https://github.com/bjornbytes/RxLua/tree/master/doc#subject
+-- both P1 and P2 producers send events of the form:
+-- {direction=5,
+-- 	buttons={false, false, false, false, false, false},
+-- 	frame=87100,
+-- 	pb_event='p1_pb_none',
+-- 	gc_event='p1_gc_none'}
+
+-- these producers send human input on each frame where the input changed
+-- they remember the 100 most recent messages
+-- TODO interleave them with skipped frames to create a true input history
+local p1_input_history_producer = Rx.ReplaySubject.create(100)
+local p2_input_history_producer = Rx.ReplaySubject.create(100)
+
+
 -- HISTORY
 history = {}
 history_sections = {
@@ -384,6 +401,21 @@ function make_event_history_entry(event)
         pb_event = globals.pb_event    
     }
 end
+
+-- wrapper for _history table updates
+-- does the table update + sends input on producer
+function observable_input_update(_history, _prefix, _entry)
+	if _prefix == "P1" then
+	  p1_input_history_producer(_entry)
+	elseif _prefix == "P2" then
+	  p2_input_history_producer(_entry)
+	else
+		print("unknown edge case in observable_input_update",
+		_entry, _prefix)
+	end
+        table.insert(_history, _entry)
+end
+
 function update_input_history(_history, _prefix, _input, isEvent, event)
   local entry
   local inp_entry = make_input_history_entry_for_graph(_prefix, _input)
@@ -416,7 +448,11 @@ function update_input_history(_history, _prefix, _input, isEvent, event)
 
   end
   if #_history == 0 then
-    table.insert(_history, _entry)
+    if _entry.type then -- don't broadcast events on input chan
+      table.insert(_history, _entry)
+    else
+      observable_input_update(_history, _prefix, _entry)
+    end
   else
     local _last_entry = _history[#_history]
     local _last_event_entry = nil
@@ -431,7 +467,7 @@ function update_input_history(_history, _prefix, _input, isEvent, event)
         -- end
     else
         if _last_entry.frame ~= frame_number and not is_input_history_entry_equal(_entry, _last_entry) then
-          table.insert(_history, _entry)
+          observable_input_update(_history, _prefix, _entry)
         end
     end
   end
@@ -523,6 +559,42 @@ function draw_input_history_entry(_entry, _x, _y, color, step)
   gui.image(_x + 13, _y + 5, _img_LK)
   gui.image(_x + 18, _y + 5, _img_MK)
   gui.image(_x + 23, _y + 5, _img_HK)
+end
+
+function remove_nedge_events(_history)
+	if #_history < 2 then return _history end
+	local cleaned_history = {}
+	local last_direction = nil
+	local last_buttons = {nil, nil, nil, nil, nil, nil}
+	for _i = 1, #_history, 1 do
+		-- check if history entry is an input event or game state evnt
+		-- -- for game state event, just append, do not change
+		local current_entry = _history[_i]
+		if current_entry.type then
+			-- game state event, append and ignore
+			table.insert(cleaned_history, current_entry)
+		elseif (current_entry.gc_event ~= "p1_gc_none") or (
+			current_entry.pb_event ~= "p1_pb_none") then
+			table.insert(cleaned_history, current_entry)
+			-- if gc/pb occurs, display even if no new button presses
+			last_direction = current_entry.direction
+			for i = 1,6 do last_buttons[i] = current_entry.buttons[i] end
+		else
+			-- input event, update last and remove if only neg edge
+			local nedge_event = current_entry.direction == last_direction
+		        for i = 1,6 do
+				if current_entry.buttons[i] and not last_buttons[i] and last_buttons[i] ~= nil then
+					nedge_event=false
+	                	end
+				last_buttons[i] = current_entry.buttons[i]
+			end
+			last_direction = current_entry.direction
+			if nedge_event == false then
+				table.insert(cleaned_history, current_entry)
+			end
+	        end
+	end
+	return cleaned_history
 end
 
 function draw_input_history(_history, _x, _y, _is_left)
@@ -643,9 +715,11 @@ function reset_inp_history_scroll()
 end
 local function handle_gc_event()
     local hit_spark_timer_addr = 0xFF8558 
-    local hit_spark_timer = memory.readbyte(hit_spark_timer_addr)
+    -- local hit_spark_timer = memory.readbyte(hit_spark_timer_addr)
     local p1_gc_timer = memory.readbyte(0xFF8558)
 
+    -- todo: GC event history should be moved to a tick-based queue
+    -- (ie accommodate frameskip for more granular event data)
     if p1_gc_timer == 0 and globals.gc_event == "p1_gc_in_progress" then
       globals.gc_event = "p1_gc_ended"
       history_add_entry("P1", "GC", globals.gc_event)
@@ -799,8 +873,19 @@ local inpHistoryModule = {
 		local input_underlay_x = 0
 		local input_underlay_y = emu.screenheight() - 21
 		gui.box(input_underlay_x, input_underlay_y, emu.screenwidth(), input_underlay_y + 25 ,"#00000099", "#00000055")
-        draw_input_history(input_history[1], emu.screenwidth() - 15 + globals.options.inp_history_scroll, input_underlay_y + 2, true) 
-        history_draw()
-    end
+
+	history_draw_candidate = input_history[1]
+	if globals.options.skip_nedge_displays then
+		history_draw_candidate = remove_nedge_events(input_history[1])
+	end
+        draw_input_history(history_draw_candidate, emu.screenwidth() - 15 + globals.options.inp_history_scroll, input_underlay_y + 2, true)
+        -- history_draw()
+    end,
+    ["get_history_p1"] = function()
+      return p1_input_history_producer
+    end,
+    ["get_history_p2"] = function()
+      return p2_input_history_producer
+    end,
 }
 return inpHistoryModule

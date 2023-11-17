@@ -1,29 +1,14 @@
 -- remember 100 most recent states
 local dummy_state_producer = Rx.ReplaySubject.create(100)
-local animation_8bit_counter_addr = 0xFF80B4
 
 local dummy_knocked_down_addr = 0xFF8805
 local p2_facing_addr          = 0xFF880B
 local p1_facing_addr          = 0xFF840B
 
-local proximity_guard_addr = 0xFF8806
-local proximity_guard_value = memory.readbyte(proximity_guard_addr)
-local proximity_guard_status = proximity_guard_value == 10
-
-local p1_block_stun_timer = 0xFF8558
-local p1_proxy_block      = 0xFF8406 == 0x0C
-local p1_block_state      = 0xFF8406 == 0x00
-local p1_attack_flag      = 0xFF8505 ~= 0x00
-
-local p2_block_stun_timer = 0xFF9558
-local p2_proxy_block      = 0xFF8806 == 0x0C
-local p2_block_state      = 0xFF8806 == 0x00
-local p2_attack_flag      = 0xFF8905 ~= 0x00
-
-function get_gc_button()
+local function get_gc_button()
 
     GC_type_config = globals.options.gc_button
-    gc_button_type = 'none'
+    local gc_button_type = 'none'
 
     if GC_type_config == 0x2 then
         gc_button_type = 'LP'
@@ -39,7 +24,7 @@ function get_gc_button()
 end
 
 local function get_p2_facing()
-	p2_facing_val  = memory.readbyte(p2_facing_addr)
+	local p2_facing_val  = memory.readbyte(p2_facing_addr)
 
 	if p2_facing_val == 1 then
 		return "right"
@@ -50,7 +35,7 @@ local function get_p2_facing()
 end
 
 local function get_p1_facing()
-	p1_facing_val  = memory.readbyte(p1_facing_addr)
+	local p1_facing_val  = memory.readbyte(p1_facing_addr)
 
 	if p1_facing_val == 1 then
 		return "right"
@@ -61,8 +46,8 @@ local function get_p1_facing()
 end
 
 local function get_p1_towards()
-	facing = get_p1_facing()
-	p1_towards = nil
+	local facing = get_p1_facing()
+	local p1_towards = nil
 
 	if facing == "right" then
 		p1_towards = "P1 Right"
@@ -73,8 +58,8 @@ local function get_p1_towards()
 end
 
 local function get_p1_away()
-	facing = get_p1_facing()
-	p1_away = nil
+	local facing = get_p1_facing()
+	local p1_away = nil
 	if facing == "right" then
 		p1_away = "P1 Left"
 	else
@@ -84,8 +69,8 @@ local function get_p1_away()
 end
 
 local function get_p2_towards()
-	facing = get_p2_facing()
-	p2_towards = nil
+	local facing = get_p2_facing()
+	local p2_towards = nil
 
 	if facing == "right" then
 		p2_towards = "P2 Right"
@@ -96,8 +81,8 @@ local function get_p2_towards()
 end
 
 local function get_p2_away()
-	facing = get_p2_facing()
-	p2_away = nil
+	local facing = get_p2_facing()
+	local p2_away = nil
 	if facing == "right" then
 		p2_away = "P2 Left"
 	else
@@ -109,15 +94,14 @@ end
 local function setShouldRoll()
     if globals.game_state.match_begun and memory.readbyte(dummy_knocked_down_addr) == 2 then
         return true
-    else 
+    else
         return false
     end
 end
 
-
 local function get_guard_action()
     if globals.options.guard_action == 0x2 then
-        return 'gc' 
+        return 'gc'
     elseif globals.options.guard_action == 0x3 then
         return 'pb'
     elseif globals.options.guard_action == 0x4 then
@@ -138,9 +122,10 @@ local function get_guard_action()
         return 'none'
     end
 end
+
 local function get_pb_type()
-    pb_type = globals.options.pb_type
-    parsed = 'none'
+    local pb_type = globals.options.pb_type
+    local parsed = 'none'
     if pb_type == 0x1 then
         parsed = 'none'
     elseif pb_type == 0x2 then
@@ -159,9 +144,10 @@ local function get_pb_type()
 
     return parsed
 end
+
 local function get_pb_type_rec()
-    pb_type = globals.options.pb_type_rec
-    parsed = 'none'
+    local pb_type = globals.options.pb_type_rec
+    local parsed = 'none'
     if pb_type == 0x1 then
         parsed = 'none'
     elseif pb_type == 0x2 then
@@ -180,6 +166,7 @@ local function get_pb_type_rec()
 
     return parsed
 end
+
 local function get_counter_attack_button()
     local counter_attack_button = globals.options.counter_attack_button
     local parsed = 'none'
@@ -211,6 +198,7 @@ local function get_counter_attack_button()
 
     return parsed
 end
+
 local function get_counter_attack_stick()
     local counter_attack_button = globals.options.counter_attack_stick
     local parsed = 'none'
@@ -254,9 +242,10 @@ local function get_counter_attack_stick()
 
     return parsed
 end
+
 local function get_recording_slot()
-    pb_type = globals.options.recording_slot
-    slot = 'none'
+    local pb_type = globals.options.recording_slot
+    local slot = 'none'
     if pb_type == 0x1 then
         slot = 'last_recording.mis'
     elseif pb_type == 0x2 then
@@ -291,6 +280,7 @@ local function parse_status_1(base_addr)
     elseif status == 0x12  then return	"Time Up Win" 
     end
 end
+
 local function parse_status_2(base_addr)
     local status = memory.readbyte(base_addr+0x06)
     if     status  == 0x00 then return "Normal"
@@ -317,6 +307,7 @@ local function parse_status_2(base_addr)
     elseif status  == 0x2A then return "Grapple Mash"
     elseif status  == 0x2C then return "Grapple Mash Recovery" end 
 end
+
 local function get_character(base_addr)
     local char_id = memory.readbyte(base_addr + 0x382)
     if     char_id == 0x00  then return "Bulleta"
@@ -338,6 +329,7 @@ local function get_character(base_addr)
     elseif char_id == 0x12 	then return "Dark Gallon"
     elseif char_id == 0x18 	then return "Oboro" end
 end
+
 local function parsed_dummy_state()
     return {
         { name = "p1_status_1",         value = parse_status_1(p1_base_addr)},
@@ -364,6 +356,7 @@ local function parsed_dummy_state()
         { name = "p2_reversal",         value = memory.readbyte(0xFF8400 + 0x174)},
     }
 end
+
 local function get_p1_char_specific_reversal()
     local current = globals.options.p1_reversal_list
     if globals.p1_current_move_list then
@@ -392,10 +385,10 @@ local function get_p2_char_specific_reversal()
     end
 end
 
-local function get_p1_reversal_strength(player)
+local function get_p1_reversal_strength()
     local current = globals.options.p1_reversal_strength
     if current == 1 then
-        return 0x00 
+        return 0x00
     elseif current == 2 then
         return 0x02
     elseif current == 3 then
@@ -405,10 +398,10 @@ local function get_p1_reversal_strength(player)
     end
 end
 
-local function get_p2_reversal_strength(player)
+local function get_p2_reversal_strength()
     local current = globals.options.p2_reversal_strength
     if current == 1 then
-        return 0x00 
+        return 0x00
     elseif current == 2 then
         return 0x02
     elseif current == 3 then
@@ -440,6 +433,7 @@ local function set_lei_lei_stun_item()
         memory.writebyte(0xFF8400 + 0x19D, 0x08)
     end
 end
+
 local function get_anak_projectile()
     local current = globals.options.anak_projectile
     if globals and globals.getCharacter(0xFF8400) ~= "Anakaris" then 
@@ -536,12 +530,34 @@ local function set_lilith_gloomy_puppet_show()
 		memory.setregister("m68000.d1", resolve_puppet_show_from_config(selected_gps))
 	end)
 end
-  
-local function get_distance_between_players()
 
+local function a6_contains_p1()
+  return memory.getregister("m68000.a6") == p1_base_addr
+end
+
+local p1_can_pursuit = false
+local p2_can_pursuit = false
+local function set_pursuit_hooks()
+  memory.registerexec(0x27ACC, function()
+    if a6_contains_p1() and p1_can_pursuit then
+      p1_can_pursuit = false
+    elseif not a6_contains_p1() and p2_can_pursuit then
+      p2_can_pursuit = false
+    end
+  end)
+  memory.registerexec(0x27B14, function()
+    if a6_contains_p1() then
+      p1_can_pursuit = true
+    else
+      p2_can_pursuit = true
+    end
+  end)
+end
+
+local function get_distance_between_players()
     local pushes = globals.pushboxes
     if not pushes then
-        return 
+        return
     end
     if not pushes.p1 or not pushes.p2 then
         return
@@ -549,16 +565,8 @@ local function get_distance_between_players()
     local distance = 0
     local on_left = 'p1'
     if pushes.p1.right > pushes.p2.right then
-        on_left = 'p2'		
-    end 
-    
-    local abs_top_bottom = math.abs(pushes.p2.val_y - pushes.p1.val_y)
-    local y_midpt
-    if (pushes.p2.val_y < pushes.p1.val_y) then
-        y_midpt = pushes.p2.val_y + abs_top_bottom
-    else
-        y_midpt = pushes.p1.val_y + abs_top_bottom
-    end 
+        on_left = 'p2'
+    end
 
     if on_left == 'p1' then
         -- gui.line(int x1, int y1, int x2, int y2 [, type color [, skipfirst]])
@@ -566,86 +574,93 @@ local function get_distance_between_players()
     else
         distance = pushes.p1.left - pushes.p2.right
     end
+
     return distance
 end
+
 local config = {}
 local function get_dummy_state()
     config = {
         distance_between_players = get_distance_between_players(),
-        p1_char         = get_character(p1_base_addr),
-        p1_status_1     = parse_status_1(p1_base_addr),
-        p1_status_2     = parse_status_2(p1_base_addr),
-        p1_block_stun_timer = memory.readbyte(0xFF8558),
-        p1_proxy_block      = memory.readbyte(0xFF8406) == 0x0C,
-        p1_block_state      = memory.readbyte(0xFF8406) == 0x00,
-        p1_es_attack_flag   = memory.readbyte(0xFF8406) == 0x12,
-        p1_ex_attack_flag   = memory.readbyte(0xFF8406) == 0x10,
-        p1_dashing          = memory.readbyte(0xFF8406) == 0x14,
-        p1_attack_flag      = memory.readbyte(0xFF8505) ~= 0x00,
-        p1_reversal         = memory.readbyte(0xFF8400 + 0x174),
-        p1_facing           = get_p1_facing(),
-        p1_away_btn         = get_p1_away(),
-        p1_toward_btn       = get_p1_towards(),
-        p1_is_dashing       = memory.readbyte(0xFF8400 + 0x115) ~= 0,
-        p1_is_attacking     = memory.readbyte(0xFF8400 + 0x105) ~= 0,
-        p1_in_air           = memory.readbyte(0xFF8400 + 0x38) ~= 0,
-        p1_y                = memory.readword(0xFF8400 + 0x14),
-        p1_guarding         = memory.readbyte(0xFF8540) ~= 0,
+
+        p1_char               = get_character(p1_base_addr),
+        p1_status_1           = parse_status_1(p1_base_addr),
+        p1_status_2           = parse_status_2(p1_base_addr),
+        p1_block_stun_timer   = memory.readbyte(0xFF8558),
+        p1_proxy_block        = memory.readbyte(0xFF8406) == 0x0C,
+        p1_block_state        = memory.readbyte(0xFF8406) == 0x00,
+        p1_es_attack_flag     = memory.readbyte(0xFF8406) == 0x12,
+        p1_ex_attack_flag     = memory.readbyte(0xFF8406) == 0x10,
+        p1_dashing            = memory.readbyte(0xFF8406) == 0x14,
+        p1_attack_flag        = memory.readbyte(0xFF8505) ~= 0x00,
+        p1_reversal           = memory.readbyte(0xFF8400 + 0x174),
+        p1_facing             = get_p1_facing(),
+        p1_away_btn           = get_p1_away(),
+        p1_toward_btn         = get_p1_towards(),
+        p1_is_dashing         = memory.readbyte(0xFF8400 + 0x115) ~= 0,
+        p1_is_attacking       = memory.readbyte(0xFF8400 + 0x105) ~= 0,
+        p1_in_air             = memory.readbyte(0xFF8400 + 0x38) ~= 0,
+        p1_y                  = memory.readword(0xFF8400 + 0x14),
+        p1_guarding           = memory.readbyte(0xFF8540) ~= 0,
         p1_is_blocking_or_hit = memory.readbyte(0xFF8405) == 2,
-        p1_pushback_timer   = memory.readword(0xFF8400 + 0x164),
-        p1_is_crouching     = memory.readbyte(0xFF8400 + 0x121) ~= 0,
-        p1_tech_hit         = memory.readword(0xFF8800 + 0x1B0) ~= 0,
-        p2_char             = get_character(p2_base_addr),
-        p2_status_1         = parse_status_1(p2_base_addr),
-        p2_status_2         = parse_status_2(p2_base_addr),
+        p1_pushback_timer     = memory.readword(0xFF8400 + 0x164),
+        p1_is_crouching       = memory.readbyte(0xFF8400 + 0x121) ~= 0,
+        p1_tech_hit           = memory.readword(0xFF8800 + 0x1B0) ~= 0,
+        p1_can_pursuit        = p1_can_pursuit,
 
-        p2_knocked_down = memory.readbyte(dummy_knocked_down_addr), -- our knocked down is actually guard stun
-        p2_facing       = get_p2_facing(),
-        p2_away_btn     = get_p2_away(),
-        p2_toward_btn   = get_p2_towards(),
-        p2_is_dashing   = memory.readbyte(0xFF8800 + 0x115),
-        p2_in_air       = memory.readbyte(0xFF8800 + 0x38),
-        p2_guarding     = memory.readbyte(0xFF8940) ~= 0,
+        p2_char               = get_character(p2_base_addr),
+        p2_status_1           = parse_status_1(p2_base_addr),
+        p2_status_2           = parse_status_2(p2_base_addr),
+        p2_knocked_down       = memory.readbyte(dummy_knocked_down_addr), -- our knocked down is actually guard stun
+        p2_facing             = get_p2_facing(),
+        p2_away_btn           = get_p2_away(),
+        p2_toward_btn         = get_p2_towards(),
+        p2_is_dashing         = memory.readbyte(0xFF8800 + 0x115),
+        p2_in_air             = memory.readbyte(0xFF8800 + 0x38),
+        p2_guarding           = memory.readbyte(0xFF8940) ~= 0,
         p2_is_blocking_or_hit = memory.readbyte(0xFF8805) == 2,
-        p2_is_attacking     = memory.readbyte(0xFF8800 + 0x105) ~= 0,
-        p2_y            =  memory.readword(0xFF8800 + 0x14),
-        p2_pushback_timer   = memory.readword(0xFF8800 + 0x164),
-        p2_block_stun_timer = memory.readbyte(0xFF9558),
-        p2_proxy_block      = memory.readbyte(0xFF8806) == 0x0C,
-        p2_block_state      = memory.readbyte(0xFF8806) == 0x00,
-        p2_attack_flag      = memory.readbyte(0xFF8905) ~= 0x00,
-        p2_reversal         = memory.readbyte(0xFF8800 + 0x174),
-        p2_reversal_frame   = memory.readdword(0xFF8804) == 0x02020400,
-        p2_is_crouching     = memory.readbyte(0xFF8800 + 0x121),
+        p2_is_attacking       = memory.readbyte(0xFF8800 + 0x105) ~= 0,
+        p2_y                  = memory.readword(0xFF8800 + 0x14),
+        p2_pushback_timer     = memory.readword(0xFF8800 + 0x164),
+        p2_block_stun_timer   = memory.readbyte(0xFF9558),
+        p2_proxy_block        = memory.readbyte(0xFF8806) == 0x0C,
+        p2_block_state        = memory.readbyte(0xFF8806) == 0x00,
+        p2_attack_flag        = memory.readbyte(0xFF8905) ~= 0x00,
+        p2_reversal           = memory.readbyte(0xFF8800 + 0x174),
+        p2_reversal_frame     = memory.readdword(0xFF8804) == 0x02020400,
+        p2_is_crouching       = memory.readbyte(0xFF8800 + 0x121),
+        p2_can_pursuit        = p2_can_pursuit,
 
-        enable_roll    = setShouldRoll(),
-        guard_action   = get_guard_action(),
-        gc_button      = get_gc_button(),
-    
+        enable_roll  = setShouldRoll(),
+        guard_action = get_guard_action(),
+        gc_button    = get_gc_button(),
+
         counter_attack_button = get_counter_attack_button(),
-        counter_attack_stick = get_counter_attack_stick(),
+        counter_attack_stick  = get_counter_attack_stick(),
 
         recording_slot = get_recording_slot(), 
 
         pb_type        = get_pb_type(),
         pb_type_rec    = get_pb_type_rec(),
-        p1_char_specific_reversal   = get_p1_char_specific_reversal(),
-        p1_reversal_strength        = get_p1_reversal_strength(),
-        p2_char_specific_reversal   = get_p2_char_specific_reversal(),
-        p2_reversal_strength        = get_p2_reversal_strength(),
+        p1_char_specific_reversal = get_p1_char_specific_reversal(),
+        p1_reversal_strength      = get_p1_reversal_strength(),
+        p2_char_specific_reversal = get_p2_char_specific_reversal(),
+        p2_reversal_strength      = get_p2_reversal_strength(),
 
-        refresh_dummy       = get_dummy_state,
+        refresh_dummy = get_dummy_state,
 
     }
     return config
 end
-dummyStateModule = {
+
+local dummyStateModule = {
     ["registerBefore"] = function()
         globals.parsed_dummy_state = parsed_dummy_state()
         get_anak_projectile()
         set_lei_lei_stun_item()
         set_lilith_gloomy_puppet_show()
         set_min_pb_inputs()
+        set_pursuit_hooks()
         return {
             get_dummy_state = get_dummy_state,
         }
@@ -655,10 +670,11 @@ dummyStateModule = {
         state["cycle"] = cycle
         state["frame"] = frame
         state["tick"] = tick
-    	dummy_state_producer(state)
+        dummy_state_producer(state)
     end,
     ["dummy_state_service"] = function()
-	    return dummy_state_producer
+      return dummy_state_producer
     end,
 }
+
 return dummyStateModule

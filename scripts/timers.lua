@@ -4,16 +4,17 @@ local wb, ww, wd = memory.writebyte, memory.writeword, memory.writedword
 local timers = {
     p1_pushblock_counter = 0
 }
+
 local function hex(val)
     val = string.format("%X",val)
     return val
 end
-function drawaxis(x,y,axis)
 
+function drawaxis(x,y,axis)
     gui.line(x+axis,y,x-axis,y,'yellow')
     gui.line(x,y-axis,x,y+axis,'red')
-    
 end
+
 --Collision Box function
 function collisionbox(adr,playerx,playery,color,flip)
 
@@ -21,7 +22,7 @@ function collisionbox(adr,playerx,playery,color,flip)
     local vval = rws(adr + 0x2)
     local hrad =  rw(adr + 0x4)
     local vrad =  rw(adr + 0x6)
-    
+
     local hval	 = playerx + hval * flip
     local vval	 = playery - vval
     local left	 = hval - hrad
@@ -37,11 +38,12 @@ function collisionbox(adr,playerx,playery,color,flip)
         right = right,
         bottom = bottom
     }
-    
+
 end
+
 -- Box data from Jed's VSAV script
 function getHeadBoxTopXY(adr)
-    
+
     local CamADR = 0xFF8280
     local camx = rw(CamADR + 0x20)
     local camy = rw(CamADR + 0x24)
@@ -84,10 +86,12 @@ function getHeadBoxTopXY(adr)
     }
 
 end
+
 local function draw_projectile_count_limiter( _ , coords)
     local projectile_count_limiter = memory.readbyte(0xFFF9BE)
     gui.text(135,50, "Projectile Allocation Value: ".."0x"..to_hex(projectile_count_limiter))
 end
+
 local function draw_invuln_timer( player_adr , coords)
     local invuln_timer = memory.readbyte(player_adr + 0x147)
     if invuln_timer ~= 0 then
@@ -96,6 +100,7 @@ local function draw_invuln_timer( player_adr , coords)
         gui.text((coords.base.x - 35), coords.base.y - 108, "Inv." )
     end
 end
+
 local function draw_throw_invuln(player_adr, coords)
     local invuln_timer = memory.readbyte(player_adr + 0x143) 	-- Throw Invulnerability Timer 
     if invuln_timer ~= 0 then
@@ -104,15 +109,17 @@ local function draw_throw_invuln(player_adr, coords)
         gui.text((coords.base.x - 57), coords.base.y - 120, "Throw Inv" )
     end
 end
-local function draw_pursuit_timer(player_adr, coords)
-    local pursuit_timer = memory.readbyte(player_adr + 0x18A) 	-- Pursuit & OTG Restriction Timer  
-    print("pursuit", pursuit_timer)
-    if pursuit_timer ~= 0 then
-        gui.rect(coords.base.x - 20, coords.base.y - 112, coords.base.x - 20 + (pursuit_timer * 7), coords.base.y - 122, 0xFF00FF99,0x00000099)
-        gui.text(coords.base.x - 17, coords.base.y - 120, pursuit_timer)
-        gui.text((coords.base.x - 55), coords.base.y - 120, "Pursuit" )
-    end
+
+local function draw_pursuit_timer(player, coords)
+  local player_can_pursuit = false
+  if player == 1 then player_can_pursuit = globals.dummy.p1_can_pursuit and not globals.dummy.p1_in_air
+  else player_can_pursuit = globals.dummy.p2_can_pursuit and not globals.dummy.p2_in_air end
+
+  if player_can_pursuit then
+    gui.text((coords.base.x - 23), coords.base.y - 112, "Pursuit OK", 0x00FF00FF)
+  end
 end
+
 local function draw_curse_timer(player_adr, coords)
     local curse_timer = memory.readword(player_adr + 0x156) 	-- Curse Timer  
     if curse_timer ~= 0 then
@@ -121,6 +128,7 @@ local function draw_curse_timer(player_adr, coords)
         gui.text((coords.base.x - 55), coords.base.y - 40, "Curse" )
     end
 end
+
 local function draw_mash_timer(player_adr, coords)
     local mash_timer = memory.readword(player_adr + 0x15C) 	-- Mash Timer 
     if mash_timer ~= 0 then
@@ -129,6 +137,7 @@ local function draw_mash_timer(player_adr, coords)
         gui.text((coords.base.x - 55), coords.base.y - 120, "Mash" )
     end
 end
+
 local function draw_push_block_timer(player_adr, coords)
     local push_block_timer = memory.readbyte(player_adr + 0x1AB) 	-- Pushblock timer
     if push_block_timer ~= 0 then
@@ -137,6 +146,7 @@ local function draw_push_block_timer(player_adr, coords)
         gui.text((coords.base.x - 35), coords.base.y - 120, "PB" )
     end
 end
+
 local function draw_push_block_push_back_timer(player_adr, coords)
     local push_block_push_back_timer = memory.readword(player_adr + 0x1B0) 	-- Pushblock pushback timer
     if push_block_push_back_timer ~= 0 then
@@ -145,6 +155,7 @@ local function draw_push_block_push_back_timer(player_adr, coords)
         gui.text((coords.base.x - 65), coords.base.y - 120, "PB PushBack" )
     end
 end
+
 local function get_move_strength(move_strength)
     if move_strength == 0 then 
         move_strength_display = "None / Light"
@@ -159,6 +170,7 @@ local function get_move_strength(move_strength)
     end
     return move_strength.." ( "..move_strength_display.." )"
 end
+
 local function draw_move_strength_display(player_adr)
     local move_strength_p1 = memory.readbyte(0xFF8859)
     local move_strength_display_p1 = get_move_strength(move_strength_p1)
@@ -171,62 +183,65 @@ local function draw_move_strength_display(player_adr)
 
     gui.text(50,50,"P1 Last Got Hit By       : "..move_strength_display_p2)
     gui.text(50,58,"P2 Last Got Hit By       : "..move_strength_display_p1)
-    
     gui.text(50,66,"P1 Push Back Timer Value : "..push_block_push_back_timer_p1)
     gui.text(50,74,"P2 Push Back Timer Value : "..push_block_push_back_timer_p2)
 end
+
 local record_tech_hit_results = false
-timerModule = {
-    ["guiRegister"] = function()
-        -- print("action timer", memory.readword(0xFF8400 + 0x26) )
-        -- print("push back", memory.readbyte(0xFF8800 + 0x1B0))
-        local p1_coords = getHeadBoxTopXY(0xFF8400)
-        local p2_coords = getHeadBoxTopXY(0xFF8800)
-        if globals.options.show_pb_pushback_timer then
-            draw_push_block_push_back_timer( 0xFF8400, p1_coords)
-            draw_push_block_push_back_timer( 0xFF8800, p2_coords)
-        end
-        if globals.options.show_move_strength then
-            draw_move_strength_display()
-        end
-        if globals.options.show_pb_timer then
-            draw_push_block_timer( 0xFF8400, p1_coords)
-            draw_push_block_timer( 0xFF8800, p2_coords)
-        end
-        if globals.options.show_curse_timer then
-            draw_curse_timer( 0xFF8400, p1_coords)
-            draw_curse_timer( 0xFF8800, p2_coords)
-        end
-        if globals.options.show_throw_invuln_timer then
-            draw_throw_invuln( 0xFF8400, p1_coords)
-            draw_throw_invuln( 0xFF8800, p2_coords)
-        end
-        if globals.options.show_mash_timer then
-            draw_mash_timer( 0xFF8400, p1_coords)
-            draw_mash_timer( 0xFF8800, p2_coords)
-        end
-        if globals.options.show_invuln_timer then
-            draw_invuln_timer( 0xFF8400, p1_coords)
-            draw_invuln_timer( 0xFF8800, p2_coords)
-        end
-        if globals.options.show_projectile_count_limiter then
-            draw_projectile_count_limiter()
-        end
-            -- draw_pursuit_timer( 0xFF8400, p1_coords)
-            -- draw_pursuit_timer( 0xFF8800, p2_coords)
-    end,
-    ["registerBefore"] = function()
-        local p1_pushblock_counter = memory.readbyte(0xFF8400 + 0x170)
-        local p1_tech_hit_timer = memory.readbyte(0xFF8400 + 0x1AB) 
-        if p1_tech_hit_timer > 0 then
-            record_tech_hit_results = true
-            timers.p1_pushblock_counter = p1_pushblock_counter
-        elseif p1_tech_hit_timer == 0 and record_tech_hit_results == true then
-            record_tech_hit_results = false
-            timers.p1_pushblock_counter = p1_pushblock_counter
-        end
-        return timers
+
+local timerModule = {
+  ["guiRegister"] = function()
+    -- print("action timer", memory.readword(0xFF8400 + 0x26) )
+    -- print("push back", memory.readbyte(0xFF8800 + 0x1B0))
+    local p1_coords = getHeadBoxTopXY(0xFF8400)
+    local p2_coords = getHeadBoxTopXY(0xFF8800)
+    if globals.options.show_pb_pushback_timer then
+      draw_push_block_push_back_timer( 0xFF8400, p1_coords)
+      draw_push_block_push_back_timer( 0xFF8800, p2_coords)
     end
+    if globals.options.show_move_strength then
+      draw_move_strength_display()
+    end
+    if globals.options.show_pb_timer then
+      draw_push_block_timer( 0xFF8400, p1_coords)
+      draw_push_block_timer( 0xFF8800, p2_coords)
+    end
+    if globals.options.show_curse_timer then
+      draw_curse_timer( 0xFF8400, p1_coords)
+      draw_curse_timer( 0xFF8800, p2_coords)
+    end
+    if globals.options.show_throw_invuln_timer then
+      draw_throw_invuln( 0xFF8400, p1_coords)
+      draw_throw_invuln( 0xFF8800, p2_coords)
+    end
+    if globals.options.show_mash_timer then
+      draw_mash_timer( 0xFF8400, p1_coords)
+      draw_mash_timer( 0xFF8800, p2_coords)
+    end
+    if globals.options.show_invuln_timer then
+      draw_invuln_timer( 0xFF8400, p1_coords)
+      draw_invuln_timer( 0xFF8800, p2_coords)
+    end
+    if globals.options.show_projectile_count_limiter then
+      draw_projectile_count_limiter()
+    end
+    if globals.options.show_pursuit_indicator then
+      draw_pursuit_timer(1, p1_coords)
+      draw_pursuit_timer(2, p2_coords)
+    end
+  end,
+  ["registerBefore"] = function()
+    local p1_pushblock_counter = memory.readbyte(0xFF8400 + 0x170)
+    local p1_tech_hit_timer = memory.readbyte(0xFF8400 + 0x1AB)
+    if p1_tech_hit_timer > 0 then
+        record_tech_hit_results = true
+        timers.p1_pushblock_counter = p1_pushblock_counter
+    elseif p1_tech_hit_timer == 0 and record_tech_hit_results == true then
+        record_tech_hit_results = false
+        timers.p1_pushblock_counter = p1_pushblock_counter
+    end
+    return timers
+  end
 }
 
 return timerModule

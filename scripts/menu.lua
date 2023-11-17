@@ -952,7 +952,7 @@ return {
         checkbox_menu_item("Show Bishamon UBK Trainer", training_settings, "display_bishamon_ubk_trainer", false,"Overlays onto P2 whether you are in a crouch or standing\n unblockable distance for Karame Dama or Bricks"),
         checkbox_menu_item("Show PB Stats", training_settings, "display_pb_stats", false,"Displays your succeeded, failed and total attempts at pushblocking.\n Turning this feature off and on will reset the data to 0"),
         checkbox_menu_item("Show Jump In Trainer", training_settings, "display_jump_in_trainer", false,"Displays the frame differnce between p2 getting hit and your character landing"),
-	checkbox_menu_item("Hide negative edge inputs", training_settings, "skip_nedge_displays", false, "Reduce clutter in the input history by hiding button releases.")
+        checkbox_menu_item("Hide negative edge inputs", training_settings, "skip_nedge_displays", false, "Reduce clutter in the input history by hiding button releases.")
       }
     },
     {
@@ -966,9 +966,10 @@ return {
         checkbox_menu_item("Show Throw Invulnerability Timer", training_settings, "show_throw_invuln_timer", false,""),
         checkbox_menu_item("Show Curse Timer", training_settings, "show_curse_timer", false,""),
         checkbox_menu_item("Show Push Block Timer", training_settings, "show_pb_timer", false,""),
-        checkbox_menu_item("Show Push Block Push Back Timer", training_settings, "show_pb_pushback_timer", false,""), 
+        checkbox_menu_item("Show Push Block Push Back Timer", training_settings, "show_pb_pushback_timer", false,""),
+        checkbox_menu_item("Show Pursuit Indicator", training_settings, "show_pursuit_indicator", false, ""),
         checkbox_menu_item("Testing: PB Delayed Pushback Bug ", training_settings, "show_move_strength", false,""),
-        checkbox_menu_item("Testing: Projectile Count Limiter ", training_settings, "show_projectile_count_limiter", false,""), 
+        checkbox_menu_item("Testing: Projectile Count Limiter ", training_settings, "show_projectile_count_limiter", false,""),
       }
     }
 }

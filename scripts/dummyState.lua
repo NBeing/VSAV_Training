@@ -5,7 +5,7 @@ local dummy_knocked_down_addr = 0xFF8805
 local p2_facing_addr          = 0xFF880B
 local p1_facing_addr          = 0xFF840B
 
-local function get_gc_button()
+function get_gc_button()
 
     GC_type_config = globals.options.gc_button
     local gc_button_type = 'none'

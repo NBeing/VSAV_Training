@@ -5,7 +5,7 @@ local dummy_knocked_down_addr = 0xFF8805
 local p2_facing_addr          = 0xFF880B
 local p1_facing_addr          = 0xFF840B
 
-function get_gc_button()
+local function get_gc_button()
 
     GC_type_config = globals.options.gc_button
     local gc_button_type = 'none'
@@ -554,6 +554,56 @@ local function set_pursuit_hooks()
   end)
 end
 
+local p1_ground_special = false
+local p2_ground_special = false
+local function set_ground_special()
+    if memory.readbyte(0xFF8400 + 0x038) ~= 0x00 -- P1 Air State
+    or memory.readbyte(0xFF8400 + 0x119) ~= 0x00 -- P1 Chain p1_attack_flag
+    or memory.readbyte(0xFF8400 + 0x175) ~= 0x00 -- P1 Dash Attack
+    or memory.readbyte(0xFF8400 + 0x171) ~= 0x00 -- P1 is Tech HIt
+    or memory.readbyte(0xFF8400 + 0x18A) ~= 0x00 -- P1 OTG Restriction
+    or memory.readbyte(0xFF8400 + 0x190) ~= 0x00 -- P1 Dark Force / On Crab
+    or memory.readbyte(0xFF8000 + 0x10E) ~= 0x00 -- Total Disarmament
+    or memory.readbyte(0xFF8000 + 0x10D) ~= 0x00 -- P1 Time Over Lose
+    or memory.readbyte(0xFF8000 + 0x08A) ~= 0x00 -- P1 Time Over Win
+    or memory.readbyte(0xFF8000 + 0x15D) ~= 0x00 -- P1 Intro Disarmament
+    or memory.readword(0xFF8400 + 0x4) == 0x0202 -- P1 is hit
+    or memory.readbyte(0xFF8400 + 0x6) == 0xE -- P1 is Special
+    or memory.readbyte(0xFF8400 + 0x6) == 0x10 -- P1 is ES
+    or memory.readbyte(0xFF8400 + 0x6) == 0x12 -- P1 is EX
+    or memory.readbyte(0xFF8400 + 0x6) == 0x16 -- P1 Dark Force Startup
+    or memory.readbyte(0xFF8400 + 0x6) == 0x1A -- P1 Dark Force Recovery
+    or memory.readword(0xFF8400 + 0x6) == 0x0606 -- P1 Air attack
+    or memory.readword(0xFF8404 + 0x5) == 0x4 -- P1 is throw
+    or memory.readword(0xFF8404 + 0x5) == 0x6 -- P1 get throw
+    or memory.readbyte(0xFF8400 + 0x6) == 0x0A and memory.readbyte(0xFF8400 + 0x167) == 0x00 -- P1 Normals & Special Cancels
+    then p1_ground_special = false
+    else p1_ground_special = true
+    end   
+
+    if memory.readbyte(0xFF8800 + 0x038) ~= 0x00 -- P2 Air State
+    or memory.readbyte(0xFF8800 + 0x119) ~= 0x00 -- P2 Chain p1_attack_flag
+    or memory.readbyte(0xFF8800 + 0x175) ~= 0x00 -- P2 Dash Attack
+    or memory.readbyte(0xFF8800 + 0x171) ~= 0x00  -- P2 is Tech HIt
+    or memory.readbyte(0xFF8800 + 0x18A) ~= 0x00 -- P2 OTG Restriction
+    or memory.readbyte(0xFF8800 + 0x190) ~= 0x00 -- P2 Dark Force / On Crab
+    or memory.readbyte(0xFF8000 + 0x10E) ~= 0x00 -- Total Disarmament
+    or memory.readbyte(0xFF8000 + 0x10D) ~= 0x00 -- P2 Time Over Lose
+    or memory.readbyte(0xFF8000 + 0x08A) ~= 0x00 -- P2 Time Over Win
+    or memory.readbyte(0xFF8000 + 0x15D) ~= 0x00 -- P2 Intro Disarmament
+    or memory.readword(0xFF8800 + 0x4) == 0x0202 -- P2 is hit
+    or memory.readbyte(0xFF8800 + 0x6) == 0xE -- P2 is Special
+    or memory.readbyte(0xFF8800 + 0x6) == 0x10 -- P2 is ES
+    or memory.readbyte(0xFF8800 + 0x6) == 0x12 -- P2 is EX
+    or memory.readbyte(0xFF8800 + 0x6) == 0x16 -- P2 Dark Force Startup
+    or memory.readbyte(0xFF8800 + 0x6) == 0x1A -- P2 Dark Force Recovery
+    or memory.readword(0xFF8800 + 0x6) == 0x0606 -- P2 Air attack
+    or memory.readbyte(0xFF8800 + 0x6) == 0x0A and memory.readbyte(0xFF8800 + 0x167) == 0x00 -- P2 Normals & Special Cancels
+    then p2_ground_special = false
+    else p2_ground_special = true
+    end
+end
+
 local function get_distance_between_players()
     local pushes = globals.pushboxes
     if not pushes then
@@ -607,6 +657,25 @@ local function get_dummy_state()
         p1_is_crouching       = memory.readbyte(0xFF8400 + 0x121) ~= 0,
         p1_tech_hit           = memory.readword(0xFF8800 + 0x1B0) ~= 0,
         p1_can_pursuit        = p1_can_pursuit,
+        p1_chain              = memory.readbyte(0xFF8400 + 0x119) ~= 0x00,
+        p1_dash_Attack        = memory.readbyte(0xFF8400 + 0x175) ~= 0x00,
+        p1_is_tech_hit        = memory.readbyte(0xFF8400 + 0x171) ~= 0,
+        p1_otg_restriction    = memory.readbyte(0xFF8400 + 0x18A) ~= 0,
+        p1_DF_on_the_crab     = memory.readbyte(0xFF8400 + 0x190) ~= 0,
+        p1_disarmament        = memory.readbyte(0xFF8000 + 0x10E) ~= 0,
+        p1_time_over_lose     = memory.readbyte(0xFF8000 + 0x10D) ~= 0,
+        p1_time_over_win      = memory.readbyte(0xFF8000 + 0x8A) ~= 0,
+        p1_disarmament_intro  = memory.readbyte(0xFF8000 + 0x15D) ~= 0,
+        p1_is_hit             = memory.readdword(0xFF8400 + 0x4) == 0x02020400,
+        p1_not_actively_hurt  = memory.readword(0xFF8400 + 0x4) == 0x0200,
+        p1_is_special         = memory.readbyte(0xFF8400 + 0x6) == 0x0E,
+        p1_is_es              = memory.readbyte(0xFF8400 + 0x6) == 0x10,
+        p1_is_ex              = memory.readbyte(0xFF8400 + 0x6) == 0x12,
+        p1_is_df_startup      = memory.readbyte(0xFF8400 + 0x6) == 0x16,
+        p1_is_df_recovery     = memory.readbyte(0xFF8400 + 0x6) == 0x1A,
+        p1_jump_attack        = memory.readword(0xFF8400 + 0x6) == 0x0606,
+        p1_cancel_timer       = memory.readbyte(0xFF8400 + 0x167) ~= 0,
+        p1_ground_special     = p1_ground_special,
 
         p2_char               = get_character(p2_base_addr),
         p2_status_1           = parse_status_1(p2_base_addr),
@@ -630,6 +699,25 @@ local function get_dummy_state()
         p2_reversal_frame     = memory.readdword(0xFF8804) == 0x02020400,
         p2_is_crouching       = memory.readbyte(0xFF8800 + 0x121),
         p2_can_pursuit        = p2_can_pursuit,
+        p2_chain              = memory.readbyte(0xFF8800 + 0x119) ~= 0,
+        p2_dash_Attack        = memory.readbyte(0xFF8800 + 0x175) ~= 0,
+        p2_is_tech_hit        = memory.readbyte(0xFF8800 + 0x171) ~= 0,
+        p2_otg_restriction    = memory.readbyte(0xFF8800 + 0x18A) ~= 0,
+        p2_DF_on_the_crab     = memory.readbyte(0xFF8800 + 0x190) ~= 0,
+        p2_disarmament        = memory.readbyte(0xFF8000 + 0x10E) ~= 0,
+        p2_time_over_lose     = memory.readbyte(0xFF8000 + 0x10D) ~= 0,
+        p2_time_over_win      = memory.readbyte(0xFF8000 + 0x8A) ~= 0,
+        p2_disarmament_intro  = memory.readbyte(0xFF8000 + 0x15D) ~= 0,
+        p2_is_hit             = memory.readdword(0xFF8800 + 0x4) == 0x02020400,
+        p2_not_actively_hurt  = memory.readword(0xFF8800 + 0x4) == 0x0200,
+        p2_is_special         = memory.readbyte(0xFF8800 + 0x4) == 0x0E,
+        p2_is_es              = memory.readbyte(0xFF8800 + 0x4) == 10,
+        p2_is_ex              = memory.readbyte(0xFF8800 + 0x4) == 12,
+        p2_is_df_startup      = memory.readbyte(0xFF8800 + 0x4) == 16,
+        p2_is_df_recovery     = memory.readbyte(0xFF8800 + 0x4) == 0x1A,
+        p2_jump_attack        = memory.readword(0xFF8800 + 0x6) == 0x0606,
+        p2_cancel_timer       = memory.readbyte(0xFF8800 + 0x167) ~= 0,
+        p2_ground_special     = p2_ground_special,
 
         enable_roll  = setShouldRoll(),
         guard_action = get_guard_action(),
@@ -661,6 +749,7 @@ local dummyStateModule = {
         set_lilith_gloomy_puppet_show()
         set_min_pb_inputs()
         set_pursuit_hooks()
+        set_ground_special()
         return {
             get_dummy_state = get_dummy_state,
         }

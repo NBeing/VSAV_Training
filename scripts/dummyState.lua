@@ -568,6 +568,8 @@ local function set_ground_special()
     or memory.readbyte(0xFF8000 + 0x08A) ~= 0x00 -- P1 Time Over Win
     or memory.readbyte(0xFF8000 + 0x15D) ~= 0x00 -- P1 Intro Disarmament
     or memory.readword(0xFF8400 + 0x4) == 0x0202 -- P1 is hit
+    or memory.readbyte(0xFF8400 + 0x5) == 0x04 -- P1 is throwing
+    or memory.readbyte(0xFF8400 + 0x5) == 0x06 -- P1 is being thrown
     or memory.readbyte(0xFF8400 + 0x6) == 0xE -- P1 is Special
     or memory.readbyte(0xFF8400 + 0x6) == 0x10 -- P1 is ES
     or memory.readbyte(0xFF8400 + 0x6) == 0x12 -- P1 is EX
@@ -580,28 +582,6 @@ local function set_ground_special()
     then p1_ground_special = false
     else p1_ground_special = true
     end   
-
-    if memory.readbyte(0xFF8800 + 0x038) ~= 0x00 -- P2 Air State
-    or memory.readbyte(0xFF8800 + 0x119) ~= 0x00 -- P2 Chain p1_attack_flag
-    or memory.readbyte(0xFF8800 + 0x175) ~= 0x00 -- P2 Dash Attack
-    or memory.readbyte(0xFF8800 + 0x171) ~= 0x00  -- P2 is Tech HIt
-    or memory.readbyte(0xFF8800 + 0x18A) ~= 0x00 -- P2 OTG Restriction
-    or memory.readbyte(0xFF8800 + 0x190) ~= 0x00 -- P2 Dark Force / On Crab
-    or memory.readbyte(0xFF8000 + 0x10E) ~= 0x00 -- Total Disarmament
-    or memory.readbyte(0xFF8000 + 0x10D) ~= 0x00 -- P2 Time Over Lose
-    or memory.readbyte(0xFF8000 + 0x08A) ~= 0x00 -- P2 Time Over Win
-    or memory.readbyte(0xFF8000 + 0x15D) ~= 0x00 -- P2 Intro Disarmament
-    or memory.readword(0xFF8800 + 0x4) == 0x0202 -- P2 is hit
-    or memory.readbyte(0xFF8800 + 0x6) == 0xE -- P2 is Special
-    or memory.readbyte(0xFF8800 + 0x6) == 0x10 -- P2 is ES
-    or memory.readbyte(0xFF8800 + 0x6) == 0x12 -- P2 is EX
-    or memory.readbyte(0xFF8800 + 0x6) == 0x16 -- P2 Dark Force Startup
-    or memory.readbyte(0xFF8800 + 0x6) == 0x1A -- P2 Dark Force Recovery
-    or memory.readword(0xFF8800 + 0x6) == 0x0606 -- P2 Air attack
-    or memory.readbyte(0xFF8800 + 0x6) == 0x0A and memory.readbyte(0xFF8800 + 0x167) == 0x00 -- P2 Normals & Special Cancels
-    then p2_ground_special = false
-    else p2_ground_special = true
-    end
 end
 
 local function get_distance_between_players()
@@ -718,7 +698,7 @@ local function get_dummy_state()
         p2_jump_attack        = memory.readword(0xFF8800 + 0x6) == 0x0606,
         p2_cancel_timer       = memory.readbyte(0xFF8800 + 0x167) ~= 0,
         p2_ground_special     = p2_ground_special,
-
+  
         enable_roll  = setShouldRoll(),
         guard_action = get_guard_action(),
         gc_button    = get_gc_button(),

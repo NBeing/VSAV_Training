@@ -14,9 +14,17 @@ local function match_begun()
 
 end
 
+local function char_sel_screen()
+    if memory.readbyte(0xFF8000 + 0x05) == 0x02 -- Character Select Screen
+    then return char_sel_screen == true 
+    else return char_sel_screen == false 
+    end
+end
+
 local function get_game_state()
     return {
         match_begun = match_begun(),
+        char_sel_screen = char_sel_screen(),
         cur_frame   = emu.framecount(),
         prev_frame = emu.framecount() - 1
     }

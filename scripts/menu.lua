@@ -968,6 +968,7 @@ return {
         checkbox_menu_item("Show Push Block Timer", training_settings, "show_pb_timer", false,""),
         checkbox_menu_item("Show Push Block Push Back Timer", training_settings, "show_pb_pushback_timer", false,""),
         checkbox_menu_item("Show Pursuit Indicator", training_settings, "show_pursuit_indicator", false, ""),
+        checkbox_menu_item("Show Ground Special", training_settings, "show_ground_special", false, ""),
         checkbox_menu_item("Testing: PB Delayed Pushback Bug ", training_settings, "show_move_strength", false,""),
         checkbox_menu_item("Testing: Projectile Count Limiter ", training_settings, "show_projectile_count_limiter", false,""),
       }

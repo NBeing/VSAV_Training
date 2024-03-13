@@ -110,14 +110,71 @@ local function draw_throw_invuln(player_adr, coords)
     end
 end
 
-local function draw_pursuit_timer(player, coords)
+local function draw_pursuit_timer(player, coord)
   local player_can_pursuit = false
-  if player == 1 then player_can_pursuit = globals.dummy.p1_can_pursuit and not globals.dummy.p1_in_air
-  else player_can_pursuit = globals.dummy.p2_can_pursuit and not globals.dummy.p2_in_air end
-
-  if player_can_pursuit then
-    gui.text((coords.base.x - 23), coords.base.y - 112, "Pursuit OK", 0x00FF00FF)
+  if player == 1 then
+    player_can_pursuit = globals.dummy.p1_can_pursuit
+  else
+    player_can_pursuit = globals.dummy.p2_can_pursuit
   end
+
+  if player_can_pursuit == true then
+    gui.text(23, 119, "Opponent OK", "green")
+  else
+    gui.text(23, 119, "Opponent OK", "grey")
+  end
+end
+
+local function draw_ground_special(player, coord)
+  local player_ground_special = false
+  if player == 1 then
+     player_ground_special = globals.dummy.p1_ground_special
+  else
+     player_ground_special = globals.dummy.p2_ground_special
+  end
+
+  if player_ground_special == true then
+    gui.text(23, 111, "Player OK", "green")
+  else
+    gui.text(23, 111, "Player OK", "grey")
+  end
+end
+
+local function draw_pursuit_OK(player, coord)
+
+  if player_can_pursuit == false and player_ground_special == true
+  then pursuitokscenario2 = emu.framecount()
+    else pursuitokscenario2 = 0
+  end
+  
+  if player_can_pursuit == true and player_ground_special == true
+  then pursuitokscenario1 = emu.framecount() - pursuitokscenario2 
+  else pursuitokscenario1 = 0
+  end
+
+  if player == 1
+  then
+    player_ground_special = globals.dummy.p1_ground_special
+    player_can_pursuit = globals.dummy.p1_can_pursuit
+    p1_pursuitwindow = (pursuitokscenario1 - pursuitokscenario2)
+  else
+    player_ground_special = globals.dummy.p2_ground_special
+    player_can_pursuit = globals.dummy.p2_can_pursuit
+  end
+
+  if player_ground_special == true and player_can_pursuit == true
+  then
+    gui.text(23, 127, "Pursuit OK", "green")
+  else
+    gui.text(23, 127, "Pursuit OK", "grey")
+  end
+
+    -- if player_ground_special == true and player_can_pursuit == false
+    -- then
+      gui.text(68, 127, "Frames: ".. p1_pursuitwindow, "green")
+    -- else
+    --   gui.text(68, 127, "Frames: TBD", "grey")
+    -- end
 end
 
 local function draw_curse_timer(player_adr, coords)
@@ -129,15 +186,31 @@ local function draw_curse_timer(player_adr, coords)
     end
 end
 
-local function draw_mash_timer(player_adr, coords)
-    local mash_timer = memory.readword(player_adr + 0x15C) 	-- Mash Timer 
-    if mash_timer ~= 0 then
-        gui.rect(coords.base.x - 20, coords.base.y - 112, coords.base.x - 20 + (mash_timer * 2), coords.base.y - 122, 0x00FFFF99,0x00000099)
-        gui.text(coords.base.x - 17, coords.base.y - 120, mash_timer)
-        gui.text((coords.base.x - 55), coords.base.y - 120, "Mash" )
-    end
+local function a6_contains_p1() 
+return memory.getregister("m68000.a6") == 0xFF8400
 end
 
+
+ function set_mash_hooks()
+  p2_can_mash = true
+  -- memory.registerexec(0x26100, function()
+  -- if a6_contains_p1 then p2_can_mash = false
+  -- end
+  -- end)
+end
+
+ function draw_mash_timer(player_adr, coords)
+ mash_timer = memory.readword(player_adr + 0x15C) 	-- Mash Timer 
+
+    if mash_timer ~= 0 
+    and p2_can_mash == true 
+    then
+    gui.rect(coords.base.x - 20, coords.base.y - 112, coords.base.x - 20 + (mash_timer *2), coords.base.y - 122, 0x00FFFF99,0x00000099)
+    gui.text(coords.base.x - 17, coords.base.y - 120, mash_timer)
+    gui.text((coords.base.x - 55), coords.base.y - 120, "Mash" )
+    end
+end
+    
 local function draw_push_block_timer(player_adr, coords)
     local push_block_timer = memory.readbyte(player_adr + 0x1AB) 	-- Pushblock timer
     if push_block_timer ~= 0 then
@@ -226,8 +299,13 @@ local timerModule = {
       draw_projectile_count_limiter()
     end
     if globals.options.show_pursuit_indicator then
-      draw_pursuit_timer(1, p1_coords)
-      draw_pursuit_timer(2, p2_coords)
+      draw_pursuit_timer(1, 23, 119)
+    end
+    if globals.options.show_ground_special then
+      draw_ground_special(1,23,111)
+    end
+    if globals.options.show_ground_special and globals.options.show_pursuit_indicator then
+      draw_pursuit_OK(1, 23, 127)
     end
   end,
   ["registerBefore"] = function()

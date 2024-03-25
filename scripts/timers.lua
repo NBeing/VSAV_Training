@@ -111,13 +111,72 @@ local function draw_throw_invuln(player_adr, coords)
 end
 
 local function draw_pursuit_timer(player, coords)
-  local player_can_pursuit = false
-  if player == 1 then player_can_pursuit = globals.dummy.p1_can_pursuit and not globals.dummy.p1_in_air
-  else player_can_pursuit = globals.dummy.p2_can_pursuit and not globals.dummy.p2_in_air end
-
-  if player_can_pursuit then
-    gui.text((coords.base.x - 23), coords.base.y - 112, "Pursuit OK", 0x00FF00FF)
+  local player_can_pursuit = false --Pursuit Enabled
+  if player == 1 then
+    player_can_pursuit = globals.dummy.p1_can_pursuit
+  else
+    player_can_pursuit = globals.dummy.p2_can_pursuit
   end
+
+  if player_can_pursuit == true then
+    gui.text(23, 119, "Opponent OK", "green")
+  else
+    gui.text(23, 119, "Opponent OK", "grey")
+  end
+end
+
+local function draw_ground_special(player, coords)
+  local player_ground_special = false
+  if player == 1 then
+     player_ground_special = globals.dummy.p1_ground_special
+  else
+     player_ground_special = globals.dummy.p2_ground_special
+  end
+
+  if player_ground_special == true then
+    gui.text(23, 111, "Player   OK", "green")
+  else
+    gui.text(23, 111, "Player   OK", "grey")
+  end
+end
+
+local function draw_pursuit_OK()
+  local player_ground_special = false
+  local player_can_pursuit = false
+
+  if globals.controlling_p1 == true then
+    player_ground_special = globals.dummy.p1_ground_special
+    player_can_pursuit = globals.dummy.p1_can_pursuit
+  else
+    player_ground_special = globals.dummy.p2_ground_special
+    player_can_pursuit = globals.dummy.p2_can_pursuit
+  end
+ 
+  if player_ground_special == true and player_can_pursuit == true
+  then
+    globals.dummy.player_pursuit_ok = true
+    gui.text(23, 127, "Pursuit  OK", "green")
+  else
+    globals.dummy.player_pursuit_ok = false
+    gui.text(23, 127, "Pursuit  OK", "grey")
+  end
+  if 
+    globals.controlling_p1 == true and 
+    globals.p1_last_pursuit_length and 
+    globals.p1_last_pursuit_length > 0 
+  then
+    gui.text(72,127, globals.p1_last_pursuit_length.."F", "green")
+  elseif globals.p2_last_pursuit_length and globals.p2_last_pursuit_length > 0 then
+    gui.text(72,27, globals.p2_last_pursuit_length.."F", "green")
+  end
+  -- print("last 1", globals.p2_last_pursuit_length)
+  -- if
+  --   globals.controlling_p1 ~= true and 
+  --   globals.p2_last_pursuit_length and
+  --   globals.p2_last_pursuit_length > 0 
+  -- then
+  --   gui.text(72,27, globals.p2_last_pursuit_length.."F", "green")
+  -- end  
 end
 
 local function draw_curse_timer(player_adr, coords)
@@ -226,8 +285,14 @@ local timerModule = {
       draw_projectile_count_limiter()
     end
     if globals.options.show_pursuit_indicator then
-      draw_pursuit_timer(1, p1_coords)
-      draw_pursuit_timer(2, p2_coords)
+      draw_pursuit_timer(1, 23, 119)
+    end
+    if globals.options.show_ground_special then
+      draw_ground_special(1, 23, 111)
+    end
+    if globals.options.show_ground_special and globals.options.show_pursuit_indicator then
+      draw_pursuit_OK(1)
+      -- draw_pursuit_OK(2)
     end
   end,
   ["registerBefore"] = function()

@@ -37,6 +37,7 @@ local inpHistoryModule   = require"./scripts/inputHistory"
 -- local inpDispModule      = require "./input-display"
 local frameDataModule    = require "./scripts/framedata"
 local rollingModule      = require "./scripts/rolling" 
+
 local vsavScriptModule   = require "./scripts/vsavscriptv2"
 local macroLuaModule     = require "./scripts/macro"
 local guardCancelModule  = require "./scripts/guardCancel"
@@ -190,6 +191,8 @@ globals = {
 	dummy_state_service_updater = dummyStateModule.dummy_state_service_updater,
     truth = rawStateServiceModule,
     player_state_service = playerStateServiceModule,
+	p1_last_pursuit_length = nil,
+	p2_last_pursuit_length = nil
 }
 
 local gather_graph_data = false

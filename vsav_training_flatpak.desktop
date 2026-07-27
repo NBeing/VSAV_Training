@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=VSAV Training Fightcade
+Comment=Launch Fightcade VSAV with training script via Wine using Flatpak
+Exec=flatpak run --command=sh com.fightcade.Fightcade -c "/app/fightcade/Fightcade/emulator/../../Resources/wine.sh /app/fightcade/Fightcade/emulator/fbneo/fcadefbneo.exe vsavj savestates/vsavj_fbneo.fs /var/data/scripts/vsav_training_master_script.lua"
+Icon=com.fightcade.Fightcade
+Terminal=false
+Categories=Game;

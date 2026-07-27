@@ -49,4 +49,4 @@ frameskip_observable = globals.frameskipService.get_current_frame_frameskip_data
 
 -- There are many other things you can do with observable data streams,
 -- including matching and mapping and reducing and all kinds of things. See
--- ./scripts/rx-lua/rx.lua or the RxLua documentation for more details
+-- ./rx-lua/rx.lua or the RxLua documentation for more details

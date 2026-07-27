@@ -1,4 +1,4 @@
-local stageData = require "./scripts/stage-data"
+local stageData = require "./stage-data"
 
 -- might be appropriate to move functionality related to char select to a
 -- dedicated char select module someday

@@ -28,43 +28,43 @@ copytable = deepcopy
 dofile("macro-options.lua", "r") --load the globals
 dofile("macro-modules.lua", "r")
 
-serialize                = require './scripts/ser'
-local configModule       = require './scripts/config'
+serialize                = require './ser'
+local configModule       = require './config'
 training_settings_file   = "training_settings.json"
 training_settings        = configModule.default_training_settings
-Rx                       = require "./scripts/rx-lua/rx"
-local inpHistoryModule   = require"./scripts/inputHistory"
+Rx                       = require "./rx-lua/rx"
+local inpHistoryModule   = require"./inputHistory"
 -- local inpDispModule      = require "./input-display"
-local frameDataModule    = require "./scripts/framedata"
-local rollingModule      = require "./scripts/rolling" 
+local frameDataModule    = require "./framedata"
+local rollingModule      = require "./rolling" 
 
-local vsavScriptModule   = require "./scripts/vsavscriptv2"
-local macroLuaModule     = require "./scripts/macro"
-local guardCancelModule  = require "./scripts/guardCancel"
-local autoguardModule    = require "./scripts/autoguard"
-local gameStateModule    = require './scripts/gameState'
-local dummyStateModule   = require './scripts/dummyState'
-local neutralModule      = require './scripts/dummyNeutral' 
-local util               = require './scripts/utilities'
-local playerObject       = require './scripts/playerObject'
-local menuModule         = require './scripts/menu'
-local controllerModule   = require './scripts/controller'
-local cps2HitboxModule   = require "./scripts/cps2-hitboxes"
-local healthAndMeter     = require "./scripts/healthAndMeter"
-local hudModule          = require "./scripts/hud"
-local timersModule       = require "./scripts/timers"
-local throwTechModule    = require "./scripts/throwTech"
-local stageSelectModule  = require "./scripts/stage-select"
-local stageDataModule    = require "./scripts/stage-data"
-local vsavTestMenuModule = require "./scripts/vsav-test-menu"
-local soundModule        = require "./scripts/sound"
+local vsavScriptModule   = require "./vsavscriptv2"
+local macroLuaModule     = require "./macro"
+local guardCancelModule  = require "./guardCancel"
+local autoguardModule    = require "./autoguard"
+local gameStateModule    = require './gameState'
+local dummyStateModule   = require './dummyState'
+local neutralModule      = require './dummyNeutral' 
+local util               = require './utilities'
+local playerObject       = require './playerObject'
+local menuModule         = require './menu'
+local controllerModule   = require './controller'
+local cps2HitboxModule   = require "./cps2-hitboxes"
+local healthAndMeter     = require "./healthAndMeter"
+local hudModule          = require "./hud"
+local timersModule       = require "./timers"
+local throwTechModule    = require "./throwTech"
+local stageSelectModule  = require "./stage-select"
+local stageDataModule    = require "./stage-data"
+local vsavTestMenuModule = require "./vsav-test-menu"
+local soundModule        = require "./sound"
 
 -- this module provides clocks and game data from memory
 -- data and clock signals are provided every tick
-local rawStateServiceModule = require "./scripts/rawStateService"
+local rawStateServiceModule = require "./rawStateService"
 -- this module has business logic for processing raw state data
 -- + converting it into global tables for use by GUI components
-local playerStateServiceModule = require "./scripts/playerStateService"
+local playerStateServiceModule = require "./playerStateService"
 
 if show_controls_message == true then
 	print("* Press Start open the training menu..")
@@ -182,7 +182,7 @@ globals = {
 	playing = false,
 	recording = false,
 	desired_stage = nil,
-	frameskipService = require "./scripts/frameskip-service",
+	frameskipService = require "./frameskip-service",
 	history_service_p1 = inpHistoryModule.get_history_p1(),
 	history_service_p2 = inpHistoryModule.get_history_p2(),
     -- dummy_state_service can be read/subbed by anyone

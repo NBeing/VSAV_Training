@@ -27,6 +27,13 @@ What is described in the video guide:
   1) Place  `run_vsav_training.sh` and `scripts` in your `...\Fightcade\emulator\fbneo`
   3) Run `./run_vsav_training.sh` in the terminal
 
+##  Linux Installation (Flatpak)
+  1) Place `scripts` in your `~/.var/app/com.fightcade.Fightcade/data/`
+  2) Run `./run_vsav_training_flatpak.sh` in the terminal
+  3) (Optional) Add `VSAV Training Fightcade` to your system applications:
+     1) Place `vsav_training_flatpak.desktop` in your `~/.local/share/applications/`
+     2) Launch `VSAV Training Fightcade` from your applications
+
 ##  MacOS installation
 
 1) Place the `scripts` folder in `/Applications/FightCade2.app/Contents/MacOS/emulator/fbneo/`

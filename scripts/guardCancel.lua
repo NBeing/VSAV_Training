@@ -58,7 +58,7 @@ local function run_one_frame_special()
 	memory.writeword(0xFF8806, 0x0E00)
 	memory.writebyte(0xFF87B5, 0x0C)
 end
-util = require "./scripts/utilities"
+util = require "./utilities"
 local frameStartedGuarding = 0
 local frameEndedGuarding = 0
 local wasJustGuarding = false

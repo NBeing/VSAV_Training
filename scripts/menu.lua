@@ -3,7 +3,7 @@ text_default_color = 0xF7FFF7FF
 text_default_border_color = 0x101008FF
 text_selected_color = 0xFF0000FF
 text_disabled_color = 0x999999FF
-charMovesModule   = require "./scripts/charMoves"
+charMovesModule   = require "./charMoves"
 function check_input_down_autofire(_player_object, _input, _autofire_rate, _autofire_time)
   _autofire_rate = _autofire_rate or 4
   _autofire_time = _autofire_time or 23

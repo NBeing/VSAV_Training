@@ -1,4 +1,4 @@
-local serialize  	    = require './scripts/ser'
+local serialize  	    = require './ser'
 
 local init_clock = 0
 local fc = 0

@@ -1,4 +1,4 @@
-local json              = require './scripts/dkjson'
+local json              = require './dkjson'
 
 function swap_inputs(keys)
 	newKeys = {}

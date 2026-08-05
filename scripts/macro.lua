@@ -18,7 +18,7 @@ local f = io.popen("dir \"C:\\users\\\"")
 -- else
 --     print("failed to read")
 -- end
-local inp_display_script = "./scripts/input-display.lua"
+local inp_display_script = "./input-display.lua"
 -- print("MacroLua v" .. macrolua)
 if fba and not emu.registerstart then
 	error("This script requires a newer version of FBA-rr.", 0)

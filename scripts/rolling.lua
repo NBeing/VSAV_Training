@@ -9,6 +9,7 @@ local roll_away_option           = 0x3
 local roll_random_option         = 0x4
 local roll_random_toward_or_away = 0x5
 local roll_none                  = 0x1
+local roll_no_override           = 0x6 -- let P2 controller handle roll
 
 local function getRandomIntBetween( lower, upper )
     return math.random(lower, upper)
@@ -18,6 +19,10 @@ local function getDirection()
     -- This is direction set by the user in cheats
     local direction = globals.options.roll_direction
     -- Handle random rolls
+    if direction == roll_no_override then
+        return nil -- dont write any bytes in this case
+    end
+
     if direction == roll_random_option then
         flag = getRandomIntBetween(0,2)
         if flag == 1 then
@@ -36,6 +41,7 @@ local function getDirection()
             return roll_away_value
         end
     end
+    
     if direction == roll_toward_option then
         return roll_toward_value
     end
@@ -49,7 +55,7 @@ local function getDirection()
 end
 
 local function rollToDirection( direction )
-    if globals.dummy.enable_roll == true then
+    if globals.dummy.enable_roll == true and direction ~= nil then
         memory.writebyte(roll_address, direction)
     end
 end

@@ -118,7 +118,7 @@ local function guardCancelCheck(run_dummy_input, macroLua_funcs)
 		if player_objects[2].started_guarding then 
 			_defender.counter.attack_frame = globals.current_frame
 			_stick = "DPF"
-			_button = get_gc_button()
+			_button = globals.dummy.gc_button
 			_defender.counter.sequence = make_input_sequence(_stick, _button, delay_type, delay)
 		else
 			_defender.counter.sequence = nil
